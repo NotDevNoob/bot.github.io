@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCTIERS Leaderboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+            --dark-blue: #003366;
+            --light-blue: #66a3ff;
+            --background: #0a0a0a;
+            --text: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+            --neon-purple: #bc13fe;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .search-container {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--dark-blue);
+            border-radius: 25px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 1rem;
+            width: 300px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--light-blue);
+            box-shadow: 0 0 15px rgba(102, 163, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin: 0;
+            background: linear-gradient(45deg, var(--gold), var(--silver));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 25px;
+        }
+
+        .tier-card {
+            background: rgba(26, 26, 26, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tier-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .tier-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tier-emoji {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+        }
+
+        .tier-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--text), var(--silver));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-list {
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .user-item {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .user-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--light-blue);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .user-item:hover::before {
+            opacity: 1;
+        }
+
+        .user-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .user-name {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .user-tier {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .user-tier .sword {
+            font-size: 1rem;
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+        }
+
+        .user-tier .tier-badge {
+            background: var(--dark-blue);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .user-tier .tier-badge.ht {
+            background: linear-gradient(45deg, var(--light-blue), #4d88ff);
+        }
+
+        /* Player Profile Modal */
+        .profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 25px;
+            align-items: start;
+            position: relative;
+            z-index: 1001;
+            max-width: 600px;
+            width: 90%;
+            padding: 30px;
+            background: rgba(26, 26, 26, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(0, 51, 102, 0.5);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .profile-content.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--light-blue);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s;
+        }
+
+        .close-button:hover {
+            background: var(--dark-blue);
+        }
+
+        .profile-image-container {
+            position: relative;
+            width: 160px;
+            aspect-ratio: 16/9;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            object-fit: cover;
+            border: 2px solid var(--light-blue);
+            box-shadow: 0 0 20px rgba(102, 163, 255, 0.3);
+        }
+
+        .tier-squircle {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            background: rgba(0, 51, 102, 0.9);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--gold);
+            transform: rotate(15deg);
+        }
+
+        .tier-squircle-content {
+            transform: rotate(-15deg);
+        }
+
+        .tier-emoji-large {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+        }
+
+        .profile-info {
+            padding-top: 15px;
+        }
+
+        .profile-ign {
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+            background: linear-gradient(45deg, var(--gold), var(--light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--light-blue), transparent);
+            margin: 20px 0;
+            opacity: 0.5;
+        }
+
+        .tier-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Scrollbar Styling */
+        .user-list::-webkit-scrollbar {
+            width: 6px;
+            background: #1a1a1a;
+        }
+
+        .user-list::-webkit-scrollbar-thumb {
+            background: var(--dark-blue);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 Classifica Tier</h1>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Cerca giocatore..." id="searchInput">
+            </div>
+        </div>
+        <div class="tiers-grid" id="tiersContainer"></div>
+    </div>
+
+    <!-- Player Profile Modal -->
+    <div class="profile-modal" id="profileModal">
+        <div class="profile-content" id="profileContent">
+            <button class="close-button" id="closeButton">&times;</button>
+            <div class="profile-image-container">
+                <img class="profile-image" id="profileImage" src="" alt="Profile Image">
+                <div class="tier-squircle">
+                    <div class="tier-squircle-content">
+                        <div class="tier-emoji-large" id="profileTierEmoji"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-info">
+                <h2 class="profile-ign" id="profileIGN"></h2>
+                <div class="profile-divider"></div>
+                <div class="tier-text" id="profileTierText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tierEmojis = {1: "🥇", 2: "🥈", 3: "🥉", 4: "🔷", 5: "🔶"};
+        let allPlayers = [];
+
+        // Funzione per ottenere l'UUID da Mojang API
+        async function getUUID(username) {
+            try {
+                const response = await fetch(`https://render.crafty.gg/3d/bust/aa6f91d414f5494fac0679fcf53fbbe4`);
+                if (!response.ok) throw new Error("Username non trovato");
+                const data = await response.json();
+                return data.id; // Restituisce l'UUID
+            } catch (error) {
+                console.error("Errore nel recupero dell'UUID:", error);
+                return null;
+            }
+        }
+
+        // Inizializza i tier
+        const tiersContainer = document.getElementById('tiersContainer');
+        for (let tier = 1; tier <= 5; tier++) {
+            const card = document.createElement('div');
+            card.className = 'tier-card';
+            card.innerHTML = `
+                <div class="tier-header">
+                    <span class="tier-emoji">${tierEmojis[tier]}</span>
+                    <span class="tier-number">TIER ${tier}</span>
+                </div>
+                <div class="user-list" id="tier-${tier}-users"></div>
+            `;
+            tiersContainer.appendChild(card);
+        }
+
+        // Funzionalità di ricerca
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', debounce(handleSearch, 300));
+
+        function debounce(func, wait) {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        async function handleSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            if (!searchTerm) return;
+
+            const player = allPlayers.find(p => p.ign.toLowerCase().includes(searchTerm));
+            if (player) showPlayerProfile(player);
+        }
+
+        // Mostra il profilo del giocatore
+        function showPlayerProfile(player) {
+            const modal = document.getElementById('profileModal');
+            const content = document.getElementById('profileContent');
+            
+            // Reset delle animazioni
+            content.style.animation = 'none';
+            void content.offsetWidth;
+            
+            modal.style.display = 'flex';
+            content.classList.add('active');
+
+            const tierNumber = player.tier_earned.replace(/\D/g,'');
+            console.log("Tier number:", tierNumber); // Verifica il tier
+
+            const profileImage = document.getElementById('profileImage');
+            const profileIGN = document.getElementById('profileIGN');
+            const profileTierEmoji = document.getElementById('profileTierEmoji');
+            const profileTierText = document.getElementById('profileTierText');
+
+            if (!profileImage || !profileIGN || !profileTierEmoji || !profileTierText) {
+                console.error("Elementi del modal non trovati!");
+                return;
+            }
+
+            profileImage.src = `https://render.crafty.gg/3d/bust/${player.uuid}`;
+            profileIGN.textContent = player.ign;
+            profileTierEmoji.textContent = tierEmojis[tierNumber] || '⚔️';
+            profileTierText.textContent = player.tier_earned;
+
+            modal.style.display = 'flex';
+            setTimeout(() => content.classList.add('active'), 50);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Funzione per chiudere il modal
+        function closeModal() {
+            const modal = document.getElementById('profileModal');
+            const content = document.getElementById('profileContent');
+            content.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        // Aggiungi evento al bottone di chiusura
+        document.getElementById('closeButton').addEventListener('click', closeModal);
+
+        // Nuova funzione loadData
+        async function loadData() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+
+            if (loadingOverlay) loadingOverlay.style.display = 'flex';
+
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                
+                for (const player of data) {
+                    if (!player.uuid) {
+                        player.uuid = await getUUID(player.ign);
+                    }
+                }
+                allPlayers = data;
+                updateUI();
+            } catch (error) {
+                console.error("Errore nel caricamento dei dati:", error);
+            } finally {
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+            }
+        }
+
+        // Aggiorna l'interfaccia utente
+        function updateUI() {
+            document.querySelectorAll('.user-list').forEach(list => list.innerHTML = '');
+            
+            allPlayers.forEach(entry => {
+                const tierNumber = entry.tier_earned.slice(-1);
+                const list = document.getElementById(`tier-${tierNumber}-users`);
+                if (!list) return;
+
+                const userDiv = document.createElement('div');
+                userDiv.className = 'user-item';
+                userDiv.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-name">${entry.ign}</div>
+                        <div class="user-tier">
+                            <span class="sword">⚔️</span>
+                            <span class="tier-badge ${entry.tier_earned.startsWith('H') ? 'ht' : ''}">${entry.tier_earned}</span>
+                        </div>
+                    </div>
+                `;
+                userDiv.addEventListener('click', () => showPlayerProfile(entry));
+                list.appendChild(userDiv);
+            });
+        }
+
+        // Auto-refresh ogni 5 secondi
+        setInterval(loadData, 5000);
+        loadData();
+    </script>
+</body>
+</html>
