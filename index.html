@@ -83,6 +83,24 @@
         grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 }
+        /* a) Animated Tier Cards */
+.tier-card:hover {
+    transform: translateY(-5px) rotate(1deg);
+    box-shadow: 0 0 25px var(--neon-purple);
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.2); }
+}
+
+/* b) Neon Text Effect */
+.tier-number {
+    text-shadow: 0 0 10px var(--neon-purple),
+                 0 0 20px var(--neon-purple),
+                 0 0 30px var(--neon-purple);
+}
 .tier-card {
     background: rgba(26, 26, 26, 0.8);
     border-radius: 15px;
@@ -378,7 +396,17 @@
             </div>
         </div>
     </div>
-
+<!-- Animated Background Particles -->
+<canvas id="particleCanvas"></canvas>
+<style>
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0.15;
+}
+</style>
     <script>
         const tierEmojis = {1: "🥇", 2: "🥈", 3: "🥉", 4: "🔷", 5: "🔶"};
         let allPlayers = [];
@@ -395,7 +423,27 @@
                 return null;
             }
         }
-
+# a) ASCII Art Trophy for Tier Upgrades
+async def get_trophy_art(tier):
+    trophies = {
+        1: """
+        ░██████╗░
+        ██╔════╝░
+        ╚█████╗░
+        ░╚═══██╗
+        ██████╔╝
+        ╚═════╝░""",
+        2: """
+        ░██████╗░
+        ██╔════╝░
+        ╚█████╗░
+        ░╚═══██╗
+        ██████╔╝
+        ╚═════╝░
+        SILVER EDITION""",
+        # ... more tiers
+    }
+    return trophies.get(tier, "🏆")
         // Inizializza i tier
         const tiersContainer = document.getElementById('tiersContainer');
         for (let tier = 1; tier <= 5; tier++) {
@@ -410,7 +458,28 @@
             `;
             tiersContainer.appendChild(card);
         }
+// Konami Code Activation (↑↑↓↓←→←→BA)
+const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let inputSequence = [];
 
+document.addEventListener('keydown', (e) => {
+    inputSequence.push(e.key);
+    if (inputSequence.length > konamiCode.length) inputSequence.shift();
+    if (inputSequence.join('') === konamiCode.join('')) {
+        document.body.classList.add('konami-mode');
+        setTimeout(() => alert("⚔️ Tiers Mode Activated! ⚔️"), 300);
+    }
+});
+        # a) Temporary Tier Roles (24h)
+async def assign_tier_role(member, tier):
+    role_name = f"Tier {tier}"
+    role = discord.utils.get(member.guild.roles, name=role_name)
+    if not role:
+        role = await member.guild.create_role(name=role_name, 
+                                            color=discord.Color.gold() if tier == 1 else discord.Color.silver())
+    await member.add_roles(role)
+    await asyncio.sleep(86400)  # 24 hours
+    await member.remove_roles(role)
         // Funzionalità di ricerca
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', debounce(handleSearch, 300));
