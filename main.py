@@ -142,4 +142,8 @@ async def on_ready():
     print(f"I'm ready! Logged in as {client.user.name} ({client.user.id}) and go kys nigger {JSON_FILE}")
 
 # Avvia il bot
-client.run("MTM0NTUxNjY0MTY1MTI2NTYyNw.GERH1q.YfRdg_LN6qXJoFpGSVUs5A-jINqFpch5Tx2chc")
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+if not DISCORD_TOKEN:
+    raise ValueError("Nessun token Discord trovato nelle environment variables!")
+
+client.run(DISCORD_TOKEN)
