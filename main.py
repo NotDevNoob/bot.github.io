@@ -25,37 +25,6 @@ def save_data(data):
     with open(JSON_FILE, "w") as f:
         json.dump(data, f, indent=4)
 
-# Classe per gestire i dati persistenti
-class PersistentData:
-    def __init__(self):
-        # Dati degli utenti (puoi sostituire con un database o un file JSON)
-        self.user_data = {}
-        # Coda degli utenti
-        self.queue = []
-
-    def add_user(self, user_id, ign, tier, server, tested=False):
-        """Aggiunge un utente ai dati persistenti."""
-        self.user_data[user_id] = {
-            'ign': ign,
-            'tier': tier,
-            'server': server,
-            'tested': tested,
-            'skin_head': None  # Aggiungi l'URL dell'immagine del profilo qui se necessario
-        }
-
-    def add_to_queue(self, user_id):
-        """Aggiunge un utente alla coda."""
-        if user_id not in self.queue:
-            self.queue.append(user_id)
-
-    def remove_from_queue(self, user_id):
-        """Rimuove un utente dalla coda."""
-        if user_id in self.queue:
-            self.queue.remove(user_id)
-
-# Crea un'istanza globale di PersistentData
-persistent_data = PersistentData()
-
 # Comando !results
 @client.event
 async def on_message(message):
@@ -125,10 +94,17 @@ async def on_message(message):
 async def profile(ctx):
     try:
         user_id = str(ctx.author.id)
-        user_info = persistent_data.user_data.get(user_id)
+        data = load_data()
+
+        # Cerca l'utente nel file JSON
+        user_info = None
+        for entry in data:
+            if entry["discord_id"] == user_id:
+                user_info = entry
+                break
 
         if not user_info:
-            await ctx.send("❌ Non hai completato la verifica!", ephemeral=True)
+            await ctx.send("❌ Non sei registrato! Completa la verifica prima di usare questo comando.", ephemeral=True)
             return
 
         # Ottieni l'UUID dall'API di Mojang
@@ -147,24 +123,13 @@ async def profile(ctx):
         profile_image_url = f"https://render.crafty.gg/3d/bust/{player_uuid}"
 
         # Costruisci l'embed
-        tier_status = f"{user_info.get('tier', 'Nessuno')}"
-        if user_info.get('tested'):
-            tier_status += " (Verificato)"
-        else:
-            tier_status += " (Non verificato)"
-
         embed = discord.Embed(title="📝 Il tuo profilo", color=0x00ff00)
         embed.add_field(name="IGN", value=user_info['ign'], inline=False)
-        embed.add_field(name="Tier", value=tier_status, inline=False)
+        embed.add_field(name="Tier", value=user_info.get('tier_earned', 'N/D'), inline=True)
         embed.add_field(name="Server Preferito", value=user_info.get('server', 'N/D'), inline=False)
 
         # Aggiungi l'immagine del profilo Minecraft
         embed.set_thumbnail(url=profile_image_url)
-
-        # Aggiungi la posizione in coda
-        embed.add_field(name="Posizione in coda", 
-                       value=f"#{persistent_data.queue.index(ctx.author.id)+1}" if ctx.author.id in persistent_data.queue else "Non in coda", 
-                       inline=False)
 
         await ctx.send(embed=embed, ephemeral=True)
 
