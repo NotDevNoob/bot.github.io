@@ -77,31 +77,39 @@
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
-        .tiers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
+.tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    align-items: start; /* Important for varying height cards */
+}
 
-        .tier-card {
-            background: rgba(26, 26, 26, 0.8);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+.tier-card {
+    background: rgba(26, 26, 26, 0.8);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    max-height: 70vh; /* Maximum card height as 70% of viewport */
+    height: auto; /* Default to content height */
+}
 
-        .tier-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
+.tier-header {
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
 
+.user-list {
+    flex: 1; /* Take remaining space in card */
+    overflow-y: auto;
+    min-height: 100px; /* Minimum height for empty lists */
+    padding-right: 5px;
+}
+
+/* Remove existing max-height from user-list */
         .tier-emoji {
             font-size: 1.5rem;
         }
@@ -110,11 +118,6 @@
             font-size: 1.2rem;
         }
 
-        .user-list {
-            max-height: 200px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
 
         .user-item {
             padding: 10px;
