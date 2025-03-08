@@ -1,6 +1,6 @@
 [
     {
-        "discord_id": "123456789012345678",
+        "discord_id": "729405047644880968",
         "tier_before": "Unranked",
         "tier_earned": "LT3",
         "ign": "Giulio_Cesare_",
@@ -8,7 +8,7 @@
         "timestamp": "2023-10-10T12:34:56.789Z"
     },
     {
-        "discord_id": "234567890123456789",
+        "discord_id": "728660636459991070",
         "tier_before": "Unranked",
         "tier_earned": "LT4",
         "ign": "Diocleziano_",
@@ -16,7 +16,7 @@
         "timestamp": "2023-10-10T13:45:00.000Z"
     },
     {
-        "discord_id": "345678901234567890",
+        "discord_id": "783788377341689856",
         "tier_before": "Nessuno",
         "tier_earned": "LT3",
         "ign": "Ottaviano_August",
@@ -24,31 +24,23 @@
         "timestamp": "2025-03-05T16:10:00Z"
     },
     {
-        "discord_id": "456789012345678901",
+        "discord_id": "1176927102013026401",
         "tier_before": "Nessuno",
         "tier_earned": "LT4",
         "ign": "ER_GLADIATOR1",
         "tester": "Faw",
         "timestamp": "2025-03-05T16:15:00Z"
     },
-    {
-        "discord_id": "567890123456789012",
+     {
+        "discord_id": "971071572796379217",
         "tier_before": "Nessuno",
-        "tier_earned": "LT3",
-        "ign": "GIulioCesare",
-        "tester": "Faw",
-        "timestamp": "2025-03-05T16:20:00Z"
-    },
-    {
-        "discord_id": "678901234567890123",
-        "tier_before": "Nessuno",
-        "tier_earned": "LT3",
+        "tier_earned": "HT4",
         "ign": "3463k",
         "tester": "Faw",
         "timestamp": "2025-03-05T16:25:00Z"
     },
     {
-        "discord_id": "789012345678901234",
+        "discord_id": "1100455505996038255",
         "tier_before": "Nessuno",
         "tier_earned": "HT2",
         "ign": "minchiacraft",
@@ -64,7 +56,7 @@
         "timestamp": "2025-03-05T21:29:00Z"
     },
     {
-        "discord_id": "901234567890123456",
+        "discord_id": "1339665291675959347",
         "tier_before": "Nessuno",
         "tier_earned": "LT1",
         "ign": "go2workk",
@@ -72,11 +64,19 @@
         "timestamp": "2025-03-06T20:45:00Z"
     },
     {
-        "discord_id": "012345678901234567",
+        "discord_id": "1183875683810824194",
         "tier_before": "Nessuno",
         "tier_earned": "LT3",
         "ign": "Takeruluigi",
         "tester": "Julius Caesar",
         "timestamp": "2025-03-07T22:11:00Z"
+    },
+    {
+        "discord_id": "789117446220415017",
+        "tier_before": "Unranked",
+        "tier_earned": "HT2",
+        "ign": "kytsue",
+        "tester": "729405047644880968",
+        "timestamp": "2025-03-08 19:33:31.842327+00:00"
     }
 ]
