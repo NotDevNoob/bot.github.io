@@ -23,15 +23,8 @@
         "tester": "Faw",
         "timestamp": "2025-03-05T16:10:00Z"
     },
+
     {
-        "discord_id": "1176927102013026401",
-        "tier_before": "Nessuno",
-        "tier_earned": "LT4",
-        "ign": "ER_GLADIATOR1",
-        "tester": "Faw",
-        "timestamp": "2025-03-05T16:15:00Z"
-    },
-     {
         "discord_id": "971071572796379217",
         "tier_before": "Nessuno",
         "tier_earned": "HT4",
@@ -78,5 +71,13 @@
         "ign": "kytsue",
         "tester": "729405047644880968",
         "timestamp": "2025-03-08 19:33:31.842327+00:00"
+    },
+    {
+        "discord_id": "1176927102013026401",
+        "tier_before": "LT4",
+        "tier_earned": "HT5",
+        "ign": "ER_GLADIATOR1",
+        "tester": "729405047644880968",
+        "timestamp": "2025-03-08 21:54:24.265105+00:00"
     }
 ]
