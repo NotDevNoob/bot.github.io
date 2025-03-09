@@ -55,13 +55,7 @@
         "tester": "Julius Caesar",
         "timestamp": "2025-03-07T22:11:00Z"
     },
-    {
-        "tier_before": "Unranked",
-        "tier_earned": "HT2",
-        "ign": "kytsue",
-        "tester": "729405047644880968",
-        "timestamp": "2025-03-08 19:33:31.842327+00:00"
-    },
+
     {
         "tier_before": "LT4",
         "tier_earned": "HT5",
@@ -69,4 +63,11 @@
         "tester": "729405047644880968",
         "timestamp": "2025-03-08 21:54:24.265105+00:00"
     }
+        {
+        "tier_before": "Unransked",
+        "tier_earned": "HT2",
+        "ign": "kytsue",
+        "tester": "729405047644880968",
+        "timestamp": "2025-03-08 19:33:31.842327+00:00"
+    },
 ]
