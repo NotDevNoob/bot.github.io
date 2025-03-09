@@ -25,7 +25,7 @@
         }
 
         :root {
-            --gold: #ffd701;
+            --gold: #ffd700;
             --silver: #c0c0c0;
             --bronze: #cd7f32;
             --dark-blue: #003366;
@@ -1099,12 +1099,56 @@
 
         async function loadData() {
             try {
-                // First try to load from data.json (prioritize GitHub data)
-                try {
-                    const response = await fetch('data.json');
-                    if (response.ok) {
-                        const data = await response.json();
+                // Try to load from localStorage first (for quick loading)
+                const localData = localStorage.getItem('mctiers_data');
 
+                if (localData) {
+                    try {
+                        const data = JSON.parse(localData);
+
+                        // Basic validation
+                        if (Array.isArray(data) && data.length > 0) {
+                            // Ensure all players have UUIDs
+                            for (const player of data) {
+                                if (!player.uuid) {
+                                    player.uuid = await getUUID(player.ign);
+                                }
+                            }
+
+                            allPlayers = data;
+                            updateUI();
+                            console.log("Data loaded from localStorage:", data.length, "players");
+
+                            // Still try to load from data.json in the background for updates
+                            fetch('data.json')
+                                .then(response => {
+                                    if (response.ok) return response.json();
+                                    throw new Error('Failed to fetch data.json');
+                                })
+                                .then(data => {
+                                    console.log("Background update from data.json:", data.length, "players");
+                                    // Don't update UI or localStorage here to avoid disruption
+                                })
+                                .catch(err => console.log("Background fetch error:", err));
+
+                            return;
+                        }
+                    } catch (e) {
+                        console.error("Error parsing localStorage data:", e);
+                        localStorage.removeItem('mctiers_data'); // Clear invalid data
+                    }
+                }
+
+                // If localStorage failed or was empty, try data.json
+                console.log("Trying to load from data.json...");
+                const response = await fetch('data.json');
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Data loaded from data.json:", data);
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        // Add UUIDs if missing
                         for (const player of data) {
                             if (!player.uuid) {
                                 player.uuid = await getUUID(player.ign);
@@ -1112,44 +1156,116 @@
                         }
 
                         allPlayers = data;
-                        // Save to localStorage for future use
                         localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
                         updateUI();
-                        console.log("Data loaded from data.json and saved to localStorage");
-                        return; // Exit early if data.json loaded successfully
+                        console.log("Data loaded from data.json:", data.length, "players");
+                        return;
+                    } else {
+                        console.error("Invalid data format in data.json");
                     }
-                } catch (error) {
-                    console.error("Error loading from data.json:", error);
-                    // Continue to try localStorage if data.json fails
-                }
-
-                // Try to load from localStorage as fallback
-                const localData = localStorage.getItem('mctiers_data');
-
-                if (localData) {
-                    // Use localStorage data if available
-                    const data = JSON.parse(localData);
-
-                    // Ensure all players have UUIDs
-                    for (const player of data) {
-                        if (!player.uuid) {
-                            player.uuid = await getUUID(player.ign);
-                        }
-                    }
-
-                    allPlayers = data;
-                    updateUI();
-                    console.log("Data loaded from localStorage");
                 } else {
-                    // If both data.json and localStorage fail, start with empty array
-                    allPlayers = [];
-                    updateUI();
-                    console.log("No data found, starting with empty array");
+                    console.error("Failed to load data.json:", response.status);
                 }
-            } catch (error) {
-                console.error("Error loading data:", error);
-                allPlayers = [];
+
+                // If we get here, both localStorage and data.json failed
+                // Load the embedded default data
+                console.log("Loading embedded default data...");
+                allPlayers = [
+                    {
+                        "tier_before": "Unranked",
+                        "tier_earned": "LT3",
+                        "ign": "Giulio_Cesare_",
+                        "tester": "987654321098765432",
+                        "timestamp": "2023-10-10T12:34:56.789Z"
+                    },
+                    {
+                        "tier_before": "Unranked",
+                        "tier_earned": "LT4",
+                        "ign": "Diocleziano_",
+                        "tester": "876543210987654321",
+                        "timestamp": "2023-10-10T13:45:00.000Z"
+                    },
+                    {
+                        "tier_before": "Nessuno",
+                        "tier_earned": "LT3",
+                        "ign": "Ottaviano_August",
+                        "tester": "Faw",
+                        "timestamp": "2025-03-05T16:10:00Z"
+                    },
+                    {
+                        "tier_before": "Nessuno",
+                        "tier_earned": "HT4",
+                        "ign": "3463k",
+                        "tester": "Faw",
+                        "timestamp": "2025-03-05T16:25:00Z"
+                    },
+                    {
+                        "tier_before": "Nessuno",
+                        "tier_earned": "HT2",
+                        "ign": "minchiacraft",
+                        "tester": "Faw",
+                        "timestamp": "2025-03-05T16:30:00Z"
+                    },
+                    {
+                        "tier_before": "Nessuno",
+                        "tier_earned": "HT2",
+                        "ign": "afterylyfe",
+                        "tester": "Faw",
+                        "timestamp": "2025-03-05T21:29:00Z"
+                    },
+                    {
+                        "tier_before": "Nessuno",
+                        "tier_earned": "LT1",
+                        "ign": "go2workk",
+                        "tester": "Faw",
+                        "timestamp": "2025-03-06T20:45:00Z"
+                    },
+                    {
+                        "tier_before": "Nessuno",
+                        "tier_earned": "LT3",
+                        "ign": "Takeruluigi",
+                        "tester": "Julius Caesar",
+                        "timestamp": "2025-03-07T22:11:00Z"
+                    },
+                    {
+                        "tier_before": "Unranked",
+                        "tier_earned": "HT2",
+                        "ign": "kytsue",
+                        "tester": "729405047644880968",
+                        "timestamp": "2025-03-08 19:33:31.842327+00:00"
+                    },
+                    {
+                        "tier_before": "LT4",
+                        "tier_earned": "HT5",
+                        "ign": "ER_GLADIATOR1",
+                        "tester": "729405047644880968",
+                        "timestamp": "2025-03-08 21:54:24.265105+00:00"
+                    }
+                ];
+
+                // Add UUIDs
+                for (const player of allPlayers) {
+                    if (!player.uuid) {
+                        player.uuid = await getUUID(player.ign);
+                    }
+                }
+
+                localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
                 updateUI();
+                console.log("Loaded embedded default data:", allPlayers.length, "players");
+            } catch (error) {
+                console.error("Critical error loading data:", error);
+                // Last resort - show at least something
+                allPlayers = [
+                    {
+                        "tier_earned": "HT2",
+                        "ign": "kytsue",
+                        "tester": "Admin",
+                        "timestamp": new Date().toISOString()
+                    }
+                ];
+                updateUI();
+                alert("Error loading data. Please try refreshing the page or contact the administrator.");
             }
         }
 
@@ -1190,8 +1306,11 @@
             const file = e.target.files[0];
             if (!file) return;
 
+            // Show loading indicator
+            showAdminMessage('Reading file...', false);
+
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = async function(event) {
                 try {
                     const importedData = JSON.parse(event.target.result);
 
@@ -1207,12 +1326,65 @@
                         }
                     }
 
+                    showAdminMessage(`Found ${importedData.length} player records. Processing...`, false);
+
                     // Confirm before overwriting
                     if (confirm(`Import ${importedData.length} player records? This will replace your current data.`)) {
+                        // Make a backup first
+                        const dataStr = JSON.stringify(allPlayers, null, 2);
+                        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                        const dataUrl = URL.createObjectURL(dataBlob);
+
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = dataUrl;
+                        downloadLink.download = `mctiers_data_backup_before_import_${new Date().toISOString().split('T')[0]}.json`;
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+
+                        // Add UUIDs if missing
+                        showAdminMessage('Adding UUIDs to players...', false);
+                        for (const player of importedData) {
+                            if (!player.uuid) {
+                                try {
+                                    player.uuid = await getUUID(player.ign);
+                                } catch (e) {
+                                    console.warn(`Couldn't get UUID for ${player.ign}:`, e);
+                                    // Generate a placeholder UUID
+                                    player.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                                        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                                        return v.toString(16);
+                                    });
+                                }
+                            }
+                        }
+
                         allPlayers = importedData;
                         localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
                         updateUI();
-                        showAdminMessage(`Imported ${importedData.length} player records successfully!`);
+
+                        // Create a downloadable version of the imported data
+                        const importedStr = JSON.stringify(importedData, null, 2);
+                        const importedBlob = new Blob([importedStr], {type: 'application/json'});
+                        const importedUrl = URL.createObjectURL(importedBlob);
+
+                        // Show success message with download link
+                        const successMsg = document.createElement('div');
+                        successMsg.innerHTML = `Imported ${importedData.length} player records successfully! `;
+
+                        const downloadNewLink = document.createElement('a');
+                        downloadNewLink.href = importedUrl;
+                        downloadNewLink.download = `mctiers_imported_data_${new Date().toISOString().split('T')[0]}.json`;
+                        downloadNewLink.textContent = 'Download Imported Data';
+                        downloadNewLink.style.color = '#66a3ff';
+
+                        successMsg.appendChild(downloadNewLink);
+                        adminMessage.innerHTML = '';
+                        adminMessage.appendChild(successMsg);
+                        adminMessage.className = 'admin-message success';
+                        adminMessage.style.display = 'block';
+                    } else {
+                        showAdminMessage('Import cancelled', true);
                     }
                 } catch (error) {
                     console.error('Error importing data:', error);
@@ -1220,6 +1392,11 @@
                 }
 
                 // Reset the file input
+                e.target.value = '';
+            };
+
+            reader.onerror = function() {
+                showAdminMessage('Error reading file', true);
                 e.target.value = '';
             };
 
@@ -1514,42 +1691,7 @@
         setInterval(throttledLoadData, 120000);
         throttledLoadData();
 
-        // Show a notification about local storage
-        setTimeout(() => {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 20px;
-                background: rgba(0, 51, 102, 0.9);
-                color: white;
-                padding: 15px;
-                border-radius: 10px;
-                max-width: 300px;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-                z-index: 99;
-                font-size: 14px;
-                transition: opacity 0.5s;
-                border: 1px solid var(--light-blue);
-            `;
-            notification.innerHTML = `
-                <div style="margin-bottom: 10px; font-weight: bold;">GitHub Pages Mode</div>
-                <div style="margin-bottom: 10px;">Data is stored in your browser's local storage. Use the admin panel (Ctrl+Shift+A) to export/import data.</div>
-                <button id="closeNotification" style="background: var(--light-blue); border: none; padding: 5px 10px; border-radius: 5px; color: white; cursor: pointer;">Got it</button>
-            `;
-            document.body.appendChild(notification);
-
-            document.getElementById('closeNotification').addEventListener('click', () => {
-                notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 500);
-            });
-
-            // Auto-hide after 10 seconds
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 500);
-            }, 10000);
-        }, 2000);
+        // No notification - removed to avoid confusion
     </script>
 </body>
 </html>
