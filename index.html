@@ -645,6 +645,12 @@
                     <label class="admin-label" for="adminTester">Tester</label>
                     <input type="text" id="adminTester" class="admin-input" placeholder="Enter tester name...">
                 </div>
+                <div class="admin-input-group">
+                    <div style="display: flex; align-items: center;">
+                        <input type="checkbox" id="saveToGitHubCheckbox" style="margin-right: 10px;">
+                        <label class="admin-label" for="saveToGitHubCheckbox">Save to GitHub repository (requires token)</label>
+                    </div>
+                </div>
                 <div class="admin-button-group">
                     <button class="admin-submit" id="adminSubmit">Save</button>
                     <button class="admin-cancel" id="adminCancel">Cancel</button>
@@ -671,6 +677,34 @@
 
                 <div class="admin-button-group" style="margin-top: 10px;">
                     <button class="admin-submit" id="debugData" style="background: #555;">Debug Data</button>
+                </div>
+
+                <div class="profile-divider" style="margin: 30px 0 20px;"></div>
+
+                <h3 style="color: var(--light-blue); margin-bottom: 15px;">GitHub Integration</h3>
+
+                <div class="admin-input-group">
+                    <label class="admin-label" for="githubToken">GitHub Personal Access Token</label>
+                    <input type="password" id="githubToken" class="admin-input" placeholder="Enter your GitHub token...">
+                </div>
+
+                <div class="admin-input-group">
+                    <label class="admin-label" for="githubUsername">GitHub Username</label>
+                    <input type="text" id="githubUsername" class="admin-input" placeholder="Enter your GitHub username...">
+                </div>
+
+                <div class="admin-input-group">
+                    <label class="admin-label" for="githubRepo">Repository Name</label>
+                    <input type="text" id="githubRepo" class="admin-input" placeholder="Enter repository name...">
+                </div>
+
+                <div class="admin-button-group">
+                    <button class="admin-submit" id="saveGitHubSettings" style="background: var(--dark-blue);">Save GitHub Settings</button>
+                    <button class="admin-submit" id="clearGitHubSettings" style="background: #aa3333;">Clear GitHub Settings</button>
+                </div>
+
+                <div class="admin-button-group" style="margin-top: 10px;">
+                    <button class="admin-submit" id="pushToGitHub" style="background: #4CAF50;">Push Current Data to GitHub</button>
                 </div>
             </div>
         </div>
@@ -787,10 +821,7 @@
         const adminCancel = document.getElementById('adminCancel');
         const adminMessage = document.getElementById('adminMessage');
 
-        adminButton.addEventListener('click', () => {
-            adminModal.style.display = 'flex';
-            clearAdminForm();
-        });
+        // Admin button click event is now handled below with GitHub settings loading
 
         adminCancel.addEventListener('click', () => {
             adminModal.style.display = 'none';
@@ -806,6 +837,13 @@
             adminIgnInput.value = '';
             adminTierSelect.value = '';
             adminTesterInput.value = '';
+
+            // Reset GitHub checkbox
+            const saveToGitHubCheckbox = document.getElementById('saveToGitHubCheckbox');
+            if (saveToGitHubCheckbox) {
+                saveToGitHubCheckbox.checked = false;
+            }
+
             adminMessage.style.display = 'none';
             adminMessage.textContent = '';
             adminMessage.className = 'admin-message';
@@ -881,8 +919,18 @@
                     showAdminMessage(`Added new player: ${ign}`);
                 }
 
-                // Save to data.json
-                await saveData();
+                // Save to localStorage
+                localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
+
+                // Save to GitHub repository if checkbox is checked
+                const saveToGitHubCheckbox = document.getElementById('saveToGitHubCheckbox');
+                if (saveToGitHubCheckbox && saveToGitHubCheckbox.checked) {
+                    await saveToGitHub(allPlayers);
+                } else {
+                    // If not saving to GitHub, just use the regular save function
+                    await saveData();
+                }
+
                 updateUI();
 
                 // Clear form after successful save
@@ -896,6 +944,71 @@
                 showAdminMessage('Error saving data', true);
             }
         });
+
+        async function saveToGitHub(data) {
+            try {
+                // Show loading message
+                showAdminMessage('Saving to GitHub...', false);
+
+                // Get the token and settings from localStorage
+                const token = localStorage.getItem('github_token');
+                const owner = localStorage.getItem('github_username');
+                const repo = localStorage.getItem('github_repo');
+
+                if (!token || !owner || !repo) {
+                    throw new Error('GitHub settings are incomplete. Please configure them in the admin panel.');
+                }
+
+                const path = 'data.json'; // Path to data.json in your repository
+
+                // First, get the current file to get its SHA
+                const getResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!getResponse.ok) {
+                    throw new Error(`Failed to get file: ${getResponse.status} ${getResponse.statusText}`);
+                }
+
+                const fileInfo = await getResponse.json();
+                const sha = fileInfo.sha;
+
+                // Prepare the content (base64 encoded)
+                const content = btoa(JSON.stringify(data, null, 2));
+
+                // Update the file
+                const updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Update player data via web interface',
+                        content: content,
+                        sha: sha
+                    })
+                });
+
+                if (!updateResponse.ok) {
+                    throw new Error(`Failed to update file: ${updateResponse.status} ${updateResponse.statusText}`);
+                }
+
+                const result = await updateResponse.json();
+                console.log('GitHub update successful:', result);
+                showAdminMessage('Successfully saved to GitHub repository!');
+
+                return true;
+            } catch (error) {
+                console.error('Error saving to GitHub:', error);
+                showAdminMessage('Error saving to GitHub: ' + error.message, true);
+                return false;
+            }
+        }
 
         async function saveData() {
             try {
@@ -1274,6 +1387,81 @@
             if (e.ctrlKey && e.shiftKey && e.key === 'A') {
                 const adminButton = document.getElementById('adminButton');
                 adminButton.style.display = adminButton.style.display === 'none' ? 'flex' : 'none';
+            }
+        });
+
+        // GitHub settings management
+        document.getElementById('saveGitHubSettings').addEventListener('click', function() {
+            const token = document.getElementById('githubToken').value.trim();
+            const username = document.getElementById('githubUsername').value.trim();
+            const repo = document.getElementById('githubRepo').value.trim();
+
+            if (!token || !username || !repo) {
+                showAdminMessage('Please fill in all GitHub settings', true);
+                return;
+            }
+
+            localStorage.setItem('github_token', token);
+            localStorage.setItem('github_username', username);
+            localStorage.setItem('github_repo', repo);
+
+            // Clear the token field for security
+            document.getElementById('githubToken').value = '';
+
+            showAdminMessage('GitHub settings saved successfully!');
+        });
+
+        document.getElementById('clearGitHubSettings').addEventListener('click', function() {
+            if (confirm('Are you sure you want to clear your GitHub settings?')) {
+                localStorage.removeItem('github_token');
+                localStorage.removeItem('github_username');
+                localStorage.removeItem('github_repo');
+
+                document.getElementById('githubToken').value = '';
+                document.getElementById('githubUsername').value = '';
+                document.getElementById('githubRepo').value = '';
+
+                showAdminMessage('GitHub settings cleared');
+            }
+        });
+
+        // Load saved GitHub settings when admin panel opens
+        adminButton.addEventListener('click', () => {
+            adminModal.style.display = 'flex';
+            clearAdminForm();
+
+            // Load GitHub settings
+            const username = localStorage.getItem('github_username') || '';
+            const repo = localStorage.getItem('github_repo') || '';
+
+            document.getElementById('githubUsername').value = username;
+            document.getElementById('githubRepo').value = repo;
+            // Don't load the token for security reasons
+        });
+
+        // Add handler for pushing current data to GitHub
+        document.getElementById('pushToGitHub').addEventListener('click', async function() {
+            try {
+                // Check if GitHub settings are configured
+                const token = localStorage.getItem('github_token');
+                const username = localStorage.getItem('github_username');
+                const repo = localStorage.getItem('github_repo');
+
+                if (!token || !username || !repo) {
+                    showAdminMessage('Please configure GitHub settings first', true);
+                    return;
+                }
+
+                if (confirm('Are you sure you want to push the current data to GitHub?')) {
+                    showAdminMessage('Pushing data to GitHub...', false);
+                    const result = await saveToGitHub(allPlayers);
+                    if (result) {
+                        showAdminMessage('Successfully pushed data to GitHub!');
+                    }
+                }
+            } catch (error) {
+                console.error('Error pushing to GitHub:', error);
+                showAdminMessage('Error pushing to GitHub: ' + error.message, true);
             }
         });
 
