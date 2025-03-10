@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MCTIERS Leaderboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -82,6 +82,53 @@
             outline: none;
             border-color: var(--light-blue);
             box-shadow: 0 0 15px rgba(102, 163, 255, 0.3);
+        }
+
+        /* Mobile search styles */
+        .search-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 10px auto;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--dark-blue);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .search-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--light-blue);
+        }
+
+        .mobile-search-container {
+            display: none;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .mobile-search-container.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                display: none;
+            }
+
+            .search-toggle {
+                display: flex;
+            }
         }
 
         .header h1 {
@@ -439,6 +486,16 @@
             transition: all 0.3s;
         }
 
+        @media (max-width: 480px) {
+            .admin-button {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+
         .admin-button:hover {
             background: var(--light-blue);
             transform: scale(1.1);
@@ -473,12 +530,15 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s ease;
+            overscroll-behavior: contain; /* Prevent scrolling the body behind the modal */
+            touch-action: none; /* Prevent default touch actions */
         }
 
         .admin-modal.visible {
@@ -489,16 +549,25 @@
             background: rgba(26, 26, 26, 0.95);
             border: 2px solid var(--light-blue);
             border-radius: 20px;
-            padding: 30px;
-            width: 90%;
+            padding: 30px 20px; /* Reduced horizontal padding for mobile */
+            width: 95%; /* Wider on mobile */
             max-width: 500px;
             max-height: 85vh;
             overflow-y: auto;
             scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             box-shadow: 0 0 50px rgba(0, 51, 102, 0.5);
             transform: translateY(20px);
             opacity: 0;
             transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        @media (max-width: 480px) {
+            .admin-content {
+                padding: 20px 15px;
+                width: 98%;
+                border-radius: 15px;
+            }
         }
 
         .admin-modal.visible .admin-content {
@@ -526,10 +595,18 @@
             position: sticky;
             top: -30px; /* Matches the padding of admin-content */
             background: rgba(26, 26, 26, 0.98);
-            margin: -30px -30px 0 -30px;
-            padding: 30px 30px 15px 30px;
+            margin: -30px -20px 0 -20px; /* Match the horizontal padding of admin-content */
+            padding: 30px 20px 15px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 10;
+        }
+
+        @media (max-width: 480px) {
+            .admin-header {
+                top: -20px;
+                margin: -20px -15px 0 -15px;
+                padding: 20px 15px 10px 15px;
+            }
         }
 
         .admin-nav {
@@ -549,6 +626,20 @@
             font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s;
+        }
+
+        @media (max-width: 480px) {
+            .admin-nav {
+                gap: 5px;
+            }
+
+            .admin-nav-item {
+                padding: 4px 8px;
+                font-size: 0.7rem;
+                flex: 1;
+                min-width: 0;
+                white-space: nowrap;
+            }
         }
 
         .admin-nav-item:hover {
@@ -585,11 +676,24 @@
             -webkit-text-fill-color: transparent;
         }
 
+        @media (max-width: 480px) {
+            .admin-title {
+                font-size: 1.5rem;
+            }
+        }
+
         .admin-form {
             display: flex;
             flex-direction: column;
             gap: 15px;
             padding-bottom: 30px; /* Add padding at the bottom for better scrolling */
+        }
+
+        @media (max-width: 480px) {
+            .admin-form {
+                gap: 12px;
+                padding-bottom: 20px;
+            }
         }
 
         .admin-input-group {
@@ -598,9 +702,21 @@
             gap: 5px;
         }
 
+        @media (max-width: 480px) {
+            .admin-input-group {
+                gap: 4px;
+            }
+        }
+
         .admin-label {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 480px) {
+            .admin-label {
+                font-size: 0.8rem;
+            }
         }
 
         .admin-input {
@@ -611,6 +727,15 @@
             color: white;
             font-size: 1rem;
             transition: all 0.3s;
+            width: 100%; /* Ensure inputs take full width */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        @media (max-width: 480px) {
+            .admin-input {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
         }
 
         .admin-input:focus {
@@ -627,6 +752,15 @@
             color: white;
             font-size: 1rem;
             transition: all 0.3s;
+            width: 100%; /* Ensure selects take full width */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        @media (max-width: 480px) {
+            .admin-select {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
         }
 
         .admin-select:focus {
@@ -638,6 +772,14 @@
             display: flex;
             gap: 10px;
             margin-top: 20px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        @media (max-width: 480px) {
+            .admin-button-group {
+                gap: 8px;
+                margin-top: 15px;
+            }
         }
 
         .admin-submit, .admin-cancel {
@@ -649,6 +791,15 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
+            min-width: 0; /* Allow buttons to shrink on mobile */
+            white-space: nowrap; /* Prevent text wrapping in buttons */
+        }
+
+        @media (max-width: 480px) {
+            .admin-submit, .admin-cancel {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
         }
 
         .admin-submit {
@@ -676,6 +827,14 @@
             border-radius: 10px;
             text-align: center;
             display: none;
+            word-wrap: break-word; /* Ensure long text wraps properly */
+        }
+
+        @media (max-width: 480px) {
+            .admin-message {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
         }
 
         .admin-message.success {
@@ -693,6 +852,14 @@
         .section-title {
             position: relative;
             padding-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.1rem;
+                padding-bottom: 6px;
+            }
         }
 
         .section-title::after {
@@ -724,6 +891,16 @@
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.3s;
+        }
+
+        @media (max-width: 480px) {
+            .back-to-top {
+                bottom: 15px;
+                right: 15px;
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
         }
 
         .back-to-top.visible {
@@ -764,6 +941,11 @@
             <h1>🏆 Classifica Tier</h1>
             <div class="search-container">
                 <input type="text" class="search-input" placeholder="Cerca giocatore..." id="searchInput">
+            </div>
+            <!-- Mobile search toggle and container -->
+            <div class="search-toggle" id="searchToggle">🔍</div>
+            <div class="mobile-search-container" id="mobileSearchContainer">
+                <input type="text" class="search-input" placeholder="Cerca giocatore..." id="mobileSearchInput">
             </div>
         </div>
         <div class="tiers-grid" id="tiersContainer"></div>
@@ -856,7 +1038,10 @@
                 </div>
 
                 <div class="admin-button-group" style="margin-top: 10px;">
-                    <button class="admin-submit" id="resetToGitHub" style="background: var(--dark-blue);">Reset to GitHub Data</button>
+                    <button class="admin-submit" id="resetToGitHub" style="background: var(--dark-blue);">
+                        <span class="desktop-text">Reset to GitHub Data</span>
+                        <span class="mobile-text" style="display: none;">Reset to GitHub</span>
+                    </button>
                     <button class="admin-submit" id="clearData" style="background: #aa3333;">Reset All Data</button>
                 </div>
 
@@ -884,17 +1069,37 @@
                 </div>
 
                 <div class="admin-button-group">
-                    <button class="admin-submit" id="saveGitHubSettings" style="background: var(--dark-blue);">Save GitHub Settings</button>
-                    <button class="admin-submit" id="clearGitHubSettings" style="background: #aa3333;">Clear GitHub Settings</button>
+                    <button class="admin-submit" id="saveGitHubSettings" style="background: var(--dark-blue);">
+                        <span class="desktop-text">Save GitHub Settings</span>
+                        <span class="mobile-text" style="display: none;">Save Settings</span>
+                    </button>
+                    <button class="admin-submit" id="clearGitHubSettings" style="background: #aa3333;">
+                        <span class="desktop-text">Clear GitHub Settings</span>
+                        <span class="mobile-text" style="display: none;">Clear Settings</span>
+                    </button>
                 </div>
 
                 <div class="admin-button-group" style="margin-top: 10px;">
-                    <button class="admin-submit" id="pushToGitHub" style="background: #4CAF50;">Push Current Data to GitHub</button>
+                    <button class="admin-submit" id="pushToGitHub" style="background: #4CAF50;">
+                        <span class="desktop-text">Push Current Data to GitHub</span>
+                        <span class="mobile-text" style="display: none;">Push to GitHub</span>
+                    </button>
                 </div>
 
+                <style>
+                    @media (max-width: 480px) {
+                        .desktop-text {
+                            display: none;
+                        }
+                        .mobile-text {
+                            display: inline !important;
+                        }
+                    }
+                </style>
+
                 <div class="admin-button-group" style="margin-top: 10px;">
-                    <button class="admin-submit" id="checkDataJson" style="background: #FF9800;">Check data.json Status</button>
-                    <button class="admin-submit" id="createDataJson" style="background: #2196F3;">Create data.json if Missing</button>
+                    <button class="admin-submit" id="checkDataJson" style="background: #FF9800;">Check data.json</button>
+                    <button class="admin-submit" id="createDataJson" style="background: #2196F3;">Create data.json</button>
                 </div>
 
                 <div class="admin-button-group" style="margin-top: 10px;">
@@ -1263,22 +1468,10 @@
                 localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
                 console.log("Data saved to localStorage:", JSON.stringify(allPlayers, null, 4));
 
-                // Create a downloadable JSON file for backup
-                const dataStr = JSON.stringify(allPlayers, null, 2);
-                const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                const dataUrl = URL.createObjectURL(dataBlob);
-
-                // Show download link in admin message
-                const downloadLink = document.createElement('a');
-                downloadLink.href = dataUrl;
-                downloadLink.download = 'mctiers_data_backup.json';
-                downloadLink.textContent = 'Download Backup';
-                downloadLink.style.marginLeft = '10px';
-                downloadLink.style.color = '#66a3ff';
-
-                // Add the download link to the admin message
-                adminMessage.innerHTML = 'Data saved successfully! ';
-                adminMessage.appendChild(downloadLink);
+                // Show success message without download link
+                adminMessage.innerHTML = 'Data saved successfully!';
+                adminMessage.className = 'admin-message success';
+                adminMessage.style.display = 'block';
 
                 return true;
             } catch (error) {
@@ -1354,21 +1547,43 @@
             }
         }
         const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+        const searchToggle = document.getElementById('searchToggle');
+        const mobileSearchContainer = document.getElementById('mobileSearchContainer');
+
+        // Handle search input events
         searchInput.addEventListener('input', debounce(handleSearch, 300));
+        mobileSearchInput.addEventListener('input', debounce(handleSearch, 300));
+
+        // Toggle mobile search
+        searchToggle.addEventListener('click', function() {
+            mobileSearchContainer.style.display = mobileSearchContainer.style.display === 'block' ? 'none' : 'block';
+
+            // Force reflow to ensure transition works
+            void mobileSearchContainer.offsetWidth;
+
+            if (mobileSearchContainer.style.display === 'block') {
+                mobileSearchContainer.classList.add('active');
+                mobileSearchInput.focus();
+            } else {
+                mobileSearchContainer.classList.remove('active');
+            }
+        });
 
         function debounce(func, wait) {
             let timeout;
-            return (...args) => {
+            return function(event) {
                 clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
+                timeout = setTimeout(() => func.call(this, event), wait);
             };
         }
 
         // Cache for search results to avoid repeated searches
         const searchCache = new Map();
 
-        async function handleSearch() {
-            const searchTerm = searchInput.value.trim().toLowerCase();
+        async function handleSearch(event) {
+            // Get the search term from whichever input triggered the event
+            const searchTerm = event.target.value.trim().toLowerCase();
             if (!searchTerm) return;
 
             // Check cache first
