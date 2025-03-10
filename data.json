@@ -1,27 +1,27 @@
 [
   {
     "tier_before": "LT3",
-    "tier_earned": "HT1",
+    "tier_earned": "LT3",
     "ign": "Giulio_Cesare_",
     "tester": "987654321098765432",
-    "timestamp": "2025-03-10T15:32:57.972Z",
-    "uuid": "f475bef5-b81a-4543-bdd6-349cf323512f"
+    "timestamp": "2025-03-10T15:37:37.612Z",
+    "uuid": "db977c98-39ca-4b1b-8235-6d2f8c054007"
   },
   {
-    "tier_before": "Unranked",
-    "tier_earned": "LT4",
+    "tier_before": "HT1",
+    "tier_earned": "HT1",
     "ign": "Diocleziano_",
     "tester": "876543210987654321",
-    "timestamp": "2023-10-10T13:45:00.000Z",
-    "uuid": "023c83eb-01f6-422f-ba22-66e912192439"
+    "timestamp": "2025-03-10T15:33:44.307Z",
+    "uuid": "3e1284fe-fd43-4908-b890-c12ce9809242"
   },
   {
-    "tier_before": "Nessuno",
+    "tier_before": "LT3",
     "tier_earned": "LT3",
     "ign": "Ottaviano_August",
     "tester": "Faw",
-    "timestamp": "2025-03-05T16:10:00Z",
-    "uuid": "88880500-8892-4c85-9e68-53fd4f069b6e"
+    "timestamp": "2025-03-10T14:27:59.252Z",
+    "uuid": "47b2220e-a03a-4af4-a0b8-a70a5ac8e698"
   },
   {
     "tier_before": "Nessuno",
@@ -64,12 +64,12 @@
     "uuid": "c1646375-b5ea-4e61-909d-adc1f1fefe51"
   },
   {
-    "tier_before": "HT5",
+    "tier_before": "Unranked",
     "tier_earned": "HT2",
     "ign": "kytsue",
     "tester": "729405047644880968",
-    "timestamp": "2025-03-10T14:12:17.421Z",
-    "uuid": "f9899c24-b6d0-43aa-960a-27429ad7c6ff"
+    "timestamp": "2025-03-08 19:33:31.842327+00:00",
+    "uuid": "73459a7f-6d60-4690-b030-51893db52a25"
   },
   {
     "tier_before": "LT4",
