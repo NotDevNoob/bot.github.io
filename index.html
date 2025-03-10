@@ -444,6 +444,27 @@
             transform: scale(1.1);
         }
 
+        .admin-button::after {
+            content: 'Ctrl+Shift+A';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 8px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .admin-button:hover::after {
+            opacity: 1;
+        }
+
         .admin-modal {
             position: fixed;
             top: 0;
@@ -456,6 +477,12 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .admin-modal.visible {
+            opacity: 1;
         }
 
         .admin-content {
@@ -465,12 +492,93 @@
             padding: 30px;
             width: 90%;
             max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+            scroll-behavior: smooth;
             box-shadow: 0 0 50px rgba(0, 51, 102, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .admin-modal.visible .admin-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Scrollbar styling for admin content */
+        .admin-content::-webkit-scrollbar {
+            width: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .admin-content::-webkit-scrollbar-thumb {
+            background: var(--light-blue);
+            border-radius: 4px;
+        }
+
+        .admin-content::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-blue);
+        }
+
+        .admin-header {
+            position: sticky;
+            top: -30px; /* Matches the padding of admin-content */
+            background: rgba(26, 26, 26, 0.98);
+            margin: -30px -30px 0 -30px;
+            padding: 30px 30px 15px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+
+        .admin-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .admin-nav-item {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .admin-nav-item:hover {
+            background: var(--light-blue);
+        }
+
+        .admin-nav-item.active {
+            background: var(--light-blue);
+            box-shadow: 0 0 10px rgba(102, 163, 255, 0.3);
+        }
+
+        .loading-indicator {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .admin-title {
             font-size: 1.8rem;
-            margin: 0 0 20px 0;
+            margin: 0 0 10px 0;
             text-align: center;
             background: linear-gradient(45deg, var(--light-blue), var(--neon-purple));
             -webkit-background-clip: text;
@@ -481,6 +589,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            padding-bottom: 30px; /* Add padding at the bottom for better scrolling */
         }
 
         .admin-input-group {
@@ -580,6 +689,72 @@
             border: 1px solid rgba(255, 0, 0, 0.3);
             color: #ff5555;
         }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--light-blue), transparent);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--dark-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--light-blue);
+        }
+
+        .back-to-top::after {
+            content: 'Back to Top';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 8px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .back-to-top:hover::after {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -618,9 +793,19 @@
 
     <!-- Admin Modal -->
     <div class="admin-modal" id="adminModal">
-        <div class="admin-content">
-            <h2 class="admin-title">Admin Panel</h2>
+        <div class="admin-content" id="adminContent">
+            <div class="back-to-top" id="backToTop">↑</div>
+            <div class="admin-header">
+                <h2 class="admin-title">Admin Panel</h2>
+                <div class="admin-nav">
+                    <button class="admin-nav-item" onclick="document.getElementById('player-management').scrollIntoView({behavior: 'smooth'})">Player Management</button>
+                    <button class="admin-nav-item" onclick="document.getElementById('data-management').scrollIntoView({behavior: 'smooth'})">Data Management</button>
+                    <button class="admin-nav-item" onclick="document.getElementById('github-integration').scrollIntoView({behavior: 'smooth'})">GitHub Integration</button>
+                </div>
+            </div>
             <div class="admin-form">
+                <h3 id="player-management" class="section-title" style="color: var(--light-blue); margin: 0 0 15px 0;">Player Management</h3>
+
                 <div class="admin-input-group">
                     <label class="admin-label" for="adminIgn">IGN (Minecraft Username)</label>
                     <input type="text" id="adminIgn" class="admin-input" placeholder="Enter IGN...">
@@ -659,7 +844,7 @@
 
                 <div class="profile-divider" style="margin: 30px 0 20px;"></div>
 
-                <h3 style="color: var(--light-blue); margin-bottom: 15px;">Data Management</h3>
+                <h3 id="data-management" class="section-title" style="color: var(--light-blue); margin-bottom: 15px;">Data Management</h3>
 
                 <div class="admin-button-group">
                     <button class="admin-submit" id="exportData" style="background: var(--dark-blue);">Export Data</button>
@@ -681,7 +866,7 @@
 
                 <div class="profile-divider" style="margin: 30px 0 20px;"></div>
 
-                <h3 style="color: var(--light-blue); margin-bottom: 15px;">GitHub Integration</h3>
+                <h3 id="github-integration" class="section-title" style="color: var(--light-blue); margin-bottom: 15px;">GitHub Integration</h3>
 
                 <div class="admin-input-group">
                     <label class="admin-label" for="githubToken">GitHub Personal Access Token</label>
@@ -705,6 +890,16 @@
 
                 <div class="admin-button-group" style="margin-top: 10px;">
                     <button class="admin-submit" id="pushToGitHub" style="background: #4CAF50;">Push Current Data to GitHub</button>
+                </div>
+
+                <div class="admin-button-group" style="margin-top: 10px;">
+                    <button class="admin-submit" id="checkDataJson" style="background: #FF9800;">Check data.json Status</button>
+                    <button class="admin-submit" id="createDataJson" style="background: #2196F3;">Create data.json if Missing</button>
+                </div>
+
+                <div class="admin-button-group" style="margin-top: 10px;">
+                    <button class="admin-submit" id="openGitHubRepo" style="background: #333;">Open GitHub Repository</button>
+                    <button class="admin-submit" id="viewDataJson" style="background: #333;">View data.json</button>
                 </div>
             </div>
         </div>
@@ -823,13 +1018,18 @@
 
         // Admin button click event is now handled below with GitHub settings loading
 
-        adminCancel.addEventListener('click', () => {
-            adminModal.style.display = 'none';
-        });
+        function closeAdminModal() {
+            adminModal.classList.remove('visible');
+            setTimeout(() => {
+                adminModal.style.display = 'none';
+            }, 300); // Match the transition duration
+        }
+
+        adminCancel.addEventListener('click', closeAdminModal);
 
         adminModal.addEventListener('click', (e) => {
             if (e.target === adminModal) {
-                adminModal.style.display = 'none';
+                closeAdminModal();
             }
         });
 
@@ -936,7 +1136,7 @@
                 // Clear form after successful save
                 setTimeout(() => {
                     clearAdminForm();
-                    adminModal.style.display = 'none';
+                    closeAdminModal();
                 }, 2000);
 
             } catch (error) {
@@ -947,13 +1147,22 @@
 
         async function saveToGitHub(data) {
             try {
-                // Show loading message
-                showAdminMessage('Saving to GitHub...', false);
+                // Show loading message with spinner
+                adminMessage.innerHTML = 'Saving to GitHub... <span class="loading-indicator"></span>';
+                adminMessage.className = 'admin-message success';
+                adminMessage.style.display = 'block';
 
                 // Get the token and settings from localStorage
                 const token = localStorage.getItem('github_token');
                 const owner = localStorage.getItem('github_username');
                 const repo = localStorage.getItem('github_repo');
+
+                console.log('GitHub Settings:', {
+                    owner,
+                    repo,
+                    tokenProvided: !!token,
+                    tokenLength: token ? token.length : 0
+                });
 
                 if (!token || !owner || !repo) {
                     throw new Error('GitHub settings are incomplete. Please configure them in the admin panel.');
@@ -962,39 +1171,77 @@
                 const path = 'data.json'; // Path to data.json in your repository
 
                 // First, get the current file to get its SHA
-                const getResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+                const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+                console.log('Fetching file from:', getUrl);
+
+                const getResponse = await fetch(getUrl, {
                     headers: {
                         'Authorization': `token ${token}`,
                         'Accept': 'application/vnd.github.v3+json'
                     }
                 });
 
-                if (!getResponse.ok) {
+                console.log('Get file response status:', getResponse.status);
+
+                let sha = null;
+
+                if (getResponse.status === 404) {
+                    // File doesn't exist, we'll create it
+                    console.log('data.json file not found, will create a new one');
+                } else if (!getResponse.ok) {
+                    const errorText = await getResponse.text();
+                    console.error('GitHub API error response:', errorText);
                     throw new Error(`Failed to get file: ${getResponse.status} ${getResponse.statusText}`);
+                } else {
+                    // File exists, get its SHA
+                    const fileInfo = await getResponse.json();
+                    sha = fileInfo.sha;
+                    console.log('Current file SHA:', sha);
                 }
 
-                const fileInfo = await getResponse.json();
-                const sha = fileInfo.sha;
+                // Helper function to safely encode Unicode strings to base64
+                function utf8ToBase64(str) {
+                    return btoa(unescape(encodeURIComponent(str)));
+                }
 
                 // Prepare the content (base64 encoded)
-                const content = btoa(JSON.stringify(data, null, 2));
+                const jsonData = JSON.stringify(data, null, 2);
+                console.log('Data to save (first 100 chars):', jsonData.substring(0, 100) + '...');
+                const content = utf8ToBase64(jsonData);
 
-                // Update the file
-                const updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+                // Update or create the file
+                const updateUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+                console.log('Updating file at:', updateUrl);
+
+                // Prepare the request body
+                const updateBodyObj = {
+                    message: sha ? 'Update player data via web interface' : 'Create data.json via web interface',
+                    content: content
+                };
+
+                // Only include sha if the file already exists
+                if (sha) {
+                    updateBodyObj.sha = sha;
+                }
+
+                const updateBody = JSON.stringify(updateBodyObj);
+                console.log('Update request body:', updateBodyObj);
+
+                const updateResponse = await fetch(updateUrl, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${token}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        message: 'Update player data via web interface',
-                        content: content,
-                        sha: sha
-                    })
+                    body: updateBody
                 });
 
+                console.log('Update response status:', updateResponse.status);
+
                 if (!updateResponse.ok) {
+                    const errorText = await updateResponse.text();
+                    console.error('GitHub API error response:', errorText);
                     throw new Error(`Failed to update file: ${updateResponse.status} ${updateResponse.statusText}`);
                 }
 
@@ -1382,16 +1629,91 @@
             }
         }
 
-        // Add keyboard shortcut to show admin button (Ctrl+Shift+A)
+        // Add keyboard shortcuts
         document.addEventListener('keydown', function(e) {
+            // Ctrl+Shift+A to show admin button
             if (e.ctrlKey && e.shiftKey && e.key === 'A') {
                 const adminButton = document.getElementById('adminButton');
                 adminButton.style.display = adminButton.style.display === 'none' ? 'flex' : 'none';
             }
+
+            // Escape key to close admin modal
+            if (e.key === 'Escape' && adminModal.style.display === 'flex') {
+                closeAdminModal();
+            }
         });
 
         // GitHub settings management
-        document.getElementById('saveGitHubSettings').addEventListener('click', function() {
+        // Function to verify GitHub token permissions
+        async function verifyGitHubToken(token, username, repo) {
+            try {
+                console.log('Verifying GitHub token...');
+
+                // First check if we can access the user info
+                const userResponse = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!userResponse.ok) {
+                    console.error('Failed to verify user with token:', userResponse.status);
+                    return { success: false, message: 'Invalid token or insufficient permissions' };
+                }
+
+                const userData = await userResponse.json();
+                console.log('GitHub user verified:', userData.login);
+
+                // Then check if we can access the repository
+                const repoResponse = await fetch(`https://api.github.com/repos/${username}/${repo}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!repoResponse.ok) {
+                    console.error('Failed to access repository:', repoResponse.status);
+                    return {
+                        success: false,
+                        message: `Cannot access repository ${username}/${repo}. Make sure it exists and your token has access.`
+                    };
+                }
+
+                const repoData = await repoResponse.json();
+                console.log('Repository access verified:', repoData.full_name);
+
+                // Finally, check if we have write access by attempting to get the contents
+                const contentsUrl = `https://api.github.com/repos/${username}/${repo}/contents`;
+                console.log('Checking repository contents access:', contentsUrl);
+
+                const contentsResponse = await fetch(contentsUrl, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!contentsResponse.ok) {
+                    console.error('Failed to access repository contents:', contentsResponse.status);
+                    return {
+                        success: false,
+                        message: 'Cannot access repository contents. Make sure your token has the "repo" scope.'
+                    };
+                }
+
+                return {
+                    success: true,
+                    message: `Successfully verified access to ${username}/${repo}`
+                };
+            } catch (error) {
+                console.error('Error verifying GitHub token:', error);
+                return { success: false, message: `Error: ${error.message}` };
+            }
+        }
+
+        document.getElementById('saveGitHubSettings').addEventListener('click', async function() {
             const token = document.getElementById('githubToken').value.trim();
             const username = document.getElementById('githubUsername').value.trim();
             const repo = document.getElementById('githubRepo').value.trim();
@@ -1401,14 +1723,26 @@
                 return;
             }
 
-            localStorage.setItem('github_token', token);
-            localStorage.setItem('github_username', username);
-            localStorage.setItem('github_repo', repo);
+            // Show loading message with spinner
+            adminMessage.innerHTML = 'Verifying GitHub settings... <span class="loading-indicator"></span>';
+            adminMessage.className = 'admin-message success';
+            adminMessage.style.display = 'block';
 
-            // Clear the token field for security
-            document.getElementById('githubToken').value = '';
+            // Verify the token has necessary permissions
+            const verification = await verifyGitHubToken(token, username, repo);
 
-            showAdminMessage('GitHub settings saved successfully!');
+            if (verification.success) {
+                localStorage.setItem('github_token', token);
+                localStorage.setItem('github_username', username);
+                localStorage.setItem('github_repo', repo);
+
+                // Clear the token field for security
+                document.getElementById('githubToken').value = '';
+
+                showAdminMessage('GitHub settings saved successfully! ' + verification.message);
+            } else {
+                showAdminMessage('GitHub settings error: ' + verification.message, true);
+            }
         });
 
         document.getElementById('clearGitHubSettings').addEventListener('click', function() {
@@ -1425,18 +1759,122 @@
             }
         });
 
+        // Handle Back to Top button
+        document.getElementById('backToTop').addEventListener('click', function() {
+            document.getElementById('adminContent').scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Show/hide Back to Top button and update active nav item based on scroll position
+        document.getElementById('adminContent').addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (this.scrollTop > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+
+            // Update active navigation item
+            const sections = [
+                { id: 'player-management', navIndex: 0 },
+                { id: 'data-management', navIndex: 1 },
+                { id: 'github-integration', navIndex: 2 }
+            ];
+
+            const navItems = document.querySelectorAll('.admin-nav-item');
+
+            // Find which section is currently most visible
+            let activeSection = 0;
+            let maxVisibility = 0;
+
+            sections.forEach((section, index) => {
+                const element = document.getElementById(section.id);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    const adminContentRect = this.getBoundingClientRect();
+
+                    // Calculate how much of the section is visible
+                    const visibleTop = Math.max(rect.top, adminContentRect.top);
+                    const visibleBottom = Math.min(rect.bottom, adminContentRect.bottom);
+                    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+
+                    if (visibleHeight > maxVisibility) {
+                        maxVisibility = visibleHeight;
+                        activeSection = section.navIndex;
+                    }
+                }
+            });
+
+            // Update active class
+            navItems.forEach((item, index) => {
+                if (index === activeSection) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        });
+
         // Load saved GitHub settings when admin panel opens
-        adminButton.addEventListener('click', () => {
+        adminButton.addEventListener('click', async () => {
             adminModal.style.display = 'flex';
+            // Force reflow to ensure transition works
+            void adminModal.offsetWidth;
+            adminModal.classList.add('visible');
             clearAdminForm();
 
             // Load GitHub settings
+            const token = localStorage.getItem('github_token');
             const username = localStorage.getItem('github_username') || '';
             const repo = localStorage.getItem('github_repo') || '';
 
             document.getElementById('githubUsername').value = username;
             document.getElementById('githubRepo').value = repo;
             // Don't load the token for security reasons
+
+            // Check if GitHub settings are valid
+            if (token && username && repo) {
+                try {
+                    // Quick check if token is still valid
+                    const response = await fetch('https://api.github.com/user', {
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        const userData = await response.json();
+                        console.log('GitHub token is valid for user:', userData.login);
+
+                        // Show a small indicator that GitHub is connected
+                        const githubStatus = document.createElement('div');
+                        githubStatus.style.cssText = `
+                            background: rgba(0, 255, 0, 0.1);
+                            border: 1px solid rgba(0, 255, 0, 0.3);
+                            color: #00ff00;
+                            padding: 5px 10px;
+                            border-radius: 5px;
+                            font-size: 0.9rem;
+                            margin-top: 5px;
+                            text-align: center;
+                        `;
+                        githubStatus.textContent = `✓ GitHub connected as ${userData.login}`;
+
+                        // Add it after the GitHub settings title
+                        const titleElement = document.querySelector('h3[style*="color: var(--light-blue)"]');
+                        if (titleElement) {
+                            titleElement.insertAdjacentElement('afterend', githubStatus);
+                        }
+                    } else {
+                        console.warn('GitHub token is invalid or expired');
+                    }
+                } catch (error) {
+                    console.error('Error checking GitHub token:', error);
+                }
+            }
         });
 
         // Add handler for pushing current data to GitHub
@@ -1453,7 +1891,9 @@
                 }
 
                 if (confirm('Are you sure you want to push the current data to GitHub?')) {
-                    showAdminMessage('Pushing data to GitHub...', false);
+                    adminMessage.innerHTML = 'Pushing data to GitHub... <span class="loading-indicator"></span>';
+                    adminMessage.className = 'admin-message success';
+                    adminMessage.style.display = 'block';
                     const result = await saveToGitHub(allPlayers);
                     if (result) {
                         showAdminMessage('Successfully pushed data to GitHub!');
@@ -1462,6 +1902,156 @@
             } catch (error) {
                 console.error('Error pushing to GitHub:', error);
                 showAdminMessage('Error pushing to GitHub: ' + error.message, true);
+            }
+        });
+
+        // Add handler for checking data.json status
+        document.getElementById('checkDataJson').addEventListener('click', async function() {
+            try {
+                // Check if GitHub settings are configured
+                const token = localStorage.getItem('github_token');
+                const username = localStorage.getItem('github_username');
+                const repo = localStorage.getItem('github_repo');
+
+                if (!token || !username || !repo) {
+                    showAdminMessage('Please configure GitHub settings first', true);
+                    return;
+                }
+
+                showAdminMessage('Checking data.json status...', false);
+
+                // Check if data.json exists
+                const path = 'data.json';
+                const url = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
+
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.status === 404) {
+                    showAdminMessage('data.json file does not exist in the repository. Use the "Create data.json" button to create it.', true);
+                } else if (response.ok) {
+                    const fileInfo = await response.json();
+                    showAdminMessage(`data.json exists in the repository. SHA: ${fileInfo.sha.substring(0, 7)}...`);
+
+                    // Try to decode and show some info about the file
+                    try {
+                        const content = atob(fileInfo.content);
+                        const data = JSON.parse(content);
+                        showAdminMessage(`data.json contains ${data.length} player records.`);
+                    } catch (e) {
+                        console.error('Error parsing file content:', e);
+                    }
+                } else {
+                    const errorText = await response.text();
+                    console.error('GitHub API error:', errorText);
+                    showAdminMessage(`Error checking data.json: ${response.status} ${response.statusText}`, true);
+                }
+            } catch (error) {
+                console.error('Error checking data.json:', error);
+                showAdminMessage('Error checking data.json: ' + error.message, true);
+            }
+        });
+
+        // Add handler for opening GitHub repository
+        document.getElementById('openGitHubRepo').addEventListener('click', function() {
+            const username = localStorage.getItem('github_username');
+            const repo = localStorage.getItem('github_repo');
+
+            if (!username || !repo) {
+                showAdminMessage('Please configure GitHub settings first', true);
+                return;
+            }
+
+            const repoUrl = `https://github.com/${username}/${repo}`;
+            window.open(repoUrl, '_blank');
+        });
+
+        // Add handler for viewing data.json
+        document.getElementById('viewDataJson').addEventListener('click', function() {
+            const username = localStorage.getItem('github_username');
+            const repo = localStorage.getItem('github_repo');
+
+            if (!username || !repo) {
+                showAdminMessage('Please configure GitHub settings first', true);
+                return;
+            }
+
+            const dataJsonUrl = `https://github.com/${username}/${repo}/blob/main/data.json`;
+            window.open(dataJsonUrl, '_blank');
+        });
+
+        // Add handler for creating data.json
+        document.getElementById('createDataJson').addEventListener('click', async function() {
+            try {
+                // Check if GitHub settings are configured
+                const token = localStorage.getItem('github_token');
+                const username = localStorage.getItem('github_username');
+                const repo = localStorage.getItem('github_repo');
+
+                if (!token || !username || !repo) {
+                    showAdminMessage('Please configure GitHub settings first', true);
+                    return;
+                }
+
+                if (!confirm('This will create a new data.json file in your repository with the current player data. Continue?')) {
+                    return;
+                }
+
+                showAdminMessage('Creating data.json file...', false);
+
+                // Check if data.json already exists
+                const path = 'data.json';
+                const checkUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
+
+                const checkResponse = await fetch(checkUrl, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (checkResponse.ok) {
+                    showAdminMessage('data.json already exists in the repository. Use "Push Current Data" to update it.', true);
+                    return;
+                }
+
+                // Helper function to safely encode Unicode strings to base64
+                function utf8ToBase64(str) {
+                    return btoa(unescape(encodeURIComponent(str)));
+                }
+
+                // Create the file
+                const content = utf8ToBase64(JSON.stringify(allPlayers, null, 2));
+
+                const createResponse = await fetch(checkUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Create data.json via web interface',
+                        content: content
+                    })
+                });
+
+                if (createResponse.ok) {
+                    const result = await createResponse.json();
+                    console.log('File created successfully:', result);
+                    showAdminMessage('data.json file created successfully in your repository!');
+                } else {
+                    const errorText = await createResponse.text();
+                    console.error('GitHub API error:', errorText);
+                    showAdminMessage(`Error creating data.json: ${createResponse.status} ${createResponse.statusText}`, true);
+                }
+            } catch (error) {
+                console.error('Error creating data.json:', error);
+                showAdminMessage('Error creating data.json: ' + error.message, true);
             }
         });
 
