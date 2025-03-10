@@ -64,12 +64,12 @@
     "uuid": "c1646375-b5ea-4e61-909d-adc1f1fefe51"
   },
   {
-    "tier_before": "Unranked",
-    "tier_earned": "HT2",
+    "tier_before": "HT5",
+    "tier_earned": "HT5",
     "ign": "kytsue",
     "tester": "729405047644880968",
-    "timestamp": "2025-03-08 19:33:31.842327+00:00",
-    "uuid": "73459a7f-6d60-4690-b030-51893db52a25"
+    "timestamp": "2025-03-10T14:07:31.719Z",
+    "uuid": "98aab73f-07e9-4078-8331-0ecb821de17e"
   },
   {
     "tier_before": "LT4",
