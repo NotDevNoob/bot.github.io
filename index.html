@@ -1012,12 +1012,7 @@
                     <label class="admin-label" for="adminTester">Tester</label>
                     <input type="text" id="adminTester" class="admin-input" placeholder="Enter tester name...">
                 </div>
-                <div class="admin-input-group">
-                    <div style="display: flex; align-items: center;">
-                        <input type="checkbox" id="saveToGitHubCheckbox" style="margin-right: 10px;">
-                        <label class="admin-label" for="saveToGitHubCheckbox">Save to GitHub repository (requires token)</label>
-                    </div>
-                </div>
+
                 <div class="admin-button-group">
                     <button class="admin-submit" id="adminSubmit">Save</button>
                     <button class="admin-cancel" id="adminCancel">Cancel</button>
@@ -1038,10 +1033,6 @@
                 </div>
 
                 <div class="admin-button-group" style="margin-top: 10px;">
-                    <button class="admin-submit" id="resetToGitHub" style="background: var(--dark-blue);">
-                        <span class="desktop-text">Reset to GitHub Data</span>
-                        <span class="mobile-text" style="display: none;">Reset to GitHub</span>
-                    </button>
                     <button class="admin-submit" id="clearData" style="background: #aa3333;">Reset All Data</button>
                 </div>
 
@@ -1243,12 +1234,6 @@
             adminTierSelect.value = '';
             adminTesterInput.value = '';
 
-            // Reset GitHub checkbox
-            const saveToGitHubCheckbox = document.getElementById('saveToGitHubCheckbox');
-            if (saveToGitHubCheckbox) {
-                saveToGitHubCheckbox.checked = false;
-            }
-
             adminMessage.style.display = 'none';
             adminMessage.textContent = '';
             adminMessage.className = 'admin-message';
@@ -1324,17 +1309,8 @@
                     showAdminMessage(`Added new player: ${ign}`);
                 }
 
-                // Save to localStorage
-                localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
-
-                // Save to GitHub repository if checkbox is checked
-                const saveToGitHubCheckbox = document.getElementById('saveToGitHubCheckbox');
-                if (saveToGitHubCheckbox && saveToGitHubCheckbox.checked) {
-                    await saveToGitHub(allPlayers);
-                } else {
-                    // If not saving to GitHub, just use the regular save function
-                    await saveData();
-                }
+                // Always save to GitHub repository
+                await saveToGitHub(allPlayers);
 
                 updateUI();
 
@@ -1464,11 +1440,7 @@
 
         async function saveData() {
             try {
-                // Save data to localStorage instead of server file
-                localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
-                console.log("Data saved to localStorage:", JSON.stringify(allPlayers, null, 4));
-
-                // Show success message without download link
+                // Just show success message
                 adminMessage.innerHTML = 'Data saved successfully!';
                 adminMessage.className = 'admin-message success';
                 adminMessage.style.display = 'block';
@@ -1674,48 +1646,8 @@
 
         async function loadData() {
             try {
-                // Try to load from localStorage first (for quick loading)
-                const localData = localStorage.getItem('mctiers_data');
-
-                if (localData) {
-                    try {
-                        const data = JSON.parse(localData);
-
-                        // Basic validation
-                        if (Array.isArray(data) && data.length > 0) {
-                            // Ensure all players have UUIDs
-                            for (const player of data) {
-                                if (!player.uuid) {
-                                    player.uuid = await getUUID(player.ign);
-                                }
-                            }
-
-                            allPlayers = data;
-                            updateUI();
-                            console.log("Data loaded from localStorage:", data.length, "players");
-
-                            // Still try to load from data.json in the background for updates
-                            fetch('data.json')
-                                .then(response => {
-                                    if (response.ok) return response.json();
-                                    throw new Error('Failed to fetch data.json');
-                                })
-                                .then(data => {
-                                    console.log("Background update from data.json:", data.length, "players");
-                                    // Don't update UI or localStorage here to avoid disruption
-                                })
-                                .catch(err => console.log("Background fetch error:", err));
-
-                            return;
-                        }
-                    } catch (e) {
-                        console.error("Error parsing localStorage data:", e);
-                        localStorage.removeItem('mctiers_data'); // Clear invalid data
-                    }
-                }
-
-                // If localStorage failed or was empty, try data.json
-                console.log("Trying to load from data.json...");
+                // Always load directly from data.json
+                console.log("Loading from data.json...");
                 const response = await fetch('data.json');
 
                 if (response.ok) {
@@ -1731,7 +1663,6 @@
                         }
 
                         allPlayers = data;
-                        localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
                         updateUI();
                         console.log("Data loaded from data.json:", data.length, "players");
                         return;
@@ -1742,8 +1673,7 @@
                     console.error("Failed to load data.json:", response.status);
                 }
 
-                // If we get here, both localStorage and data.json failed
-                // Load the embedded default data
+                // If data.json failed, load the embedded default data
                 console.log("Loading embedded default data...");
                 allPlayers = [
                     {
@@ -1825,7 +1755,6 @@
                     }
                 }
 
-                localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
                 updateUI();
                 console.log("Loaded embedded default data:", allPlayers.length, "players");
             } catch (error) {
@@ -2323,18 +2252,6 @@
 
                     // Confirm before overwriting
                     if (confirm(`Import ${importedData.length} player records? This will replace your current data.`)) {
-                        // Make a backup first
-                        const dataStr = JSON.stringify(allPlayers, null, 2);
-                        const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                        const dataUrl = URL.createObjectURL(dataBlob);
-
-                        const downloadLink = document.createElement('a');
-                        downloadLink.href = dataUrl;
-                        downloadLink.download = `mctiers_data_backup_before_import_${new Date().toISOString().split('T')[0]}.json`;
-                        document.body.appendChild(downloadLink);
-                        downloadLink.click();
-                        document.body.removeChild(downloadLink);
-
                         // Add UUIDs if missing
                         showAdminMessage('Adding UUIDs to players...', false);
                         for (const player of importedData) {
@@ -2353,29 +2270,13 @@
                         }
 
                         allPlayers = importedData;
-                        localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
                         updateUI();
 
-                        // Create a downloadable version of the imported data
-                        const importedStr = JSON.stringify(importedData, null, 2);
-                        const importedBlob = new Blob([importedStr], {type: 'application/json'});
-                        const importedUrl = URL.createObjectURL(importedBlob);
+                        // Push to GitHub
+                        await saveToGitHub(allPlayers);
 
-                        // Show success message with download link
-                        const successMsg = document.createElement('div');
-                        successMsg.innerHTML = `Imported ${importedData.length} player records successfully! `;
-
-                        const downloadNewLink = document.createElement('a');
-                        downloadNewLink.href = importedUrl;
-                        downloadNewLink.download = `mctiers_imported_data_${new Date().toISOString().split('T')[0]}.json`;
-                        downloadNewLink.textContent = 'Download Imported Data';
-                        downloadNewLink.style.color = '#66a3ff';
-
-                        successMsg.appendChild(downloadNewLink);
-                        adminMessage.innerHTML = '';
-                        adminMessage.appendChild(successMsg);
-                        adminMessage.className = 'admin-message success';
-                        adminMessage.style.display = 'block';
+                        // Show success message
+                        showAdminMessage(`Imported ${importedData.length} player records successfully!`);
                     } else {
                         showAdminMessage('Import cancelled', true);
                     }
@@ -2396,69 +2297,15 @@
             reader.readAsText(file);
         });
 
-        document.getElementById('resetToGitHub').addEventListener('click', async function() {
-            if (confirm('Reset to GitHub data? This will replace your local data with the data from the GitHub repository.')) {
-                try {
-                    // Backup current data
-                    const dataStr = JSON.stringify(allPlayers, null, 2);
-                    const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                    const dataUrl = URL.createObjectURL(dataBlob);
 
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = dataUrl;
-                    downloadLink.download = `mctiers_local_data_backup_${new Date().toISOString().split('T')[0]}.json`;
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-
-                    // Clear localStorage
-                    localStorage.removeItem('mctiers_data');
-
-                    // Fetch from data.json
-                    const response = await fetch('data.json?nocache=' + new Date().getTime()); // Add cache-busting parameter
-                    if (response.ok) {
-                        const data = await response.json();
-
-                        for (const player of data) {
-                            if (!player.uuid) {
-                                player.uuid = await getUUID(player.ign);
-                            }
-                        }
-
-                        allPlayers = data;
-                        localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
-                        updateUI();
-                        showAdminMessage('Successfully reset to GitHub data. A backup of your local data was downloaded.');
-                    } else {
-                        throw new Error('Failed to fetch data.json');
-                    }
-                } catch (error) {
-                    console.error('Error resetting to GitHub data:', error);
-                    showAdminMessage('Error resetting to GitHub data: ' + error.message, true);
-                }
-            }
-        });
 
         document.getElementById('clearData').addEventListener('click', function() {
             if (confirm('Are you sure you want to RESET ALL DATA? This cannot be undone!')) {
                 if (confirm('FINAL WARNING: All player data will be permanently deleted. Continue?')) {
-                    // Export current data as backup before clearing
-                    const dataStr = JSON.stringify(allPlayers, null, 2);
-                    const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                    const dataUrl = URL.createObjectURL(dataBlob);
-
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = dataUrl;
-                    downloadLink.download = `mctiers_data_BACKUP_${new Date().toISOString().split('T')[0]}.json`;
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-
                     // Clear the data
                     allPlayers = [];
-                    localStorage.removeItem('mctiers_data');
                     updateUI();
-                    showAdminMessage('All data has been reset. A backup was downloaded to your device.');
+                    showAdminMessage('All data has been reset. Reload the page to restore data from GitHub.');
                 }
             }
         });
@@ -2468,15 +2315,6 @@
                 // Create debug info
                 const debugInfo = {
                     timestamp: new Date().toISOString(),
-                    localStorage: {
-                        available: !!localStorage.getItem('mctiers_data'),
-                        playerCount: localStorage.getItem('mctiers_data')
-                            ? JSON.parse(localStorage.getItem('mctiers_data')).length
-                            : 0,
-                        hasKytsue: localStorage.getItem('mctiers_data')
-                            ? JSON.parse(localStorage.getItem('mctiers_data')).some(p => p.ign.toLowerCase() === 'kytsue')
-                            : false
-                    },
                     currentData: {
                         playerCount: allPlayers.length,
                         hasKytsue: allPlayers.some(p => p.ign.toLowerCase() === 'kytsue'),
@@ -2602,8 +2440,8 @@
                                 uuid: uuid
                             });
 
-                            localStorage.setItem('mctiers_data', JSON.stringify(allPlayers));
                             updateUI();
+                            await saveToGitHub(allPlayers);
 
                             this.textContent = 'Kytsue Added!';
                             this.disabled = true;
