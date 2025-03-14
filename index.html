@@ -11,7 +11,12 @@
         /* Performance optimizations */
         * {
             box-sizing: border-box;
-            will-change: auto;
+            /* Removed will-change: auto as it can cause performance issues when overused */
+        }
+
+        /* Add hardware acceleration only to specific elements that need it */
+        .tier-card, .user-item, .filter-button, .profile-content {
+            transform: translateZ(0); /* Force GPU acceleration only where needed */
         }
 
         #particleCanvas {
@@ -58,26 +63,44 @@
 
         /* New header design with squircle */
         .header-squircle {
-            background: rgba(26, 26, 26, 0.8);
+            background: rgba(26, 26, 26, 0.95); /* Increased opacity for better performance */
             border-radius: 24px;
-            padding: 20px 30px;
+            padding: 25px 35px;
             margin-bottom: 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            backdrop-filter: blur(10px);
+            /* Removed backdrop-filter for performance */
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Reduced shadow complexity */
+            position: relative;
+            overflow: hidden;
+            border-top: 3px solid var(--light-blue); /* Simple border instead of gradient */
         }
 
+        /* Removed ::before pseudo-element for performance */
+
         .header-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--gold), var(--silver));
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--gold), var(--silver), var(--light-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
             flex: 1;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .header-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 3px;
         }
 
         .filter-buttons {
@@ -87,34 +110,34 @@
         }
 
         .filter-button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--dark-blue);
-            border-radius: 16px;
-            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
             color: white;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: background-color 0.2s ease; /* Simplified transition */
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .filter-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .filter-button.active {
-            background: var(--light-blue);
-            border-color: var(--light-blue);
+            background: var(--light-blue); /* Solid color instead of gradient */
         }
 
         .filter-button.anemonia.active {
-            background: var(--anemonia);
-            border-color: var(--anemonia);
+            background: var(--anemonia); /* Solid color instead of gradient */
+        }
+
+        .filter-button i {
+            font-size: 1.1rem;
         }
 
         .search-container {
@@ -122,30 +145,29 @@
         }
 
         .search-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--dark-blue);
-            border-radius: 16px;
-            padding: 12px 24px 12px 45px;
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            border-radius: 20px;
+            padding: 14px 24px 14px 50px;
             color: white;
             font-size: 1rem;
+            font-weight: 500;
             width: 250px;
-            transition: all 0.3s;
-            backdrop-filter: blur(5px);
+            transition: width 0.2s ease; /* Only animate width */
         }
 
         .search-icon {
             position: absolute;
-            left: 15px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
         }
 
         .search-input:focus {
             outline: none;
-            border-color: var(--light-blue);
-            box-shadow: 0 0 15px rgba(102, 163, 255, 0.3);
+            background: rgba(255, 255, 255, 0.12);
             width: 300px;
         }
 
@@ -256,13 +278,13 @@
         }
 
         .tier-card {
-            background: rgba(26, 26, 26, 0.8);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(26, 26, 26, 0.9); /* Increased opacity for better performance */
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Reduced shadow complexity */
+            transition: transform 0.3s ease; /* Only animate transform for better performance */
+            /* Removed backdrop-filter for performance */
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             flex-direction: column;
             max-height: 70vh;
@@ -270,10 +292,19 @@
             min-width: 200px;
             max-width: 250px;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
+
+        /* Removed ::before pseudo-element for performance */
 
         .tier-header {
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .user-list {
@@ -281,38 +312,60 @@
             overflow-y: auto;
             min-height: 100px;
             padding-right: 5px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+
+        .user-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .user-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .user-list::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
         }
 
         .tier-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .tier-card:hover::before {
+            opacity: 1;
         }
 
         .tier-emoji {
-            font-size: 2rem;
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+            margin-right: 12px;
         }
 
         .tier-number {
             font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, var(--text), var(--silver));
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--text), var(--silver), rgba(255, 255, 255, 0.8));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
         }
 
         .user-item {
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 10px;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
             background: rgba(255, 255, 255, 0.05);
-            transition: all 0.3s;
+            transition: transform 0.2s ease; /* Only animate transform */
             cursor: pointer;
             position: relative;
-            overflow: hidden;
+            border-left: 3px solid transparent; /* Use border instead of pseudo-element */
         }
 
         .user-item:hover {
@@ -320,20 +373,22 @@
             transform: translateX(5px);
         }
 
-        .user-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 3px;
-            background: var(--light-blue);
-            opacity: 0;
-            transition: opacity 0.3s;
+        /* Removed ::before pseudo-element for performance */
+
+        .user-item:hover {
+            border-left-color: var(--light-blue);
         }
 
-        .user-item:hover::before {
-            opacity: 1;
+        .user-item.anemonia:hover {
+            border-left-color: var(--anemonia);
+        }
+
+        .user-item.anemonia:hover .user-name {
+            color: var(--anemonia);
+        }
+
+        .user-item.anemonia .tier-badge {
+            border-color: rgba(255, 107, 158, 0.3);
         }
 
         .user-info {
@@ -344,25 +399,39 @@
         }
 
         .user-name {
-            font-size: 1rem;
-            font-weight: 500;
+            font-size: 1.05rem;
+            font-weight: 600;
             letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .user-item:hover .user-name {
+            color: var(--light-blue);
         }
 
         .anemonia-indicator {
             color: var(--anemonia);
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            filter: drop-shadow(0 0 3px rgba(255, 107, 158, 0.3));
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
         }
 
         .user-tier {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.8);
+            margin-top: 2px;
         }
 
         .empty-state {
@@ -391,17 +460,27 @@
         }
 
         .user-tier .tier-badge {
-            background: var(--dark-blue);
-            padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(0, 51, 102, 0.8), var(--dark-blue));
+            padding: 5px 14px;
             border-radius: 15px;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 163, 255, 0.2);
         }
 
         .user-tier .tier-badge.ht {
-            background: linear-gradient(45deg, var(--light-blue), #4d88ff);
+            background: linear-gradient(135deg, var(--light-blue), #3d7ecc);
+            border-color: rgba(102, 163, 255, 0.4);
+            box-shadow: 0 2px 10px rgba(102, 163, 255, 0.25);
+        }
+
+        .user-item:hover .tier-badge {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
         .profile-modal {
@@ -421,20 +500,22 @@
         .profile-content {
             display: grid;
             grid-template-columns: 160px 1fr;
-            gap: 25px;
+            gap: 30px;
             align-items: start;
             position: relative;
             z-index: 1001;
             max-width: 600px;
             width: 90%;
-            padding: 30px;
-            background: rgba(26, 26, 26, 0.95);
+            padding: 35px;
+            background: rgba(26, 26, 26, 0.98); /* Solid background for better performance */
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 30px;
-            box-shadow: 0 0 50px rgba(0, 51, 102, 0.5);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5); /* Simplified shadow */
             opacity: 0;
             transform: scale(0.9);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: opacity 0.3s ease, transform 0.3s ease; /* Simplified transition */
+            overflow: hidden;
+            border-top: 4px solid var(--light-blue); /* Simple border instead of gradient */
         }
 
         .profile-content.active {
@@ -1203,7 +1284,7 @@
 </head>
 <body>
     <div id="particleCanvas"></div>
-    <div class="version-label">v1.0</div>
+    <div class="version-label">v1.1 (Ottimizzato)</div>
     <div class="container">
         <div class="header-squircle">
             <div class="header-title">🏆 Classifica Tier</div>
@@ -1268,10 +1349,6 @@
                         <div class="tier-text" id="profilePrevTier"></div>
                     </div>
                     <div class="tier-row">
-                        <div class="tier-label">Tester:</div>
-                        <div class="tier-text" id="profileTester"></div>
-                    </div>
-                    <div class="tier-row">
                         <div class="tier-label">Data Test:</div>
                         <div class="tier-text" id="profileDate"></div>
                     </div>
@@ -1326,11 +1403,7 @@
                     </div>
                 </div>
 
-                <div class="admin-input-group">
-                    <div class="admin-info-text">
-                        <i class="fas fa-info-circle"></i> Tester: Faw (impostato automaticamente)
-                    </div>
-                </div>
+
 
                 <div class="admin-button-group">
                     <button class="admin-submit" id="adminSubmit">Save</button>
@@ -1426,12 +1499,12 @@
         const isMobileOrLowPower = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
                                   window.navigator.hardwareConcurrency <= 4;
 
-        // Configure particles.js with optimized settings
+        // Configure particles.js with heavily optimized settings for performance
         particlesJS('particleCanvas', {
             particles: {
                 number: {
-                    value: isMobileOrLowPower ? 50 : 100,
-                    density: { enable: true, value_area: 800 }
+                    value: 30, // Drastically reduced particle count
+                    density: { enable: true, value_area: 1000 }
                 },
                 color: { value: "#ffffff" },
                 shape: {
@@ -1439,25 +1512,25 @@
                     stroke: { width: 0, color: "#000000" },
                 },
                 opacity: {
-                    value: 0.3,
+                    value: 0.2,
                     random: false,
                     anim: { enable: false }
                 },
                 size: {
                     value: 2,
-                    random: true,
+                    random: false, // Disable random sizing for better performance
                     anim: { enable: false }
                 },
                 line_linked: {
                     enable: true,
-                    distance: isMobileOrLowPower ? 100 : 150,
+                    distance: 100,
                     color: "#ffffff",
-                    opacity: 0.2,
+                    opacity: 0.1, // Reduced opacity
                     width: 1
                 },
                 move: {
                     enable: true,
-                    speed: isMobileOrLowPower ? 2 : 4,
+                    speed: 1, // Slower movement
                     direction: "none",
                     random: false,
                     straight: false,
@@ -1469,13 +1542,13 @@
             interactivity: {
                 detect_on: "canvas",
                 events: {
-                    onhover: { enable: !isMobileOrLowPower, mode: "repulse" },
-                    onclick: { enable: !isMobileOrLowPower, mode: "push" },
+                    onhover: { enable: false }, // Disabled hover effects
+                    onclick: { enable: false }, // Disabled click effects
                     resize: true
                 },
                 modes: {
-                    repulse: { distance: 100, duration: 0.4 },
-                    push: { particles_nb: 2 }
+                    repulse: { distance: 0, duration: 0 },
+                    push: { particles_nb: 0 }
                 }
             },
             retina_detect: false // Disable retina detection for better performance
@@ -1597,9 +1670,6 @@
                 const uuid = await getUUID(ign);
 
                 const timestamp = new Date().toISOString();
-                // Always set tester to "Faw"
-                const tester = "Faw";
-
                 if (existingPlayerIndex !== -1) {
                     // Update existing player
                     const tierBefore = allPlayers[existingPlayerIndex].tier_earned;
@@ -1607,7 +1677,6 @@
                         tier_before: tierBefore,
                         tier_earned: tier,
                         ign: ign,
-                        tester: tester,
                         timestamp: timestamp,
                         uuid: uuid,
                         anemonia: anemonia
@@ -1619,7 +1688,6 @@
                         tier_before: "Nessuno",
                         tier_earned: tier,
                         ign: ign,
-                        tester: tester,
                         timestamp: timestamp,
                         uuid: uuid,
                         anemonia: anemonia
@@ -1777,16 +1845,26 @@
             }
         }
 
-        function updateUI() {
-            // Check if Kytsue is in the data
-            const kytsueExists = allPlayers.some(player =>
-                player.ign.toLowerCase() === 'kytsue');
+        // Cache DOM elements for better performance
+        const filterAllButton = document.getElementById('filterAll');
+        const filterAnemoniaButton = document.getElementById('filterAnemonia');
+        const tierLists = {
+            1: document.getElementById('tier-1-users'),
+            2: document.getElementById('tier-2-users'),
+            3: document.getElementById('tier-3-users'),
+            4: document.getElementById('tier-4-users'),
+            5: document.getElementById('tier-5-users')
+        };
 
-            console.log('Kytsue in data:', kytsueExists);
-            if (!kytsueExists) {
-                console.warn('Kytsue not found in the current data!');
-                console.log('Current players:', allPlayers.map(p => p.ign));
-            }
+        // Cache sorted players to avoid re-sorting when filter changes
+        let cachedSortedPlayers = [];
+        let lastUpdateTime = 0;
+
+        function updateUI() {
+            const now = Date.now();
+            // Throttle updates to prevent excessive rendering
+            if (now - lastUpdateTime < 100) return;
+            lastUpdateTime = now;
 
             // Create a map to hold fragments for each tier list
             const fragments = {
@@ -1798,65 +1876,75 @@
             };
 
             // Clear all lists at once
-            document.querySelectorAll('.user-list').forEach(list => list.innerHTML = '');
-
-            // Sort players by tier and name for consistent display
-            const sortedPlayers = [...allPlayers].sort((a, b) => {
-                // First sort by tier number
-                const tierA = a.tier_earned.slice(-1);
-                const tierB = b.tier_earned.slice(-1);
-                if (tierA !== tierB) return tierA - tierB;
-
-                // Then by HT/LT (HT comes first)
-                const isHTa = a.tier_earned.startsWith('H');
-                const isHTb = b.tier_earned.startsWith('H');
-                if (isHTa !== isHTb) return isHTb ? 1 : -1;
-
-                // Finally by name
-                return a.ign.localeCompare(b.ign);
+            Object.values(tierLists).forEach(list => {
+                if (list) list.innerHTML = '';
             });
+
+            // Only sort if we don't have cached sorted players
+            if (cachedSortedPlayers.length !== allPlayers.length) {
+                // Sort players by tier and name for consistent display
+                cachedSortedPlayers = [...allPlayers].sort((a, b) => {
+                    // First sort by tier number
+                    const tierA = a.tier_earned.slice(-1);
+                    const tierB = b.tier_earned.slice(-1);
+                    if (tierA !== tierB) return tierA - tierB;
+
+                    // Then by HT/LT (HT comes first)
+                    const isHTa = a.tier_earned.startsWith('H');
+                    const isHTb = b.tier_earned.startsWith('H');
+                    if (isHTa !== isHTb) return isHTb ? 1 : -1;
+
+                    // Finally by name
+                    return a.ign.localeCompare(b.ign);
+                });
+            }
 
             // Filter players based on current filter
             const filteredPlayers = currentFilter === 'all'
-                ? sortedPlayers
-                : sortedPlayers.filter(player => player.anemonia === true);
+                ? cachedSortedPlayers
+                : cachedSortedPlayers.filter(player => player.anemonia === true);
 
             // Build all elements first and add them to fragments
+            // Use a more efficient approach with fewer DOM operations
+            const playerTemplate = document.createElement('template');
+
             filteredPlayers.forEach(entry => {
                 const tierNumber = entry.tier_earned.slice(-1);
                 if (!fragments[tierNumber]) return;
 
-                const userDiv = document.createElement('div');
-                userDiv.className = 'user-item';
-                userDiv.dataset.ign = entry.ign;
-
-                // Add Anemonia indicator if player is Anemonia
+                // Create HTML string for better performance
+                const anemoniaClass = entry.anemonia ? ' anemonia' : '';
                 const anemoniaIndicator = entry.anemonia
                     ? '<span class="anemonia-indicator"><i class="fas fa-crown"></i></span>'
                     : '';
+                const htClass = entry.tier_earned.startsWith('H') ? ' ht' : '';
 
-                userDiv.innerHTML = `
-                    <div class="user-info">
-                        <div class="user-name">${entry.ign} ${anemoniaIndicator}</div>
-                        <div class="user-tier">
-                            <span class="sword">⚔️</span>
-                            <span class="tier-badge ${entry.tier_earned.startsWith('H') ? 'ht' : ''}">${entry.tier_earned}</span>
+                playerTemplate.innerHTML = `
+                    <div class="user-item${anemoniaClass}" data-ign="${entry.ign}">
+                        <div class="user-info">
+                            <div class="user-name">${entry.ign} ${anemoniaIndicator}</div>
+                            <div class="user-tier">
+                                <span class="sword">⚔️</span>
+                                <span class="tier-badge${htClass}">${entry.tier_earned}</span>
+                            </div>
                         </div>
                     </div>
                 `;
+
+                const userDiv = playerTemplate.content.firstElementChild.cloneNode(true);
                 userDiv.addEventListener('click', () => showPlayerProfile(entry));
                 fragments[tierNumber].appendChild(userDiv);
             });
 
             // Add all fragments to the DOM at once (minimizes reflows)
             for (let tier = 1; tier <= 5; tier++) {
-                const list = document.getElementById(`tier-${tier}-users`);
+                const list = tierLists[tier];
                 if (list) list.appendChild(fragments[tier]);
             }
 
             // Update filter button states
-            document.getElementById('filterAll').classList.toggle('active', currentFilter === 'all');
-            document.getElementById('filterAnemonia').classList.toggle('active', currentFilter === 'anemonia');
+            filterAllButton.classList.toggle('active', currentFilter === 'all');
+            filterAnemoniaButton.classList.toggle('active', currentFilter === 'anemonia');
 
             // Show empty state message if no players in filter
             if (filteredPlayers.length === 0) {
@@ -1866,7 +1954,7 @@
                     <div class="empty-icon"><i class="fas fa-search"></i></div>
                     <div class="empty-text">Nessun giocatore ${currentFilter === 'anemonia' ? 'Anemonia' : ''} trovato</div>
                 `;
-                document.getElementById('tier-1-users').appendChild(emptyMessage);
+                tierLists[1].appendChild(emptyMessage);
             }
         }
         const searchInput = document.getElementById('searchInput');
@@ -1933,22 +2021,27 @@
             }
         }
 
+        // Cache DOM elements for profile modal
+        const profileModal = document.getElementById('profileModal');
+        const profileContent = document.getElementById('profileContent');
+        const profileImage = document.getElementById('profileImage');
+        const profileIGN = document.getElementById('profileIGN');
+        const profileTierEmoji = document.getElementById('profileTierEmoji');
+        const profileTierText = document.getElementById('profileTierText');
+        const profilePrevTier = document.getElementById('profilePrevTier');
+        const profileDate = document.getElementById('profileDate');
+        const anemoniaBadge = document.getElementById('anemoniaBadge');
+
+        // Add click handler once
+        profileModal.addEventListener('click', (e) => {
+            if (e.target === profileModal) {
+                closeModal();
+            }
+        });
+
         function showPlayerProfile(player) {
-            const modal = document.getElementById('profileModal');
-            const content = document.getElementById('profileContent');
-
-            // Batch all DOM reads
-            const tierNumber = player.tier_earned.replace(/\D/g,'');
-            const profileImage = document.getElementById('profileImage');
-            const profileIGN = document.getElementById('profileIGN');
-            const profileTierEmoji = document.getElementById('profileTierEmoji');
-            const profileTierText = document.getElementById('profileTierText');
-            const profilePrevTier = document.getElementById('profilePrevTier');
-            const profileTester = document.getElementById('profileTester');
-            const profileDate = document.getElementById('profileDate');
-            const anemoniaBadge = document.getElementById('anemoniaBadge');
-
             // Prepare all content before showing the modal
+            const tierNumber = player.tier_earned.replace(/\D/g,'');
             const placeholderImage = 'data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 16 9%22%3E%3C%2Fsvg%3E';
             const imageSrc = `https://render.crafty.gg/3d/bust/${player.uuid}`;
             const emojiContent = tierEmojis[tierNumber] || '⚔️';
@@ -1968,47 +2061,34 @@
                 }
             }
 
-            // Batch all DOM writes
+            // Update content
+            profileImage.src = placeholderImage; // Set placeholder first
+            profileIGN.textContent = player.ign;
+            profileTierEmoji.textContent = emojiContent;
+            profileTierText.textContent = player.tier_earned;
+            profilePrevTier.textContent = player.tier_before || 'Nessuno';
+            profileDate.textContent = formattedDate;
+
+            // Show/hide Anemonia badge
+            anemoniaBadge.style.display = player.anemonia ? 'flex' : 'none';
+
+            // Show modal first
+            profileModal.style.display = 'flex';
+
+            // Force reflow and add active class in next frame
             requestAnimationFrame(() => {
-                // Reset animation
-                content.style.animation = 'none';
-                void content.offsetWidth;
-
-                // Update content
-                profileImage.src = placeholderImage; // Set placeholder first
-                profileIGN.textContent = player.ign;
-                profileTierEmoji.textContent = emojiContent;
-                profileTierText.textContent = player.tier_earned;
-                profilePrevTier.textContent = player.tier_before || 'Nessuno';
-                profileTester.textContent = player.tester || 'N/A';
-                profileDate.textContent = formattedDate;
-
-                // Show/hide Anemonia badge
-                anemoniaBadge.style.display = player.anemonia ? 'flex' : 'none';
+                profileContent.classList.add('active');
 
                 // Load the actual image after modal is shown
-                setTimeout(() => {
-                    const img = new Image();
-                    img.onload = () => {
-                        profileImage.src = imageSrc;
-                    };
-                    img.src = imageSrc;
-                }, 100);
-
-                // Show modal
-                modal.style.display = 'flex';
-                content.classList.add('active');
+                const img = new Image();
+                img.onload = () => {
+                    profileImage.src = imageSrc;
+                };
+                img.onerror = () => {
+                    // Keep placeholder on error
+                };
+                img.src = imageSrc;
             });
-
-            // Add click handler if not already added
-            if (!modal.hasAttribute('data-has-click-handler')) {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        closeModal();
-                    }
-                });
-                modal.setAttribute('data-has-click-handler', 'true');
-            }
         }
 
         function closeModal() {
@@ -2878,14 +2958,24 @@
 
         // Throttle data loading to prevent excessive requests
         let isLoadingData = false;
+        let lastLoadTime = 0;
+        const LOAD_THROTTLE_TIME = 30000; // 30 seconds minimum between loads
+
         async function throttledLoadData() {
             if (isLoadingData) return;
+
+            const now = Date.now();
+            if (now - lastLoadTime < LOAD_THROTTLE_TIME) {
+                console.log('Throttling data load, last load was', Math.round((now - lastLoadTime)/1000), 'seconds ago');
+                return;
+            }
 
             isLoadingData = true;
             showLoading(true);
 
             try {
                 await loadData();
+                lastLoadTime = Date.now();
             } catch (error) {
                 console.error('Error loading data:', error);
             } finally {
@@ -2909,8 +2999,8 @@
             }
         });
 
-        // Load data every 2 minutes to reduce server load
-        setInterval(throttledLoadData, 120000);
+        // Load data every 5 minutes to reduce server load and improve performance
+        setInterval(throttledLoadData, 300000);
         throttledLoadData();
 
         // No notification - removed to avoid confusion
