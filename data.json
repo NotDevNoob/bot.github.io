@@ -1,90 +1,101 @@
 [
-    {
-        "tier_before": "Unranked",
-        "tier_earned": "LT3",
-        "ign": "Giulio_Cesare_",
-        "tester": "Self-tested",
-        "timestamp": "2023-10-10T12:34:56.789Z",
-        "anemonia": false
-    },
-   {
-        "tier_before": "Nessuno",
-        "tier_earned": "LT3",
-        "ign": "Ottaviano_August",
-        "tester": "Faw",
-        "timestamp": "2025-03-05T16:10:00Z",
-        "anemonia": false
-    },
-    {
-        "tier_before": "Nessuno",
-        "tier_earned": "HT4",
-        "ign": "3463k",
-        "tester": "Giulio_Cesare_",
-        "timestamp": "2025-03-05T16:25:00Z",
-        "anemonia": false
-    },
-    {
-        "tier_before": "Nessuno",
-        "tier_earned": "HT2",
-        "ign": "minchiacraft",
-        "tester": "Giulio_Cesare_",
-        "timestamp": "2025-03-05T16:30:00Z",
-        "anemonia": false
-    },
-    {
-        "tier_before": "Nessuno",
-        "tier_earned": "HT2",
-        "ign": "afterylyfe",
-        "tester": "Faw",
-        "timestamp": "2025-03-05T21:29:00Z",
-        "anemonia": false
-    },
-    {
-        "tier_before": "Nessuno",
-        "tier_earned": "LT1",
-        "ign": "go2workk",
-        "tester": "Faw",
-        "timestamp": "2025-03-06T20:45:00Z",
-        "anemonia": false
-    },
-    {
-        "tier_before": "Nessuno",
-        "tier_earned": "LT3",
-        "ign": "Takeruluigi",
-        "tester": "Giulio_Cesare_",
-        "timestamp": "2025-03-07T22:11:00Z",
-        "anemonia": false
-    },
-    {
-        "tier_before": "Unranked",
-        "tier_earned": "HT2",
-        "ign": "kytsue",
-        "tester": "Faw",
-        "timestamp": "2025-03-08 19:33:31.842327+00:00",
-        "anemonia": false
-    },
-    {
-        "tier_before": "LT4",
-        "tier_earned": "HT5",
-        "ign": "ER_GLADIATOR1",
-        "tester": "Giulio_Cesare_",
-        "timestamp": "2025-03-08 21:54:24.265105+00:00",
-        "anemonia": false
-    },
-    {
-        "tier_before": "LT4",
-        "tier_earned": "LT4",
-        "ign": "Diocleziano_",
-        "tester": "Giulio_Cesare_",
-        "timestamp": "2025-03-14 14:09:40.701697+00:00",
-        "anemonia": false
-    },
-    {
-        "tier_before": "LT4",
-        "tier_earned": "LT4",
-        "ign": "Diocleziano_",
-        "tester": "Giulio_Cesare_",
-        "timestamp": "2025-03-14 14:10:58.987187+00:00",
-        "anemonia": false
-    }
+  {
+    "tier_before": "LT4",
+    "tier_earned": "HT5",
+    "ign": "Diocleziano_",
+    "tester": "Faw",
+    "timestamp": "2025-03-14T15:07:04.598Z",
+    "uuid": "bf54d822-1ad2-4498-b66d-843523ad674a",
+    "anemonia": false
+  },
+  {
+    "tier_before": "LT4",
+    "tier_earned": "LT4",
+    "ign": "Diocleziano_",
+    "tester": "Giulio_Cesare_",
+    "timestamp": "2025-03-14 14:10:58.987187+00:00",
+    "anemonia": false,
+    "uuid": "fed83bb1-35d3-4591-819f-2fb721df0c84"
+  },
+  {
+    "tier_before": "LT4",
+    "tier_earned": "HT5",
+    "ign": "ER_GLADIATOR1",
+    "tester": "Giulio_Cesare_",
+    "timestamp": "2025-03-08 21:54:24.265105+00:00",
+    "anemonia": false,
+    "uuid": "95761d06-8231-4f25-b830-ddc59878c6fa"
+  },
+  {
+    "tier_before": "Unranked",
+    "tier_earned": "HT2",
+    "ign": "kytsue",
+    "tester": "Faw",
+    "timestamp": "2025-03-08 19:33:31.842327+00:00",
+    "anemonia": false,
+    "uuid": "104058bd-71a7-4521-847e-ef906cd989de"
+  },
+  {
+    "tier_before": "Nessuno",
+    "tier_earned": "LT3",
+    "ign": "Takeruluigi",
+    "tester": "Giulio_Cesare_",
+    "timestamp": "2025-03-07T22:11:00Z",
+    "anemonia": false,
+    "uuid": "0235f872-c26f-4c5b-b620-da57b32e8f3a"
+  },
+  {
+    "tier_before": "Nessuno",
+    "tier_earned": "LT1",
+    "ign": "go2workk",
+    "tester": "Faw",
+    "timestamp": "2025-03-06T20:45:00Z",
+    "anemonia": false,
+    "uuid": "e83dc229-2831-4ba0-b4b2-6b35578069f9"
+  },
+  {
+    "tier_before": "Nessuno",
+    "tier_earned": "HT2",
+    "ign": "afterylyfe",
+    "tester": "Faw",
+    "timestamp": "2025-03-05T21:29:00Z",
+    "anemonia": false,
+    "uuid": "27ffc4a0-6d59-420c-80c6-23743ab49cdb"
+  },
+  {
+    "tier_before": "Nessuno",
+    "tier_earned": "HT2",
+    "ign": "minchiacraft",
+    "tester": "Giulio_Cesare_",
+    "timestamp": "2025-03-05T16:30:00Z",
+    "anemonia": false,
+    "uuid": "b18889f2-4709-42f6-8930-1b65605897b3"
+  },
+  {
+    "tier_before": "Nessuno",
+    "tier_earned": "HT4",
+    "ign": "3463k",
+    "tester": "Giulio_Cesare_",
+    "timestamp": "2025-03-05T16:25:00Z",
+    "anemonia": false,
+    "uuid": "1cd96a54-8bbf-4867-a4cb-549a66efa31f"
+  },
+  {
+    "tier_before": "Nessuno",
+    "tier_earned": "LT3",
+    "ign": "Ottaviano_August",
+    "tester": "Faw",
+    "timestamp": "2025-03-05T16:10:00Z",
+    "anemonia": false,
+    "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83"
+  },
+  {
+    "tier_before": "Unranked",
+    "tier_earned": "LT3",
+    "ign": "Giulio_Cesare_",
+    "tester": "Self-tested",
+    "timestamp": "2023-10-10T12:34:56.789Z",
+    "anemonia": false,
+    "uuid": "1b721912-963f-4e4d-a0e0-011b68ef006d"
+  }
 ]
