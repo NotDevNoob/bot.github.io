@@ -1,12 +1,11 @@
 [
   {
     "tier_before": "HT5",
-    "tier_earned": "HT5",
+    "tier_earned": "HT1",
     "ign": "Diocleziano_",
-    "tester": "Giulio_Cesare_",
-    "timestamp": "2025-03-14 14:10:58.987187+00:00",
-    "anemonia": false,
-    "uuid": "fed83bb1-35d3-4591-819f-2fb721df0c84"
+    "timestamp": "2025-03-14T21:35:00.950Z",
+    "uuid": "5fcaafed-267e-4437-9ae9-314809ea9272",
+    "anemonia": false
   },
   {
     "tier_before": "LT4",
