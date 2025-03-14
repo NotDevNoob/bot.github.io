@@ -1,82 +1,90 @@
 [
-  {
-    "tier_before": "LT3",
-    "tier_earned": "LT3",
-    "ign": "Giulio_Cesare_",
-    "tester": "987654321098765432",
-    "timestamp": "2025-03-10T15:37:37.612Z",
-    "uuid": "db977c98-39ca-4b1b-8235-6d2f8c054007"
-  },
-  {
-    "tier_before": "HT1",
-    "tier_earned": "LT4",
-    "ign": "Diocleziano_",
-    "tester": "876543210987654321",
-    "timestamp": "2025-03-10T15:44:31.340Z",
-    "uuid": "f5bda532-3161-43bf-a492-e40160dfb036"
-  },
-  {
-    "tier_before": "LT3",
-    "tier_earned": "LT3",
-    "ign": "Ottaviano_August",
-    "tester": "Faw",
-    "timestamp": "2025-03-10T14:27:59.252Z",
-    "uuid": "47b2220e-a03a-4af4-a0b8-a70a5ac8e698"
-  },
-  {
-    "tier_before": "Nessuno",
-    "tier_earned": "HT4",
-    "ign": "3463k",
-    "tester": "Faw",
-    "timestamp": "2025-03-05T16:25:00Z",
-    "uuid": "69ad2c5b-8b7e-49c6-84e6-dd7ac70458e9"
-  },
-  {
-    "tier_before": "Nessuno",
-    "tier_earned": "HT2",
-    "ign": "minchiacraft",
-    "tester": "Faw",
-    "timestamp": "2025-03-05T16:30:00Z",
-    "uuid": "32b154d6-248b-4c65-b8b7-8d3f0917a301"
-  },
-  {
-    "tier_before": "Nessuno",
-    "tier_earned": "HT2",
-    "ign": "afterylyfe",
-    "tester": "Faw",
-    "timestamp": "2025-03-05T21:29:00Z",
-    "uuid": "b3036b2c-b71a-4987-8ce4-13ffe5ee1580"
-  },
-  {
-    "tier_before": "Nessuno",
-    "tier_earned": "LT1",
-    "ign": "go2workk",
-    "tester": "Faw",
-    "timestamp": "2025-03-06T20:45:00Z",
-    "uuid": "a1c142a1-0a7f-4dac-b5b7-f3f61266b3db"
-  },
-  {
-    "tier_before": "Nessuno",
-    "tier_earned": "LT3",
-    "ign": "Takeruluigi",
-    "tester": "Julius Caesar",
-    "timestamp": "2025-03-07T22:11:00Z",
-    "uuid": "c1646375-b5ea-4e61-909d-adc1f1fefe51"
-  },
-  {
-    "tier_before": "Unranked",
-    "tier_earned": "HT2",
-    "ign": "kytsue",
-    "tester": "729405047644880968",
-    "timestamp": "2025-03-08 19:33:31.842327+00:00",
-    "uuid": "73459a7f-6d60-4690-b030-51893db52a25"
-  },
-  {
-    "tier_before": "LT4",
-    "tier_earned": "HT5",
-    "ign": "ER_GLADIATOR1",
-    "tester": "729405047644880968",
-    "timestamp": "2025-03-08 21:54:24.265105+00:00",
-    "uuid": "dfd88da2-8ed9-46a9-a763-316c84cff805"
-  }
+    {
+        "tier_before": "Unranked",
+        "tier_earned": "LT3",
+        "ign": "Giulio_Cesare_",
+        "tester": "Self-tested",
+        "timestamp": "2023-10-10T12:34:56.789Z",
+        "anemonia": false
+    },
+   {
+        "tier_before": "Nessuno",
+        "tier_earned": "LT3",
+        "ign": "Ottaviano_August",
+        "tester": "Faw",
+        "timestamp": "2025-03-05T16:10:00Z",
+        "anemonia": false
+    },
+    {
+        "tier_before": "Nessuno",
+        "tier_earned": "HT4",
+        "ign": "3463k",
+        "tester": "Giulio_Cesare_",
+        "timestamp": "2025-03-05T16:25:00Z",
+        "anemonia": false
+    },
+    {
+        "tier_before": "Nessuno",
+        "tier_earned": "HT2",
+        "ign": "minchiacraft",
+        "tester": "Giulio_Cesare_",
+        "timestamp": "2025-03-05T16:30:00Z",
+        "anemonia": false
+    },
+    {
+        "tier_before": "Nessuno",
+        "tier_earned": "HT2",
+        "ign": "afterylyfe",
+        "tester": "Faw",
+        "timestamp": "2025-03-05T21:29:00Z",
+        "anemonia": false
+    },
+    {
+        "tier_before": "Nessuno",
+        "tier_earned": "LT1",
+        "ign": "go2workk",
+        "tester": "Faw",
+        "timestamp": "2025-03-06T20:45:00Z",
+        "anemonia": false
+    },
+    {
+        "tier_before": "Nessuno",
+        "tier_earned": "LT3",
+        "ign": "Takeruluigi",
+        "tester": "Giulio_Cesare_",
+        "timestamp": "2025-03-07T22:11:00Z",
+        "anemonia": false
+    },
+    {
+        "tier_before": "Unranked",
+        "tier_earned": "HT2",
+        "ign": "kytsue",
+        "tester": "Faw",
+        "timestamp": "2025-03-08 19:33:31.842327+00:00",
+        "anemonia": false
+    },
+    {
+        "tier_before": "LT4",
+        "tier_earned": "HT5",
+        "ign": "ER_GLADIATOR1",
+        "tester": "Giulio_Cesare_",
+        "timestamp": "2025-03-08 21:54:24.265105+00:00",
+        "anemonia": false
+    },
+    {
+        "tier_before": "LT4",
+        "tier_earned": "LT4",
+        "ign": "Diocleziano_",
+        "tester": "Giulio_Cesare_",
+        "timestamp": "2025-03-14 14:09:40.701697+00:00",
+        "anemonia": false
+    },
+    {
+        "tier_before": "LT4",
+        "tier_earned": "LT4",
+        "ign": "Diocleziano_",
+        "tester": "Giulio_Cesare_",
+        "timestamp": "2025-03-14 14:10:58.987187+00:00",
+        "anemonia": false
+    }
 ]
