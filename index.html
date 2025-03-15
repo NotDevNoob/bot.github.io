@@ -4990,5 +4990,433 @@
             });
         }
     </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner" class="cookie-consent-banner">
+        <div class="cookie-consent-container">
+            <div class="cookie-consent-header">
+                <h3><i class="fas fa-cookie-bite"></i> Cookie Consent</h3>
+                <button id="cookie-consent-close" class="cookie-consent-close">&times;</button>
+            </div>
+            <div class="cookie-consent-content">
+                <p>Questo sito utilizza i cookie per migliorare la tua esperienza. Puoi scegliere quali cookie accettare o rifiutarli tutti.</p>
+
+                <div class="cookie-options">
+                    <div class="cookie-option">
+                        <label class="cookie-toggle">
+                            <input type="checkbox" id="cookie-necessary" checked disabled>
+                            <span class="cookie-toggle-slider"></span>
+                        </label>
+                        <div class="cookie-option-info">
+                            <div class="cookie-option-title">Necessari</div>
+                            <div class="cookie-option-description">Cookie essenziali per il funzionamento del sito. Non possono essere disattivati.</div>
+                        </div>
+                    </div>
+
+                    <div class="cookie-option">
+                        <label class="cookie-toggle">
+                            <input type="checkbox" id="cookie-preferences">
+                            <span class="cookie-toggle-slider"></span>
+                        </label>
+                        <div class="cookie-option-info">
+                            <div class="cookie-option-title">Preferenze</div>
+                            <div class="cookie-option-description">Cookie che ricordano le tue preferenze di navigazione.</div>
+                        </div>
+                    </div>
+
+                    <div class="cookie-option">
+                        <label class="cookie-toggle">
+                            <input type="checkbox" id="cookie-analytics">
+                            <span class="cookie-toggle-slider"></span>
+                        </label>
+                        <div class="cookie-option-info">
+                            <div class="cookie-option-title">Analitici</div>
+                            <div class="cookie-option-description">Cookie che ci aiutano a capire come utilizzi il sito.</div>
+                        </div>
+                    </div>
+
+                    <div class="cookie-option">
+                        <label class="cookie-toggle">
+                            <input type="checkbox" id="cookie-marketing">
+                            <span class="cookie-toggle-slider"></span>
+                        </label>
+                        <div class="cookie-option-info">
+                            <div class="cookie-option-title">Marketing</div>
+                            <div class="cookie-option-description">Cookie utilizzati per mostrarti annunci pertinenti.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cookie-consent-actions">
+                <button id="cookie-decline-all" class="cookie-btn cookie-decline">Rifiuta tutti</button>
+                <button id="cookie-save-preferences" class="cookie-btn cookie-save">Salva preferenze</button>
+                <button id="cookie-accept-all" class="cookie-btn cookie-accept">Accetta tutti</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Cookie Consent Banner Styles */
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            max-width: 400px;
+            width: calc(100% - 40px);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            display: none;
+        }
+
+        .cookie-consent-banner.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        body.light-theme .cookie-consent-banner {
+            background: var(--light-card-bg);
+            border-color: var(--light-card-border);
+        }
+
+        .cookie-consent-container {
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .cookie-consent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        body.light-theme .cookie-consent-header {
+            border-color: var(--light-card-border);
+        }
+
+        .cookie-consent-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        body.light-theme .cookie-consent-header h3 {
+            color: var(--light-text);
+        }
+
+        .cookie-consent-header i {
+            color: var(--primary);
+        }
+
+        .cookie-consent-close {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .cookie-consent-close:hover {
+            opacity: 1;
+        }
+
+        body.light-theme .cookie-consent-close {
+            color: var(--light-text);
+        }
+
+        .cookie-consent-content {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        body.light-theme .cookie-consent-content {
+            color: var(--light-text);
+        }
+
+        .cookie-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .cookie-option {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+        }
+
+        .cookie-toggle {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .cookie-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .cookie-toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 22px;
+            border: 1px solid var(--card-border);
+        }
+
+        body.light-theme .cookie-toggle-slider {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-color: var(--light-card-border);
+        }
+
+        .cookie-toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .cookie-toggle input:checked + .cookie-toggle-slider {
+            background-color: var(--primary);
+            border-color: var(--primary-dark);
+        }
+
+        .cookie-toggle input:checked + .cookie-toggle-slider:before {
+            transform: translateX(18px);
+        }
+
+        .cookie-toggle input:disabled + .cookie-toggle-slider {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .cookie-option-info {
+            flex: 1;
+        }
+
+        .cookie-option-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .cookie-option-description {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .cookie-consent-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+
+        .cookie-btn {
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .cookie-decline {
+            background: var(--button-bg);
+            color: var(--text);
+        }
+
+        .cookie-decline:hover {
+            background: var(--button-hover-bg);
+        }
+
+        body.light-theme .cookie-decline {
+            background: var(--light-button-bg);
+            color: var(--light-text);
+        }
+
+        body.light-theme .cookie-decline:hover {
+            background: var(--light-button-hover-bg);
+        }
+
+        .cookie-save {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .cookie-save:hover {
+            background: var(--secondary-dark);
+        }
+
+        .cookie-accept {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cookie-accept:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 480px) {
+            .cookie-consent-banner {
+                bottom: 10px;
+                right: 10px;
+                width: calc(100% - 20px);
+                max-width: none;
+            }
+
+            .cookie-consent-actions {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .cookie-btn {
+                flex: 1;
+                text-align: center;
+                padding: 8px 5px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Cookie Consent Banner
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show cookie banner after a short delay
+            setTimeout(function() {
+                const cookieBanner = document.getElementById('cookie-consent-banner');
+                if (cookieBanner) {
+                    cookieBanner.style.display = 'block';
+                    // Force reflow
+                    void cookieBanner.offsetWidth;
+                    cookieBanner.classList.add('active');
+                }
+            }, 1500);
+
+            // Close button
+            document.getElementById('cookie-consent-close').addEventListener('click', function() {
+                hideCookieBanner();
+            });
+
+            // Accept all cookies
+            document.getElementById('cookie-accept-all').addEventListener('click', function() {
+                // Check all checkboxes
+                document.querySelectorAll('.cookie-option input[type="checkbox"]').forEach(checkbox => {
+                    if (!checkbox.disabled) {
+                        checkbox.checked = true;
+                    }
+                });
+
+                // In a real implementation, you would save the cookie preferences here
+                // For this demo, we'll just hide the banner
+                hideCookieBanner();
+
+                // Show a confirmation toast
+                showToast('Tutti i cookie sono stati accettati');
+            });
+
+            // Decline all cookies
+            document.getElementById('cookie-decline-all').addEventListener('click', function() {
+                // Uncheck all non-necessary checkboxes
+                document.querySelectorAll('.cookie-option input[type="checkbox"]:not(#cookie-necessary)').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                // In a real implementation, you would save the cookie preferences here
+                // For this demo, we'll just hide the banner
+                hideCookieBanner();
+
+                // Show a confirmation toast
+                showToast('Tutti i cookie sono stati rifiutati');
+            });
+
+            // Save preferences
+            document.getElementById('cookie-save-preferences').addEventListener('click', function() {
+                // In a real implementation, you would save the selected preferences here
+                // For this demo, we'll just hide the banner
+                hideCookieBanner();
+
+                // Show a confirmation toast
+                showToast('Le tue preferenze sui cookie sono state salvate');
+            });
+
+            function hideCookieBanner() {
+                const cookieBanner = document.getElementById('cookie-consent-banner');
+                cookieBanner.classList.remove('active');
+                setTimeout(function() {
+                    cookieBanner.style.display = 'none';
+                }, 300);
+            }
+
+            function showToast(message) {
+                // Create toast element
+                const toast = document.createElement('div');
+                toast.className = 'cookie-toast';
+                toast.textContent = message;
+
+                // Add toast styles
+                toast.style.position = 'fixed';
+                toast.style.bottom = '20px';
+                toast.style.left = '50%';
+                toast.style.transform = 'translateX(-50%)';
+                toast.style.background = 'var(--primary)';
+                toast.style.color = 'white';
+                toast.style.padding = '10px 20px';
+                toast.style.borderRadius = 'var(--radius-md)';
+                toast.style.boxShadow = 'var(--shadow-md)';
+                toast.style.zIndex = '9999';
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+
+                // Add to body
+                document.body.appendChild(toast);
+
+                // Show toast
+                setTimeout(function() {
+                    toast.style.opacity = '1';
+                }, 10);
+
+                // Hide and remove toast after 3 seconds
+                setTimeout(function() {
+                    toast.style.opacity = '0';
+                    setTimeout(function() {
+                        document.body.removeChild(toast);
+                    }, 300);
+                }, 3000);
+            }
+        });
+    </script>
 </body>
 </html>
