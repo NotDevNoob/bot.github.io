@@ -48,8 +48,8 @@
             --text: #ffffff;
             --border: rgba(255, 255, 255, 0.1);
             --neon-purple: #bc13fe;
-            --anemonia: #ff6b9e;
-            --anemonia-dark: #d44a7a;
+            --Anemoia: #ff6b9e;
+            --Anemoia-dark: #d44a7a;
 
             /* New theme colors */
             --primary: #4f46e5;
@@ -484,12 +484,12 @@
         .header-title::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: 0px;
             left: 0;
-            width: 60px;
-            height: 3px;
+            width: 0px;
+            height: 0px;
             background: var(--gold);
-            border-radius: 3px;
+            border-radius: 0px;
         }
 
         body.light-theme .header-title::after {
@@ -525,8 +525,8 @@
             background: var(--light-blue); /* Solid color instead of gradient */
         }
 
-        .filter-button.anemonia.active {
-            background: var(--anemonia); /* Solid color instead of gradient */
+        .filter-button.Anemoia.active {
+            background: var(--Anemoia); /* Solid color instead of gradient */
         }
 
         body.light-theme .filter-button {
@@ -543,7 +543,7 @@
             color: white;
         }
 
-        body.light-theme .filter-button.anemonia.active {
+        body.light-theme .filter-button.Anemoia.active {
             background: var(--accent);
             color: white;
         }
@@ -804,15 +804,15 @@
             border-left-color: var(--light-blue);
         }
 
-        .user-item.anemonia:hover {
-            border-left-color: var(--anemonia);
+        .user-item.Anemoia:hover {
+            border-left-color: var(--Anemoia);
         }
 
-        .user-item.anemonia:hover .user-name {
-            color: var(--anemonia);
+        .user-item.Anemoia:hover .user-name {
+            color: var(--Anemoia);
         }
 
-        .user-item.anemonia .tier-badge {
+        .user-item.Anemoia .tier-badge {
             border-color: rgba(255, 107, 158, 0.3);
         }
 
@@ -837,8 +837,8 @@
             color: var(--light-blue);
         }
 
-        .anemonia-indicator {
-            color: var(--anemonia);
+        .Anemoia-indicator {
+            color: var(--Anemoia);
             font-size: 0.9rem;
             filter: drop-shadow(0 0 3px rgba(255, 107, 158, 0.3));
             animation: pulse 2s infinite;
@@ -1069,11 +1069,11 @@
             text-decoration: underline;
         }
 
-        .anemonia-badge {
+        .Anemoia-badge {
             position: absolute;
             top: -10px;
             left: -10px;
-            background: linear-gradient(135deg, var(--anemonia), var(--anemonia-dark));
+            background: linear-gradient(135deg, var(--Anemoia), var(--Anemoia-dark));
             color: white;
             padding: 5px 12px;
             border-radius: 12px;
@@ -1084,10 +1084,10 @@
             align-items: center;
             gap: 5px;
             transform: rotate(-5deg);
-            display: none; /* Hidden by default, shown when player has Anemonia flag */
+            display: none; /* Hidden by default, shown when player has Anemoia flag */
         }
 
-        .anemonia-badge i {
+        .Anemoia-badge i {
             font-size: 0.9rem;
         }
 
@@ -1443,8 +1443,8 @@
         }
 
         .admin-toggle input:checked + .admin-toggle-slider {
-            background-color: var(--anemonia);
-            border-color: var(--anemonia-dark);
+            background-color: var(--Anemoia);
+            border-color: var(--Anemoia-dark);
         }
 
         .admin-toggle input:checked + .admin-toggle-slider:before {
@@ -1886,8 +1886,8 @@
             font-size: 1.1rem;
         }
 
-        .activity-anemonia {
-            color: var(--anemonia);
+        .activity-Anemoia {
+            color: var(--Anemoia);
             font-size: 0.9rem;
         }
 
@@ -2019,6 +2019,146 @@
             border-radius: 3px;
             font-family: monospace;
             color: var(--light-blue);
+        }
+
+        /* Discord page styles */
+        .discord-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xl);
+            padding: var(--spacing-lg);
+        }
+
+        .discord-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discord-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .discord-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #5865F2, #7289DA);
+        }
+
+        .discord-logo {
+            font-size: 5rem;
+            color: #5865F2;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .discord-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: #FFFFFF;
+        }
+
+        .discord-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .discord-button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: #5865F2;
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .discord-button:hover {
+            background: #4752C4;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+            text-align: left;
+        }
+
+        .discord-feature {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-md);
+            transition: transform var(--transition-fast);
+        }
+
+        .discord-feature:hover {
+            transform: translateY(-3px);
+        }
+
+        .discord-feature-icon {
+            font-size: 2rem;
+            color: #5865F2;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .discord-feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .discord-feature-text {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        body.light-theme .discord-card {
+            background: var(--light-card-bg);
+            border-color: var(--light-card-border);
+        }
+
+        body.light-theme .discord-title {
+            color: var(--light-text);
+        }
+
+        body.light-theme .discord-description {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        body.light-theme .discord-feature {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-theme .discord-feature-text {
+            color: rgba(0, 0, 0, 0.6);
         }
 
         /* TOS styles */
@@ -2165,8 +2305,8 @@
                             <button class="filter-button active" id="filterAll">
                                 <i class="fas fa-users"></i> Tutti
                             </button>
-                            <button class="filter-button anemonia" id="filterAnemonia">
-                                <i class="fas fa-crown"></i> Anemonia
+                            <button class="filter-button Anemoia" id="filterAnemoia">
+                                <i class="fas fa-crown"></i> Anemoia
                             </button>
                         </div>
 
@@ -2210,8 +2350,8 @@
                             <div class="stats-card">
                                 <div class="stats-icon"><i class="fas fa-crown"></i></div>
                                 <div class="stats-content">
-                                    <div class="stats-value" id="anemoniaCount">0</div>
-                                    <div class="stats-label">Anemonia</div>
+                                    <div class="stats-value" id="AnemoiaCount">0</div>
+                                    <div class="stats-label">Anemoia</div>
                                 </div>
                             </div>
 
@@ -2328,8 +2468,8 @@
                             </div>
 
                             <div class="guide-card">
-                                <h3>Anemonia</h3>
-                                <p>Anemonia è un riconoscimento speciale assegnato ai giocatori che dimostrano abilità eccezionali o contributi significativi alla community.</p>
+                                <h3>Anemoia</h3>
+                                <p>Anemoia è un riconoscimento speciale assegnato ai giocatori che dimostrano abilità eccezionali o contributi significativi alla community.</p>
                             </div>
                         </div>
                     </div>
@@ -2484,6 +2624,61 @@
                     </div>
                 </div>
 
+                <!-- Discord Page -->
+                <div class="page-content" id="page-discord" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title"><i class="fab fa-discord"></i> Discord Community</div>
+                    </div>
+
+                    <div class="discord-container">
+                        <div class="discord-card">
+                            <i class="fab fa-discord discord-logo"></i>
+                            <h2 class="discord-title">Unisciti alla Nostra Community Discord</h2>
+                            <p class="discord-description">
+                                Entra nel server Discord ufficiale di No-Co per connetterti con altri giocatori,
+                                partecipare a eventi esclusivi, ricevere supporto e rimanere aggiornato sulle ultime novità!
+                            </p>
+                            <a href="https://dsc.gg/noco-community" target="_blank" class="discord-button">
+                                <i class="fas fa-sign-in-alt"></i> Unisciti Ora
+                            </a>
+
+                            <div class="discord-features">
+                                <div class="discord-feature">
+                                    <i class="fas fa-users discord-feature-icon"></i>
+                                    <h3 class="discord-feature-title">Community Attiva</h3>
+                                    <p class="discord-feature-text">
+                                        Connettiti con centinaia di giocatori appassionati e condividi la tua esperienza di gioco.
+                                    </p>
+                                </div>
+
+                                <div class="discord-feature">
+                                    <i class="fas fa-trophy discord-feature-icon"></i>
+                                    <h3 class="discord-feature-title">Test Tier</h3>
+                                    <p class="discord-feature-text">
+                                        Partecipa ai test tier per misurare le tue abilità e ottenere un riconoscimento ufficiale.
+                                    </p>
+                                </div>
+
+                                <div class="discord-feature">
+                                    <i class="fas fa-calendar-alt discord-feature-icon"></i>
+                                    <h3 class="discord-feature-title">Eventi Esclusivi</h3>
+                                    <p class="discord-feature-text">
+                                        Partecipa a tornei, sfide e eventi speciali organizzati regolarmente dal nostro staff.
+                                    </p>
+                                </div>
+
+                                <div class="discord-feature">
+                                    <i class="fas fa-headset discord-feature-icon"></i>
+                                    <h3 class="discord-feature-title">Supporto Dedicato</h3>
+                                    <p class="discord-feature-text">
+                                        Ricevi assistenza diretta dal nostro team di moderatori e amministratori.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Other pages would be added here -->
             </div>
         </div>
@@ -2507,8 +2702,8 @@
                         <div class="tier-emoji-large" id="profileTierEmoji"></div>
                     </div>
                 </div>
-                <div id="anemoniaBadge" class="anemonia-badge">
-                    <i class="fas fa-crown"></i> Anemonia
+                <div id="AnemoiaBadge" class="Anemoia-badge">
+                    <i class="fas fa-crown"></i> Anemoia
                 </div>
             </div>
             <div class="profile-info">
@@ -2576,13 +2771,13 @@
                     </select>
                 </div>
                 <div class="admin-input-group">
-                    <label class="admin-label">Anemonia</label>
+                    <label class="admin-label">Anemoia</label>
                     <div class="admin-toggle-container">
                         <label class="admin-toggle">
-                            <input type="checkbox" id="adminAnemonia">
+                            <input type="checkbox" id="adminAnemoia">
                             <span class="admin-toggle-slider"></span>
                         </label>
-                        <span class="admin-toggle-label">Giocatore Anemonia</span>
+                        <span class="admin-toggle-label">Giocatore Anemoia</span>
                     </div>
                 </div>
 
@@ -2739,7 +2934,7 @@
 
         const tierEmojis = {1: "🥇", 2: "🥈", 3: "🥉", 4: "🔷", 5: "🔶"};
         let allPlayers = [];
-        let currentFilter = 'all'; // 'all' or 'anemonia'
+        let currentFilter = 'all'; // 'all' or 'Anemoia'
         const tierOptions = ['HT1', 'LT1', 'HT2', 'LT2', 'HT3', 'LT3', 'HT4', 'LT4', 'HT5', 'LT5'];
 
         async function getUUID(username) {
@@ -2807,7 +3002,7 @@
         function clearAdminForm() {
             adminIgnInput.value = '';
             adminTierSelect.value = '';
-            document.getElementById('adminAnemonia').checked = false;
+            document.getElementById('adminAnemoia').checked = false;
 
             adminMessage.style.display = 'none';
             adminMessage.textContent = '';
@@ -2826,7 +3021,7 @@
                 const existingPlayer = allPlayers.find(p => p.ign.toLowerCase() === ign.toLowerCase());
                 if (existingPlayer) {
                     adminTierSelect.value = existingPlayer.tier_earned || '';
-                    document.getElementById('adminAnemonia').checked = existingPlayer.anemonia || false;
+                    document.getElementById('adminAnemoia').checked = existingPlayer.Anemoia || false;
                 }
             }
         });
@@ -2834,7 +3029,7 @@
         adminSubmit.addEventListener('click', async () => {
             const ign = adminIgnInput.value.trim();
             const tier = adminTierSelect.value;
-            const anemonia = document.getElementById('adminAnemonia').checked;
+            const Anemoia = document.getElementById('adminAnemoia').checked;
 
             if (!ign) {
                 showAdminMessage('Inserisci un IGN', true);
@@ -2862,9 +3057,9 @@
                         ign: ign,
                         timestamp: timestamp,
                         uuid: uuid,
-                        anemonia: anemonia
+                        Anemoia: Anemoia
                     };
-                    showAdminMessage(`Giocatore aggiornato: ${ign}${anemonia ? ' (Anemonia)' : ''}`);
+                    showAdminMessage(`Giocatore aggiornato: ${ign}${Anemoia ? ' (Anemoia)' : ''}`);
                 } else {
                     // Add new player
                     allPlayers.push({
@@ -2873,9 +3068,9 @@
                         ign: ign,
                         timestamp: timestamp,
                         uuid: uuid,
-                        anemonia: anemonia
+                        Anemoia: Anemoia
                     });
-                    showAdminMessage(`Nuovo giocatore: ${ign}${anemonia ? ' (Anemonia)' : ''}`);
+                    showAdminMessage(`Nuovo giocatore: ${ign}${Anemoia ? ' (Anemoia)' : ''}`);
                 }
 
                 // Always save to GitHub repository
@@ -3030,7 +3225,7 @@
 
         // Cache DOM elements for better performance
         const filterAllButton = document.getElementById('filterAll');
-        const filterAnemoniaButton = document.getElementById('filterAnemonia');
+        const filterAnemoiaButton = document.getElementById('filterAnemoia');
         const tierLists = {
             1: document.getElementById('tier-1-users'),
             2: document.getElementById('tier-2-users'),
@@ -3085,7 +3280,7 @@
             // Filter players based on current filter
             const filteredPlayers = currentFilter === 'all'
                 ? cachedSortedPlayers
-                : cachedSortedPlayers.filter(player => player.anemonia === true);
+                : cachedSortedPlayers.filter(player => player.Anemoia === true);
 
             // Build all elements first and add them to fragments
             // Use a more efficient approach with fewer DOM operations
@@ -3096,16 +3291,16 @@
                 if (!fragments[tierNumber]) return;
 
                 // Create HTML string for better performance
-                const anemoniaClass = entry.anemonia ? ' anemonia' : '';
-                const anemoniaIndicator = entry.anemonia
-                    ? '<span class="anemonia-indicator"><i class="fas fa-crown"></i></span>'
+                const AnemoiaClass = entry.Anemoia ? ' Anemoia' : '';
+                const AnemoiaIndicator = entry.Anemoia
+                    ? '<span class="Anemoia-indicator"><i class="fas fa-crown"></i></span>'
                     : '';
                 const htClass = entry.tier_earned.startsWith('H') ? ' ht' : '';
 
                 playerTemplate.innerHTML = `
-                    <div class="user-item${anemoniaClass}" data-ign="${entry.ign}">
+                    <div class="user-item${AnemoiaClass}" data-ign="${entry.ign}">
                         <div class="user-info">
-                            <div class="user-name">${entry.ign} ${anemoniaIndicator}</div>
+                            <div class="user-name">${entry.ign} ${AnemoiaIndicator}</div>
                             <div class="user-tier">
                                 <span class="sword">⚔️</span>
                                 <span class="tier-badge${htClass}">${entry.tier_earned}</span>
@@ -3127,7 +3322,7 @@
 
             // Update filter button states
             filterAllButton.classList.toggle('active', currentFilter === 'all');
-            filterAnemoniaButton.classList.toggle('active', currentFilter === 'anemonia');
+            filterAnemoiaButton.classList.toggle('active', currentFilter === 'Anemoia');
 
             // Show empty state message if no players in filter
             if (filteredPlayers.length === 0) {
@@ -3135,7 +3330,7 @@
                 emptyMessage.className = 'empty-state';
                 emptyMessage.innerHTML = `
                     <div class="empty-icon"><i class="fas fa-search"></i></div>
-                    <div class="empty-text">Nessun giocatore ${currentFilter === 'anemonia' ? 'Anemonia' : ''} trovato</div>
+                    <div class="empty-text">Nessun giocatore ${currentFilter === 'Anemoia' ? 'Anemoia' : ''} trovato</div>
                 `;
                 tierLists[1].appendChild(emptyMessage);
             }
@@ -3213,7 +3408,7 @@
         const profileTierText = document.getElementById('profileTierText');
         const profilePrevTier = document.getElementById('profilePrevTier');
         const profileDate = document.getElementById('profileDate');
-        const anemoniaBadge = document.getElementById('anemoniaBadge');
+        const AnemoiaBadge = document.getElementById('AnemoiaBadge');
 
         // Add click handler once
         profileModal.addEventListener('click', (e) => {
@@ -3257,8 +3452,8 @@
             coralMCLink.href = `https://stats.coralmc.it/user/${player.ign}`;
             coralMCLink.setAttribute('title', `Visualizza le statistiche di ${player.ign} su CoralMC`);
 
-            // Show/hide Anemonia badge
-            anemoniaBadge.style.display = player.anemonia ? 'flex' : 'none';
+            // Show/hide Anemoia badge
+            AnemoiaBadge.style.display = player.Anemoia ? 'flex' : 'none';
 
             // Show modal first
             profileModal.style.display = 'flex';
@@ -4180,9 +4375,9 @@
             }
         });
 
-        document.getElementById('filterAnemonia').addEventListener('click', function() {
-            if (currentFilter !== 'anemonia') {
-                currentFilter = 'anemonia';
+        document.getElementById('filterAnemoia').addEventListener('click', function() {
+            if (currentFilter !== 'Anemoia') {
+                currentFilter = 'Anemoia';
                 updateUI();
             }
         });
@@ -4277,7 +4472,7 @@
         function loadStats() {
             // Calculate statistics from player data
             const totalPlayers = allPlayers.length;
-            const anemoniaPlayers = allPlayers.filter(player => player.anemonia).length;
+            const AnemoiaPlayers = allPlayers.filter(player => player.Anemoia).length;
 
             // Count tests this month
             const now = new Date();
@@ -4291,7 +4486,7 @@
 
             // Update stats cards
             document.getElementById('totalPlayersCount').textContent = totalPlayers;
-            document.getElementById('anemoniaCount').textContent = anemoniaPlayers;
+            document.getElementById('AnemoiaCount').textContent = AnemoiaPlayers;
             document.getElementById('testsThisMonth').textContent = testsThisMonth;
 
             // Create tier distribution chart
@@ -4627,7 +4822,7 @@
                         <div class="activity-content">
                             <div class="activity-title">
                                 <span class="activity-player">${activity.ign}</span>
-                                ${activity.anemonia ? '<span class="activity-anemonia"><i class="fas fa-crown"></i></span>' : ''}
+                                ${activity.Anemoia ? '<span class="activity-Anemoia"><i class="fas fa-crown"></i></span>' : ''}
                             </div>
                             <div class="activity-details">
                                 <span class="activity-tier-before">${activity.tier_before}</span>
