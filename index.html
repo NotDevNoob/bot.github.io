@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MCTIERS Leaderboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>No-Co Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="No-Co - Dashboard per statistiche, classifiche e gestione del server Discord">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="icon" href="favicon.ico">
+    <meta property="og:title" content="No-Co Dashboard">
+    <meta property="og:description" content="Visualizza statistiche, classifiche e gestisci il server Discord">
+    <meta property="og:image" content="https://No-Co.com/og-image.jpg">
+    <meta property="og:url" content="https://No-Co.com">
 
     <style>
         /* Performance optimizations */
@@ -15,7 +22,7 @@
         }
 
         /* Add hardware acceleration only to specific elements that need it */
-        .tier-card, .user-item, .filter-button, .profile-content {
+        .tier-card, .user-item, .filter-button, .profile-content, .nav-item.active {
             transform: translateZ(0); /* Force GPU acceleration only where needed */
         }
 
@@ -31,6 +38,7 @@
         }
 
         :root {
+            /* Base colors */
             --gold: #ffd700;
             --silver: #c0c0c0;
             --bronze: #cd7f32;
@@ -40,8 +48,64 @@
             --text: #ffffff;
             --border: rgba(255, 255, 255, 0.1);
             --neon-purple: #bc13fe;
-            --Anemoia: #ff6b9e;
-            --Anemoia-dark: #d44a7a;
+            --anemonia: #ff6b9e;
+            --anemonia-dark: #d44a7a;
+
+            /* New theme colors */
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --secondary-light: #34d399;
+            --accent: #f97316;
+            --accent-dark: #ea580c;
+            --accent-light: #fb923c;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+            --info: #3b82f6;
+
+            /* UI elements */
+            --card-bg: rgba(26, 26, 26, 0.95);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(255, 255, 255, 0.15);
+            --button-bg: rgba(255, 255, 255, 0.08);
+            --button-hover-bg: rgba(255, 255, 255, 0.15);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --input-focus-bg: rgba(255, 255, 255, 0.12);
+
+            /* Light theme variables (will be used when .light-theme class is applied) */
+            --light-background: #f8fafc;
+            --light-text: #1e293b;
+            --light-card-bg: rgba(255, 255, 255, 0.95);
+            --light-card-border: rgba(0, 0, 0, 0.08);
+            --light-button-bg: rgba(0, 0, 0, 0.05);
+            --light-button-hover-bg: rgba(0, 0, 0, 0.1);
+
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+
+            /* Border radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 30px;
+
+            /* Transitions */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+            --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.2);
         }
 
         body {
@@ -49,16 +113,327 @@
             color: var(--text);
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             position: relative;
             overscroll-behavior: none; /* Prevent bounce effects that can cause lag */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+        }
+
+        /* Light theme styles */
+        body.light-theme {
+            background: var(--light-background);
+            color: var(--light-text);
+        }
+
+        /* Header and cards */
+        body.light-theme .header-squircle,
+        body.light-theme .tier-card,
+        body.light-theme .profile-content,
+        body.light-theme .sidebar,
+        body.light-theme .guide-card,
+        body.light-theme .tos-card,
+        body.light-theme .privacy-card,
+        body.light-theme .stats-card {
+            background: var(--light-card-bg);
+            border-color: var(--light-card-border);
+            box-shadow: var(--shadow-md);
+            color: var(--light-text);
+        }
+
+        /* Buttons and inputs */
+        body.light-theme .filter-button,
+        body.light-theme .search-input,
+        body.light-theme .nav-item,
+        body.light-theme .theme-toggle {
+            background: var(--light-button-bg);
+            color: var(--light-text);
+        }
+
+        body.light-theme .filter-button:hover,
+        body.light-theme .nav-item:hover,
+        body.light-theme .theme-toggle:hover {
+            background: var(--light-button-hover-bg);
+        }
+
+        /* User items */
+        body.light-theme .user-item {
+            background: rgba(0, 0, 0, 0.03);
+            color: var(--light-text);
+        }
+
+        body.light-theme .user-item:hover {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        /* Chart colors */
+        body.light-theme .chart-container canvas {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Headers and text */
+        body.light-theme h1,
+        body.light-theme h2,
+        body.light-theme h3,
+        body.light-theme h4,
+        body.light-theme h5,
+        body.light-theme h6,
+        body.light-theme p,
+        body.light-theme li,
+        body.light-theme .tier-label,
+        body.light-theme .tier-text,
+        body.light-theme .profile-ign,
+        body.light-theme .command-group code {
+            color: var(--light-text);
+        }
+
+        /* Special elements */
+        body.light-theme .header-title {
+            background: linear-gradient(45deg, #003366, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body.light-theme .nav-title {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        body.light-theme .coral-link {
+            color: var(--primary);
+        }
+
+        body.light-theme .coral-link:hover {
+            color: var(--primary-dark);
+        }
+
+        body.light-theme .command-group code {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--primary-dark);
+        }
+
+        body.light-theme .guide-section h2,
+        body.light-theme .tos-section h2,
+        body.light-theme .privacy-section h2 {
+            color: var(--primary-dark);
+        }
+
+        body.light-theme .guide-card h3,
+        body.light-theme .tos-card h3,
+        body.light-theme .privacy-card h3 {
+            color: var(--primary-dark);
+        }
+
+        body.light-theme .command-group h4 {
+            color: var(--secondary-dark);
+        }
+
+        /* Tier colors in light mode */
+        body.light-theme .tier-ht1 { color: #8e44ad; }
+        body.light-theme .tier-lt1 { color: #9b59b6; }
+        body.light-theme .tier-ht2 { color: #2980b9; }
+        body.light-theme .tier-lt2 { color: #3498db; }
+        body.light-theme .tier-ht3 { color: #27ae60; }
+        body.light-theme .tier-lt3 { color: #2ecc71; }
+        body.light-theme .tier-ht4 { color: #d35400; }
+        body.light-theme .tier-lt4 { color: #e67e22; }
+        body.light-theme .tier-ht5 { color: #c0392b; }
+        body.light-theme .tier-lt5 { color: #e74c3c; }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--card-bg);
+            border-right: 1px solid var(--card-border);
+            padding: var(--spacing-lg) 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: transform var(--transition-normal), background-color var(--transition-normal), border-color var(--transition-normal);
+        }
+
+        .sidebar-header {
+            padding: 0 var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-section {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .nav-title {
+            padding: 0 var(--spacing-lg);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        body.light-theme .nav-title {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--button-hover-bg);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        body.light-theme .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-item-text {
+            font-weight: 500;
+        }
+
+        .nav-badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: var(--spacing-lg);
+            border-top: 1px solid var(--card-border);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--button-bg);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+
+        .theme-toggle:hover {
+            background: var(--button-hover-bg);
+        }
+
+        body.light-theme .theme-toggle {
+            background: var(--light-button-bg);
+        }
+
+        body.light-theme .theme-toggle:hover {
+            background: var(--light-button-hover-bg);
+        }
+
+        .theme-toggle i {
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: var(--spacing-lg);
+            transition: margin-left var(--transition-normal);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        /* Mobile sidebar */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: var(--spacing-lg);
+            right: var(--spacing-lg);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+            transition: background-color var(--transition-fast);
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
 
         /* New header design with squircle */
@@ -78,6 +453,13 @@
             border-top: 3px solid var(--light-blue); /* Simple border instead of gradient */
         }
 
+        body.light-theme .header-squircle {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid var(--primary);
+        }
+
         /* Removed ::before pseudo-element for performance */
 
         .header-title {
@@ -92,6 +474,13 @@
             position: relative;
         }
 
+        body.light-theme .header-title {
+            background: linear-gradient(45deg, #003366, #4f46e5, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
         .header-title::after {
             content: '';
             position: absolute;
@@ -101,6 +490,10 @@
             height: 3px;
             background: var(--gold);
             border-radius: 3px;
+        }
+
+        body.light-theme .header-title::after {
+            background: var(--primary);
         }
 
         .filter-buttons {
@@ -132,8 +525,27 @@
             background: var(--light-blue); /* Solid color instead of gradient */
         }
 
-        .filter-button.Anemoia.active {
-            background: var(--Anemoia); /* Solid color instead of gradient */
+        .filter-button.anemonia.active {
+            background: var(--anemonia); /* Solid color instead of gradient */
+        }
+
+        body.light-theme .filter-button {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--light-text);
+        }
+
+        body.light-theme .filter-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .filter-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        body.light-theme .filter-button.anemonia.active {
+            background: var(--accent);
+            color: white;
         }
 
         .filter-button i {
@@ -153,7 +565,7 @@
             font-size: 1rem;
             font-weight: 500;
             width: 250px;
-            transition: width 0.2s ease; /* Only animate width */
+            transition: width 0.2s ease, background-color 0.2s ease; /* Animate width and background */
         }
 
         .search-icon {
@@ -169,6 +581,19 @@
             outline: none;
             background: rgba(255, 255, 255, 0.12);
             width: 300px;
+        }
+
+        body.light-theme .search-input {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--light-text);
+        }
+
+        body.light-theme .search-input:focus {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        body.light-theme .search-icon {
+            color: rgba(0, 0, 0, 0.5);
         }
 
         /* Mobile search styles */
@@ -379,15 +804,15 @@
             border-left-color: var(--light-blue);
         }
 
-        .user-item.Anemoia:hover {
-            border-left-color: var(--Anemoia);
+        .user-item.anemonia:hover {
+            border-left-color: var(--anemonia);
         }
 
-        .user-item.Anemoia:hover .user-name {
-            color: var(--Anemoia);
+        .user-item.anemonia:hover .user-name {
+            color: var(--anemonia);
         }
 
-        .user-item.Anemoia .tier-badge {
+        .user-item.anemonia .tier-badge {
             border-color: rgba(255, 107, 158, 0.3);
         }
 
@@ -412,8 +837,8 @@
             color: var(--light-blue);
         }
 
-        .Anemoia-indicator {
-            color: var(--Anemoia);
+        .anemonia-indicator {
+            color: var(--anemonia);
             font-size: 0.9rem;
             filter: drop-shadow(0 0 3px rgba(255, 107, 158, 0.3));
             animation: pulse 2s infinite;
@@ -630,11 +1055,25 @@
             letter-spacing: 2px;
         }
 
-        .Anemoia-badge {
+        .coral-link {
+            color: var(--light-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .coral-link:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+
+        .anemonia-badge {
             position: absolute;
             top: -10px;
             left: -10px;
-            background: linear-gradient(135deg, var(--Anemoia), var(--Anemoia-dark));
+            background: linear-gradient(135deg, var(--anemonia), var(--anemonia-dark));
             color: white;
             padding: 5px 12px;
             border-radius: 12px;
@@ -645,10 +1084,10 @@
             align-items: center;
             gap: 5px;
             transform: rotate(-5deg);
-            display: none; /* Hidden by default, shown when player has Anemoia flag */
+            display: none; /* Hidden by default, shown when player has Anemonia flag */
         }
 
-        .Anemoia-badge i {
+        .anemonia-badge i {
             font-size: 0.9rem;
         }
 
@@ -1004,8 +1443,8 @@
         }
 
         .admin-toggle input:checked + .admin-toggle-slider {
-            background-color: var(--Anemoia);
-            border-color: var(--Anemoia-dark);
+            background-color: var(--anemonia);
+            border-color: var(--anemonia-dark);
         }
 
         .admin-toggle input:checked + .admin-toggle-slider:before {
@@ -1280,44 +1719,780 @@
                 left: 5px;
             }
         }
+
+        /* Stats page styles */
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .stats-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stats-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stats-content {
+            flex: 1;
+        }
+
+        .stats-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stats-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        body.light-theme .stats-card {
+            background: var(--light-card-bg);
+            border-color: var(--light-card-border);
+        }
+
+        body.light-theme .stats-icon {
+            background: var(--primary);
+        }
+
+        body.light-theme .stats-value {
+            color: var(--light-text);
+        }
+
+        body.light-theme .stats-label {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        body.light-theme .chart-container {
+            background: var(--light-card-bg);
+            border-color: var(--light-card-border);
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            height: 300px;
+            position: relative;
+        }
+
+        /* Activity page styles */
+        .activity-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            transition: transform var(--transition-fast);
+        }
+
+        .activity-item:hover {
+            transform: translateX(5px);
+        }
+
+        .activity-time {
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .activity-date {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2px;
+        }
+
+        .activity-hour {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .activity-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .activity-upgrade .activity-icon {
+            background: var(--success);
+            color: white;
+        }
+
+        .activity-downgrade .activity-icon {
+            background: var(--danger);
+            color: white;
+        }
+
+        .activity-same .activity-icon {
+            background: var(--info);
+            color: white;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: 5px;
+        }
+
+        .activity-player {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .activity-anemonia {
+            color: var(--anemonia);
+            font-size: 0.9rem;
+        }
+
+        .activity-details {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .activity-tier-before {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .activity-arrow {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .activity-tier-after {
+            font-weight: 600;
+        }
+
+        .activity-upgrade .activity-tier-after {
+            color: var(--success);
+        }
+
+        .activity-downgrade .activity-tier-after {
+            color: var(--danger);
+        }
+
+        .activity-empty, .activity-loading, .xp-leaderboard-loading {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+
+        body.light-theme .activity-item {
+            background: var(--light-card-bg);
+            border-color: var(--light-card-border);
+        }
+
+        body.light-theme .activity-date,
+        body.light-theme .activity-hour {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        body.light-theme .activity-arrow {
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        body.light-theme .activity-tier-before {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        body.light-theme .activity-empty {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Placeholder for future styles */
+
+        /* Guide styles */
+        .guides-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .guide-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .guide-section h2 {
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .guide-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .guide-card h3 {
+            color: var(--primary-light);
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .command-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .command-group h4 {
+            color: var(--secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .command-group ul {
+            list-style-type: none;
+            padding-left: var(--spacing-md);
+        }
+
+        .command-group li {
+            margin-bottom: var(--spacing-sm);
+            position: relative;
+        }
+
+        .command-group li:before {
+            content: "•";
+            color: var(--accent);
+            position: absolute;
+            left: -15px;
+        }
+
+        .command-group code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: var(--light-blue);
+        }
+
+        /* TOS styles */
+        .tos-container, .privacy-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .tos-section, .privacy-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .tos-section h2, .privacy-section h2 {
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tos-section > p, .privacy-section > p {
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        body.light-theme .tos-section > p,
+        body.light-theme .privacy-section > p {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .tos-card, .privacy-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .tos-card h3, .privacy-card h3 {
+            color: var(--primary-light);
+            margin-top: 0;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tos-card p, .privacy-card p {
+            line-height: 1.6;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tos-card ul, .privacy-card ul {
+            padding-left: 20px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tos-card li, .privacy-card li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
     <div id="particleCanvas"></div>
-    <div class="version-label">v1.1 (Ottimizzato)</div>
-    <div class="container">
-        <div class="header-squircle">
-            <div class="header-title">🏆 Classifica Tier</div>
+    <div class="version-label">v2.0 (Dashboard)</div>
 
-            <div class="filter-buttons">
-                <button class="filter-button active" id="filterAll">
-                    <i class="fas fa-users"></i> Tutti
-                </button>
-                <button class="filter-button Anemoia" id="filterAnemoia">
-                    <i class="fas fa-crown"></i> Anemoia
-                </button>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-trophy"></i> No-Co
+                </div>
             </div>
 
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Cerca giocatore..." id="searchInput">
+            <div class="nav-section">
+                <div class="nav-title">Dashboard</div>
+                <ul class="nav-items">
+                    <li class="nav-item active" data-page="leaderboard">
+                        <i class="fas fa-medal"></i>
+                        <span class="nav-item-text">Classifica</span>
+                    </li>
+                    <li class="nav-item" data-page="stats">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-item-text">Statistiche</span>
+                    </li>
+                    <li class="nav-item" data-page="activity">
+                        <i class="fas fa-history"></i>
+                        <span class="nav-item-text">Attività Recenti</span>
+                    </li>
+                </ul>
             </div>
 
-            <!-- Mobile search toggle and container -->
-            <div class="search-toggle" id="searchToggle">
-                <i class="fas fa-search"></i>
+            <div class="nav-section">
+                <div class="nav-title">Community</div>
+                <ul class="nav-items">
+                    <li class="nav-item" data-page="events">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="nav-item-text">Eventi</span>
+                    </li>
+                    <li class="nav-item" data-page="guides">
+                        <i class="fas fa-book"></i>
+                        <span class="nav-item-text">Guide</span>
+                    </li>
+                    <li class="nav-item" data-page="tos">
+                        <i class="fas fa-file-contract"></i>
+                        <span class="nav-item-text">Termini di Servizio</span>
+                    </li>
+                    <li class="nav-item" data-page="privacy">
+                        <i class="fas fa-shield-alt"></i>
+                        <span class="nav-item-text">Privacy Policy</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Risorse</div>
+                <ul class="nav-items">
+                    <li class="nav-item" data-page="guides">
+                        <i class="fas fa-book"></i>
+                        <span class="nav-item-text">Guide</span>
+                    </li>
+                    <li class="nav-item" data-page="discord">
+                        <i class="fab fa-discord"></i>
+                        <span class="nav-item-text">Discord</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Tema Scuro</span>
+                </div>
             </div>
         </div>
 
-        <div class="mobile-search-container" id="mobileSearchContainer">
-            <div class="search-container" style="width: 100%;">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" style="width: 100%;" placeholder="Cerca giocatore..." id="mobileSearchInput">
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="container">
+                <!-- Leaderboard Page (default) -->
+                <div class="page-content" id="page-leaderboard">
+                    <div class="header-squircle">
+                        <div class="header-title">🏆 Classifica Tier</div>
+
+                        <div class="filter-buttons">
+                            <button class="filter-button active" id="filterAll">
+                                <i class="fas fa-users"></i> Tutti
+                            </button>
+                            <button class="filter-button anemonia" id="filterAnemonia">
+                                <i class="fas fa-crown"></i> Anemonia
+                            </button>
+                        </div>
+
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" placeholder="Cerca giocatore..." id="searchInput">
+                        </div>
+
+                        <!-- Mobile search toggle and container -->
+                        <div class="search-toggle" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+
+                    <div class="mobile-search-container" id="mobileSearchContainer">
+                        <div class="search-container" style="width: 100%;">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" style="width: 100%;" placeholder="Cerca giocatore..." id="mobileSearchInput">
+                        </div>
+                    </div>
+
+                    <div class="tiers-grid" id="tiersContainer"></div>
+                </div>
+
+                <!-- Stats Page -->
+                <div class="page-content" id="page-stats" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">📊 Statistiche</div>
+                    </div>
+
+                    <div class="stats-container">
+                        <div class="stats-row">
+                            <div class="stats-card">
+                                <div class="stats-icon"><i class="fas fa-users"></i></div>
+                                <div class="stats-content">
+                                    <div class="stats-value" id="totalPlayersCount">0</div>
+                                    <div class="stats-label">Giocatori Totali</div>
+                                </div>
+                            </div>
+
+                            <div class="stats-card">
+                                <div class="stats-icon"><i class="fas fa-crown"></i></div>
+                                <div class="stats-content">
+                                    <div class="stats-value" id="anemoniaCount">0</div>
+                                    <div class="stats-label">Anemonia</div>
+                                </div>
+                            </div>
+
+                            <div class="stats-card">
+                                <div class="stats-icon"><i class="fas fa-calendar-check"></i></div>
+                                <div class="stats-content">
+                                    <div class="stats-value" id="testsThisMonth">0</div>
+                                    <div class="stats-label">Test Questo Mese</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!-- Activity Page -->
+                <div class="page-content" id="page-activity" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">📝 Attività Recenti</div>
+                    </div>
+
+                    <div class="activity-container" id="activityContainer">
+                        <div class="activity-loading">Caricamento attività recenti...</div>
+                    </div>
+                </div>
+
+                <!-- Guides Page -->
+                <div class="page-content" id="page-guides" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">📚 Guide</div>
+                    </div>
+
+                    <div class="guides-container">
+                        <div class="guide-section">
+                            <h2>Comandi Discord</h2>
+                            <p>Ecco una lista completa di tutti i comandi disponibili sul server Discord No-Co.</p>
+
+                            <div class="guide-card">
+                                <h3>🎮 Comandi Utente</h3>
+                                <div class="command-group">
+                                    <h4>Utilità</h4>
+                                    <ul>
+                                        <li><code>!userinfo [@utente]</code> - Mostra informazioni su un utente</li>
+                                        <li><code>!serverinfo</code> - Mostra informazioni sul server</li>
+                                        <li><code>!ping</code> - Verifica la latenza del bot</li>
+                                        <li><code>!poll [domanda]</code> - Crea un sondaggio</li>
+                                    </ul>
+                                </div>
+
+                                <div class="command-group">
+                                    <h4>Divertimento</h4>
+                                    <ul>
+                                        <li><code>!8ball [domanda]</code> - Chiedi alla palla magica</li>
+                                        <li><code>!rps [scelta]</code> - Gioca a sasso, carta, forbice</li>
+                                        <li><code>!trivia [categoria]</code> - Inizia un quiz di trivia</li>
+                                        <li><code>!coinflip</code> - Lancia una moneta</li>
+                                        <li><code>!random [min] [max]</code> - Genera un numero casuale</li>
+                                        <li><code>!pi [start/continua/stop/status]</code> - Calcola le cifre di Pi</li>
+                                        <li><code>!meme</code> - Mostra un meme casuale</li>
+                                        <li><code>!gif [termine]</code> - Cerca una GIF</li>
+                                        <li><code>!quote</code> - Mostra una citazione casuale</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="guide-card">
+                                <h3>🛡️ Comandi Staff</h3>
+                                <div class="command-group">
+                                    <h4>Moderazione</h4>
+                                    <ul>
+                                        <li><code>!kick [@utente] [motivo]</code> - Espelle un utente dal server</li>
+                                        <li><code>!ban [@utente] [motivo]</code> - Bandisce un utente dal server</li>
+                                        <li><code>!mute [@utente] [durata] [motivo]</code> - Silenzia un utente</li>
+                                        <li><code>!warn [@utente] [motivo]</code> - Avvisa un utente</li>
+                                        <li><code>!purge [numero]</code> - Elimina un numero specifico di messaggi</li>
+                                    </ul>
+                                </div>
+
+                                <div class="command-group">
+                                    <h4>Utilità</h4>
+                                    <ul>
+                                        <li><code>!translate [lingua] [testo]</code> - Traduce un testo</li>
+                                        <li><code>!help staff</code> - Mostra l'elenco dei comandi staff</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="guide-card">
+                                <h3>🏆 Comandi Tier</h3>
+                                <div class="command-group">
+                                    <h4>Per lo Staff</h4>
+                                    <ul>
+                                        <li><code>!results [@utente] [ign] [tier-before] [tier-earned] [true/false]</code> - Registra i risultati di un test tier</li>
+                                        <li>Esempio: <code>!results @User Steve Unranked HT3 true</code></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="guide-section">
+                            <h2>Sistema Tier</h2>
+                            <p>Il sistema Tier è utilizzato per classificare i giocatori in base alle loro abilità.</p>
+
+                            <div class="guide-card">
+                                <h3>Livelli Tier</h3>
+                                <ul>
+                                    <li><strong>Tier 1</strong>: HT1 (High Tier 1) e LT1 (Low Tier 1) - Livello più alto</li>
+                                    <li><strong>Tier 2</strong>: HT2 (High Tier 2) e LT2 (Low Tier 2)</li>
+                                    <li><strong>Tier 3</strong>: HT3 (High Tier 3) e LT3 (Low Tier 3)</li>
+                                    <li><strong>Tier 4</strong>: HT4 (High Tier 4) e LT4 (Low Tier 4)</li>
+                                    <li><strong>Tier 5</strong>: HT5 (High Tier 5) e LT5 (Low Tier 5) - Livello più basso</li>
+                                </ul>
+                            </div>
+
+                            <div class="guide-card">
+                                <h3>Anemonia</h3>
+                                <p>Anemonia è un riconoscimento speciale assegnato ai giocatori che dimostrano abilità eccezionali o contributi significativi alla community.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms of Service Page -->
+                <div class="page-content" id="page-tos" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">📜 Termini di Servizio</div>
+                    </div>
+
+                    <div class="tos-container">
+                        <div class="tos-section">
+                            <h2>Termini di Servizio di No-Co</h2>
+                            <p>Ultimo aggiornamento: 3 Marzo 2025</p>
+
+                            <div class="tos-card">
+                                <h3>1. Accettazione dei Termini</h3>
+                                <p>Utilizzando il servizio No-Co, accetti di essere vincolato da questi Termini di Servizio. Se non accetti questi termini, ti preghiamo di non utilizzare il nostro servizio.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>2. Descrizione del Servizio</h3>
+                                <p>No-Co fornisce una piattaforma per la classificazione e il monitoraggio delle abilità dei giocatori di Minecraft, in particolare per il server CoralMC. Il servizio include una dashboard web e un bot Discord per la gestione delle classifiche e delle statistiche.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>3. Registrazione e Account</h3>
+                                <p>Per utilizzare alcune funzionalità del servizio, potrebbe essere necessario registrarsi o fornire informazioni personali come il tuo nome utente Minecraft. Ti impegni a fornire informazioni accurate e a mantenerle aggiornate.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>4. Condotta dell'Utente</h3>
+                                <p>Utilizzando il nostro servizio, accetti di non:</p>
+                                <ul>
+                                    <li>Violare leggi o regolamenti applicabili</li>
+                                    <li>Pubblicare contenuti offensivi, diffamatori o inappropriati</li>
+                                    <li>Impersonare altre persone o entità</li>
+                                    <li>Tentare di accedere a parti del servizio a cui non sei autorizzato</li>
+                                    <li>Interferire con il funzionamento del servizio</li>
+                                </ul>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>5. Proprietà Intellettuale</h3>
+                                <p>Tutti i contenuti presenti sul servizio No-Co, inclusi testi, grafica, logo, icone e software, sono di proprietà di No-Co o dei suoi licenzianti e sono protetti dalle leggi sulla proprietà intellettuale.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>6. Limitazione di Responsabilità</h3>
+                                <p>No-Co fornisce il servizio "così com'è" e "come disponibile" senza garanzie di alcun tipo. Non saremo responsabili per danni diretti, indiretti, incidentali, speciali o consequenziali derivanti dall'uso del servizio.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>7. Modifiche ai Termini</h3>
+                                <p>Ci riserviamo il diritto di modificare questi termini in qualsiasi momento. Le modifiche saranno effettive immediatamente dopo la pubblicazione dei termini aggiornati. L'uso continuato del servizio dopo tali modifiche costituisce l'accettazione dei nuovi termini.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>8. Risoluzione</h3>
+                                <p>Ci riserviamo il diritto di terminare o sospendere l'accesso al nostro servizio immediatamente, senza preavviso, per comportamenti che riteniamo violino questi Termini di Servizio.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>9. Legge Applicabile</h3>
+                                <p>Questi Termini saranno regolati e interpretati in conformità con le leggi italiane, senza riguardo ai suoi conflitti di principi di legge.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>10. Contatti</h3>
+                                <p>Per domande sui Termini di Servizio, contattaci tramite il server Discord No-Co.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Policy Page -->
+                <div class="page-content" id="page-privacy" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">🔒 Privacy Policy</div>
+                    </div>
+
+                    <div class="privacy-container">
+                        <div class="privacy-section">
+                            <h2>Privacy Policy di No-Co</h2>
+                            <p>Ultimo aggiornamento: 3 Marzo 2025</p>
+
+                            <div class="privacy-card">
+                                <h3>1. Introduzione</h3>
+                                <p>La presente Privacy Policy descrive come No-Co raccoglie, utilizza e condivide le informazioni personali quando utilizzi il nostro servizio, che include la dashboard web e il bot Discord.</p>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>2. Informazioni che Raccogliamo</h3>
+                                <p>Raccogliamo i seguenti tipi di informazioni:</p>
+                                <ul>
+                                    <li><strong>Informazioni di Account</strong>: Nome utente Minecraft (IGN), ID Discord, e ruoli sul server Discord.</li>
+                                    <li><strong>Dati di Utilizzo</strong>: Informazioni su come interagisci con il nostro servizio, inclusi i comandi utilizzati e le pagine visitate.</li>
+                                    <li><strong>Dati di Prestazione</strong>: Tier assegnati, risultati dei test, e altre metriche relative alle tue abilità di gioco.</li>
+                                </ul>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>3. Come Utilizziamo le Informazioni</h3>
+                                <p>Utilizziamo le informazioni raccolte per:</p>
+                                <ul>
+                                    <li>Fornire, mantenere e migliorare il nostro servizio</li>
+                                    <li>Creare e mantenere classifiche e statistiche</li>
+                                    <li>Comunicare con te riguardo al servizio</li>
+                                    <li>Monitorare l'utilizzo del servizio</li>
+                                    <li>Prevenire attività fraudolente o abusive</li>
+                                </ul>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>4. Condivisione delle Informazioni</h3>
+                                <p>Non vendiamo le tue informazioni personali a terze parti. Tuttavia, possiamo condividere le tue informazioni nelle seguenti circostanze:</p>
+                                <ul>
+                                    <li>Con il tuo consenso</li>
+                                    <li>Per conformarci a obblighi legali</li>
+                                    <li>Per proteggere i diritti, la proprietà o la sicurezza di No-Co, dei nostri utenti o del pubblico</li>
+                                </ul>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>5. Sicurezza dei Dati</h3>
+                                <p>Adottiamo misure ragionevoli per proteggere le tue informazioni personali da accessi non autorizzati, alterazioni, divulgazioni o distruzioni.</p>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>6. I Tuoi Diritti</h3>
+                                <p>Hai il diritto di:</p>
+                                <ul>
+                                    <li>Accedere alle tue informazioni personali</li>
+                                    <li>Correggere informazioni inesatte</li>
+                                    <li>Richiedere la cancellazione delle tue informazioni</li>
+                                    <li>Opporti al trattamento delle tue informazioni</li>
+                                    <li>Richiedere la limitazione del trattamento delle tue informazioni</li>
+                                </ul>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>7. Modifiche alla Privacy Policy</h3>
+                                <p>Possiamo aggiornare la nostra Privacy Policy di tanto in tanto. Ti informeremo di eventuali modifiche pubblicando la nuova Privacy Policy su questa pagina.</p>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>8. Contatti</h3>
+                                <p>Per domande sulla nostra Privacy Policy, contattaci tramite il server Discord No-Co.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other pages would be added here -->
             </div>
         </div>
-
-        <div class="tiers-grid" id="tiersContainer"></div>
     </div>
+
+    <!-- Mobile sidebar toggle button -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
 
     <!-- Admin Button (hidden by default) -->
     <div class="admin-button" id="adminButton" style="display: none;">⚙️</div>
@@ -1332,8 +2507,8 @@
                         <div class="tier-emoji-large" id="profileTierEmoji"></div>
                     </div>
                 </div>
-                <div id="AnemoiaBadge" class="Anemoia-badge">
-                    <i class="fas fa-crown"></i> Anemoia
+                <div id="anemoniaBadge" class="anemonia-badge">
+                    <i class="fas fa-crown"></i> Anemonia
                 </div>
             </div>
             <div class="profile-info">
@@ -1351,6 +2526,14 @@
                     <div class="tier-row">
                         <div class="tier-label">Data Test:</div>
                         <div class="tier-text" id="profileDate"></div>
+                    </div>
+                    <div class="tier-row">
+                        <div class="tier-label">Statistiche:</div>
+                        <div class="tier-text">
+                            <a id="profileCoralMCLink" href="#" target="_blank" class="coral-link">
+                                <i class="fas fa-external-link-alt"></i> CoralMC Stats
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1393,13 +2576,13 @@
                     </select>
                 </div>
                 <div class="admin-input-group">
-                    <label class="admin-label">Anemoia</label>
+                    <label class="admin-label">Anemonia</label>
                     <div class="admin-toggle-container">
                         <label class="admin-toggle">
-                            <input type="checkbox" id="adminAnemoia">
+                            <input type="checkbox" id="adminAnemonia">
                             <span class="admin-toggle-slider"></span>
                         </label>
-                        <span class="admin-toggle-label">Giocatore Anemoia</span>
+                        <span class="admin-toggle-label">Giocatore Anemonia</span>
                     </div>
                 </div>
 
@@ -1556,7 +2739,7 @@
 
         const tierEmojis = {1: "🥇", 2: "🥈", 3: "🥉", 4: "🔷", 5: "🔶"};
         let allPlayers = [];
-        let currentFilter = 'all'; // 'all' or 'Anemoia'
+        let currentFilter = 'all'; // 'all' or 'anemonia'
         const tierOptions = ['HT1', 'LT1', 'HT2', 'LT2', 'HT3', 'LT3', 'HT4', 'LT4', 'HT5', 'LT5'];
 
         async function getUUID(username) {
@@ -1624,7 +2807,7 @@
         function clearAdminForm() {
             adminIgnInput.value = '';
             adminTierSelect.value = '';
-            document.getElementById('adminAnemoia').checked = false;
+            document.getElementById('adminAnemonia').checked = false;
 
             adminMessage.style.display = 'none';
             adminMessage.textContent = '';
@@ -1643,7 +2826,7 @@
                 const existingPlayer = allPlayers.find(p => p.ign.toLowerCase() === ign.toLowerCase());
                 if (existingPlayer) {
                     adminTierSelect.value = existingPlayer.tier_earned || '';
-                    document.getElementById('adminAnemoia').checked = existingPlayer.Anemoia || false;
+                    document.getElementById('adminAnemonia').checked = existingPlayer.anemonia || false;
                 }
             }
         });
@@ -1651,7 +2834,7 @@
         adminSubmit.addEventListener('click', async () => {
             const ign = adminIgnInput.value.trim();
             const tier = adminTierSelect.value;
-            const Anemoia = document.getElementById('adminAnemoia').checked;
+            const anemonia = document.getElementById('adminAnemonia').checked;
 
             if (!ign) {
                 showAdminMessage('Inserisci un IGN', true);
@@ -1679,9 +2862,9 @@
                         ign: ign,
                         timestamp: timestamp,
                         uuid: uuid,
-                        Anemoia: Anemoia
+                        anemonia: anemonia
                     };
-                    showAdminMessage(`Giocatore aggiornato: ${ign}${Anemoia ? ' (Anemoia)' : ''}`);
+                    showAdminMessage(`Giocatore aggiornato: ${ign}${anemonia ? ' (Anemonia)' : ''}`);
                 } else {
                     // Add new player
                     allPlayers.push({
@@ -1690,9 +2873,9 @@
                         ign: ign,
                         timestamp: timestamp,
                         uuid: uuid,
-                        Anemoia: Anemoia
+                        anemonia: anemonia
                     });
-                    showAdminMessage(`Nuovo giocatore: ${ign}${Anemoia ? ' (Anemoia)' : ''}`);
+                    showAdminMessage(`Nuovo giocatore: ${ign}${anemonia ? ' (Anemonia)' : ''}`);
                 }
 
                 // Always save to GitHub repository
@@ -1847,7 +3030,7 @@
 
         // Cache DOM elements for better performance
         const filterAllButton = document.getElementById('filterAll');
-        const filterAnemoiaButton = document.getElementById('filterAnemoia');
+        const filterAnemoniaButton = document.getElementById('filterAnemonia');
         const tierLists = {
             1: document.getElementById('tier-1-users'),
             2: document.getElementById('tier-2-users'),
@@ -1902,7 +3085,7 @@
             // Filter players based on current filter
             const filteredPlayers = currentFilter === 'all'
                 ? cachedSortedPlayers
-                : cachedSortedPlayers.filter(player => player.Anemoia === true);
+                : cachedSortedPlayers.filter(player => player.anemonia === true);
 
             // Build all elements first and add them to fragments
             // Use a more efficient approach with fewer DOM operations
@@ -1913,16 +3096,16 @@
                 if (!fragments[tierNumber]) return;
 
                 // Create HTML string for better performance
-                const AnemoiaClass = entry.Anemoia ? ' Anemoia' : '';
-                const AnemoiaIndicator = entry.Anemoia
-                    ? '<span class="Anemoia-indicator"><i class="fas fa-crown"></i></span>'
+                const anemoniaClass = entry.anemonia ? ' anemonia' : '';
+                const anemoniaIndicator = entry.anemonia
+                    ? '<span class="anemonia-indicator"><i class="fas fa-crown"></i></span>'
                     : '';
                 const htClass = entry.tier_earned.startsWith('H') ? ' ht' : '';
 
                 playerTemplate.innerHTML = `
-                    <div class="user-item${AnemoiaClass}" data-ign="${entry.ign}">
+                    <div class="user-item${anemoniaClass}" data-ign="${entry.ign}">
                         <div class="user-info">
-                            <div class="user-name">${entry.ign} ${AnemoiaIndicator}</div>
+                            <div class="user-name">${entry.ign} ${anemoniaIndicator}</div>
                             <div class="user-tier">
                                 <span class="sword">⚔️</span>
                                 <span class="tier-badge${htClass}">${entry.tier_earned}</span>
@@ -1944,7 +3127,7 @@
 
             // Update filter button states
             filterAllButton.classList.toggle('active', currentFilter === 'all');
-            filterAnemoiaButton.classList.toggle('active', currentFilter === 'Anemoia');
+            filterAnemoniaButton.classList.toggle('active', currentFilter === 'anemonia');
 
             // Show empty state message if no players in filter
             if (filteredPlayers.length === 0) {
@@ -1952,7 +3135,7 @@
                 emptyMessage.className = 'empty-state';
                 emptyMessage.innerHTML = `
                     <div class="empty-icon"><i class="fas fa-search"></i></div>
-                    <div class="empty-text">Nessun giocatore ${currentFilter === 'Anemoia' ? 'Anemoia' : ''} trovato</div>
+                    <div class="empty-text">Nessun giocatore ${currentFilter === 'anemonia' ? 'Anemonia' : ''} trovato</div>
                 `;
                 tierLists[1].appendChild(emptyMessage);
             }
@@ -2030,7 +3213,7 @@
         const profileTierText = document.getElementById('profileTierText');
         const profilePrevTier = document.getElementById('profilePrevTier');
         const profileDate = document.getElementById('profileDate');
-        const AnemoiaBadge = document.getElementById('AnemoiaBadge');
+        const anemoniaBadge = document.getElementById('anemoniaBadge');
 
         // Add click handler once
         profileModal.addEventListener('click', (e) => {
@@ -2069,8 +3252,13 @@
             profilePrevTier.textContent = player.tier_before || 'Nessuno';
             profileDate.textContent = formattedDate;
 
-            // Show/hide Anemoia badge
-            AnemoiaBadge.style.display = player.Anemoia ? 'flex' : 'none';
+            // Set CoralMC stats link
+            const coralMCLink = document.getElementById('profileCoralMCLink');
+            coralMCLink.href = `https://stats.coralmc.it/user/${player.ign}`;
+            coralMCLink.setAttribute('title', `Visualizza le statistiche di ${player.ign} su CoralMC`);
+
+            // Show/hide Anemonia badge
+            anemoniaBadge.style.display = player.anemonia ? 'flex' : 'none';
 
             // Show modal first
             profileModal.style.display = 'flex';
@@ -2664,7 +3852,7 @@
 
                 const downloadLink = document.createElement('a');
                 downloadLink.href = dataUrl;
-                downloadLink.download = `mctiers_data_${new Date().toISOString().split('T')[0]}.json`;
+                downloadLink.download = `No-Co_data_${new Date().toISOString().split('T')[0]}.json`;
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
@@ -2992,9 +4180,9 @@
             }
         });
 
-        document.getElementById('filterAnemoia').addEventListener('click', function() {
-            if (currentFilter !== 'Anemoia') {
-                currentFilter = 'Anemoia';
+        document.getElementById('filterAnemonia').addEventListener('click', function() {
+            if (currentFilter !== 'anemonia') {
+                currentFilter = 'anemonia';
                 updateUI();
             }
         });
@@ -3003,7 +4191,609 @@
         setInterval(throttledLoadData, 300000);
         throttledLoadData();
 
-        // No notification - removed to avoid confusion
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', function() {
+            const body = document.body;
+            const isDarkTheme = !body.classList.contains('light-theme');
+
+            if (isDarkTheme) {
+                // Switch to light theme
+                body.classList.add('light-theme');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Tema Chiaro</span>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Switch to dark theme
+                body.classList.remove('light-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i><span>Tema Scuro</span>';
+                localStorage.setItem('theme', 'dark');
+            }
+
+            // Refresh charts if they exist and stats page is visible
+            if (document.getElementById('page-stats').style.display === 'block') {
+                if (window.tierChart) {
+                    createTierDistributionChart();
+                }
+                if (window.activityChart) {
+                    createMonthlyActivityChart();
+                }
+            }
+        });
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Tema Chiaro</span>';
+        }
+
+        // Navigation functionality
+        const navItems = document.querySelectorAll('.nav-item');
+        const pages = document.querySelectorAll('.page-content');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const targetPage = this.getAttribute('data-page');
+
+                // Update active nav item
+                navItems.forEach(navItem => navItem.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show target page, hide others
+                pages.forEach(page => {
+                    if (page.id === `page-${targetPage}`) {
+                        page.style.display = 'block';
+                    } else {
+                        page.style.display = 'none';
+                    }
+                });
+
+                // Close sidebar on mobile after navigation
+                if (window.innerWidth <= 992) {
+                    document.getElementById('sidebar').classList.remove('active');
+                }
+
+                // Load page-specific data
+                if (targetPage === 'stats') {
+                    loadStats();
+                } else if (targetPage === 'activity') {
+                    loadActivity();
+                } else if (targetPage === 'leaderboard-xp') {
+                    loadXPLeaderboard();
+                } else if (targetPage === 'matchmaking') {
+                    loadMatchmakingStatus();
+                }
+            });
+        });
+
+        // Mobile sidebar toggle
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        sidebarToggle.addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        });
+
+        // Stats page functionality
+        function loadStats() {
+            // Calculate statistics from player data
+            const totalPlayers = allPlayers.length;
+            const anemoniaPlayers = allPlayers.filter(player => player.anemonia).length;
+
+            // Count tests this month
+            const now = new Date();
+            const thisMonth = now.getMonth();
+            const thisYear = now.getFullYear();
+
+            const testsThisMonth = allPlayers.filter(player => {
+                const timestamp = new Date(player.timestamp);
+                return timestamp.getMonth() === thisMonth && timestamp.getFullYear() === thisYear;
+            }).length;
+
+            // Update stats cards
+            document.getElementById('totalPlayersCount').textContent = totalPlayers;
+            document.getElementById('anemoniaCount').textContent = anemoniaPlayers;
+            document.getElementById('testsThisMonth').textContent = testsThisMonth;
+
+            // Create tier distribution chart
+            createTierDistributionChart();
+
+            // Create monthly activity chart
+            createMonthlyActivityChart();
+        }
+
+        function createTierDistributionChart() {
+            const tierCounts = {};
+            const tierOrder = [
+                "HT1", "LT1",
+                "HT2", "LT2",
+                "HT3", "LT3",
+                "HT4", "LT4",
+                "HT5", "LT5"
+            ];
+
+            // Initialize counts for all tiers to ensure they all appear in the chart
+            tierOrder.forEach(tier => {
+                tierCounts[tier] = 0;
+            });
+
+            // Count players in each tier
+            allPlayers.forEach(player => {
+                const tier = player.tier_earned;
+                if (tier && tierOrder.includes(tier)) {
+                    tierCounts[tier] = (tierCounts[tier] || 0) + 1;
+                }
+            });
+
+            // Prepare data for chart using the predefined order
+            const labels = tierOrder;
+            const data = labels.map(tier => tierCounts[tier]);
+
+            // Create chart
+            const ctx = document.getElementById('tierDistributionChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (window.tierChart) {
+                window.tierChart.destroy();
+            }
+
+            // Check if light theme is active
+            const isLightTheme = document.body.classList.contains('light-theme');
+
+            // Create a gradient for the bars based on theme
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            if (isLightTheme) {
+                gradient.addColorStop(0, 'rgba(79, 70, 229, 0.8)');
+                gradient.addColorStop(1, 'rgba(129, 140, 248, 0.8)');
+            } else {
+                gradient.addColorStop(0, 'rgba(102, 163, 255, 0.8)');
+                gradient.addColorStop(1, 'rgba(79, 70, 229, 0.8)');
+            }
+
+            // Set colors based on theme
+            const textColor = isLightTheme ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)';
+            const gridColor = isLightTheme ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
+            const titleColor = isLightTheme ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+            const tooltipBgColor = isLightTheme ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)';
+            const tooltipTextColor = isLightTheme ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 1)';
+            const borderColor = isLightTheme ? 'rgba(79, 70, 229, 1)' : 'rgba(102, 163, 255, 1)';
+
+            window.tierChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Giocatori per Tier',
+                        data: data,
+                        backgroundColor: gradient,
+                        borderColor: borderColor,
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0,
+                                color: textColor
+                            },
+                            grid: {
+                                color: gridColor
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: textColor
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribuzione dei Tier',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            color: titleColor,
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: tooltipBgColor,
+                            titleColor: tooltipTextColor,
+                            bodyColor: tooltipTextColor,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.y} giocatori`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createMonthlyActivityChart() {
+            // Group tests by month
+            const monthlyTests = {};
+            const monthNames = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"];
+
+            allPlayers.forEach(player => {
+                if (player.timestamp) {
+                    const timestamp = new Date(player.timestamp);
+                    if (!isNaN(timestamp.getTime())) { // Check if date is valid
+                        const monthYear = `${timestamp.getFullYear()}-${timestamp.getMonth() + 1}`;
+                        monthlyTests[monthYear] = (monthlyTests[monthYear] || 0) + 1;
+                    }
+                }
+            });
+
+            // Get last 12 months
+            const now = new Date();
+            const labels = [];
+            const data = [];
+
+            for (let i = 11; i >= 0; i--) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const monthYear = `${d.getFullYear()}-${d.getMonth() + 1}`;
+                const monthName = monthNames[d.getMonth()];
+
+                labels.push(monthName);
+                data.push(monthlyTests[monthYear] || 0);
+            }
+
+            // Create chart
+            const ctx = document.getElementById('monthlyActivityChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (window.activityChart) {
+                window.activityChart.destroy();
+            }
+
+            // Check if light theme is active
+            const isLightTheme = document.body.classList.contains('light-theme');
+
+            // Set colors based on theme
+            const textColor = isLightTheme ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)';
+            const gridColor = isLightTheme ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
+            const titleColor = isLightTheme ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+            const tooltipBgColor = isLightTheme ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)';
+            const tooltipTextColor = isLightTheme ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 1)';
+
+            // Create gradient for the area based on theme
+            const areaGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            let borderColor, pointBgColor;
+
+            if (isLightTheme) {
+                areaGradient.addColorStop(0, 'rgba(249, 115, 22, 0.4)');
+                areaGradient.addColorStop(1, 'rgba(249, 115, 22, 0.0)');
+                borderColor = 'rgba(234, 88, 12, 1)';
+                pointBgColor = 'rgba(234, 88, 12, 1)';
+            } else {
+                areaGradient.addColorStop(0, 'rgba(255, 215, 0, 0.4)');
+                areaGradient.addColorStop(1, 'rgba(255, 215, 0, 0.0)');
+                borderColor = 'rgba(255, 215, 0, 1)';
+                pointBgColor = 'rgba(255, 215, 0, 1)';
+            }
+
+            window.activityChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Test Mensili',
+                        data: data,
+                        backgroundColor: areaGradient,
+                        borderColor: borderColor,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: pointBgColor,
+                        pointBorderColor: isLightTheme ? '#fff' : '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0,
+                                color: textColor
+                            },
+                            grid: {
+                                color: gridColor
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: textColor
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Attività Mensile',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            color: titleColor,
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: tooltipBgColor,
+                            titleColor: tooltipTextColor,
+                            bodyColor: tooltipTextColor,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.y} test`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Activity page functionality
+        function loadActivity() {
+            const activityContainer = document.getElementById('activityContainer');
+
+            // Sort players by timestamp (most recent first)
+            const recentActivity = [...allPlayers].sort((a, b) => {
+                return new Date(b.timestamp) - new Date(a.timestamp);
+            }).slice(0, 20); // Get most recent 20 activities
+
+            if (recentActivity.length === 0) {
+                activityContainer.innerHTML = '<div class="activity-empty">Nessuna attività recente</div>';
+                return;
+            }
+
+            let activityHTML = '<div class="activity-timeline">';
+
+            recentActivity.forEach(activity => {
+                const timestamp = new Date(activity.timestamp);
+                const formattedDate = timestamp.toLocaleDateString('it-IT', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+
+                const formattedTime = timestamp.toLocaleTimeString('it-IT', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const tierChange = activity.tier_before !== activity.tier_earned;
+                const tierUpgrade = tierChange && getTierValue(activity.tier_earned) > getTierValue(activity.tier_before);
+                const tierDowngrade = tierChange && getTierValue(activity.tier_earned) < getTierValue(activity.tier_before);
+
+                let statusIcon = '';
+                let statusClass = '';
+
+                if (tierUpgrade) {
+                    statusIcon = '<i class="fas fa-arrow-up"></i>';
+                    statusClass = 'activity-upgrade';
+                } else if (tierDowngrade) {
+                    statusIcon = '<i class="fas fa-arrow-down"></i>';
+                    statusClass = 'activity-downgrade';
+                } else {
+                    statusIcon = '<i class="fas fa-equals"></i>';
+                    statusClass = 'activity-same';
+                }
+
+                activityHTML += `
+                    <div class="activity-item ${statusClass}">
+                        <div class="activity-time">
+                            <div class="activity-date">${formattedDate}</div>
+                            <div class="activity-hour">${formattedTime}</div>
+                        </div>
+                        <div class="activity-icon">${statusIcon}</div>
+                        <div class="activity-content">
+                            <div class="activity-title">
+                                <span class="activity-player">${activity.ign}</span>
+                                ${activity.anemonia ? '<span class="activity-anemonia"><i class="fas fa-crown"></i></span>' : ''}
+                            </div>
+                            <div class="activity-details">
+                                <span class="activity-tier-before">${activity.tier_before}</span>
+                                <span class="activity-arrow">→</span>
+                                <span class="activity-tier-after">${activity.tier_earned}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            activityHTML += '</div>';
+            activityContainer.innerHTML = activityHTML;
+        }
+
+        // Helper function to get numeric value of tier for comparison
+        function getTierValue(tier) {
+            const tierMap = {
+                'Unranked': 0,
+                'LT5': 1, 'HT5': 2,
+                'LT4': 3, 'HT4': 4,
+                'LT3': 5, 'HT3': 6,
+                'LT2': 7, 'HT2': 8,
+                'LT1': 9, 'HT1': 10
+            };
+
+            return tierMap[tier] || 0;
+        }
+
+        // XP Leaderboard functionality
+        function loadXPLeaderboard() {
+            const container = document.getElementById('xpLeaderboardContainer');
+
+            // This would normally fetch data from the server
+            // For demo purposes, we'll create mock data
+            const mockXPData = [
+                { id: 1, username: 'Player1', xp: 5240, level: 12, avatar: 'https://i.pravatar.cc/100?img=1' },
+                { id: 2, username: 'Player2', xp: 4980, level: 11, avatar: 'https://i.pravatar.cc/100?img=2' },
+                { id: 3, username: 'Player3', xp: 4750, level: 10, avatar: 'https://i.pravatar.cc/100?img=3' },
+                { id: 4, username: 'Player4', xp: 3890, level: 9, avatar: 'https://i.pravatar.cc/100?img=4' },
+                { id: 5, username: 'Player5', xp: 3540, level: 8, avatar: 'https://i.pravatar.cc/100?img=5' },
+                { id: 6, username: 'Player6', xp: 3210, level: 7, avatar: 'https://i.pravatar.cc/100?img=6' },
+                { id: 7, username: 'Player7', xp: 2980, level: 7, avatar: 'https://i.pravatar.cc/100?img=7' },
+                { id: 8, username: 'Player8', xp: 2450, level: 6, avatar: 'https://i.pravatar.cc/100?img=8' },
+                { id: 9, username: 'Player9', xp: 2100, level: 5, avatar: 'https://i.pravatar.cc/100?img=9' },
+                { id: 10, username: 'Player10', xp: 1890, level: 4, avatar: 'https://i.pravatar.cc/100?img=10' }
+            ];
+
+            let html = '<div class="xp-leaderboard">';
+
+            // Top 3 players with special styling
+            html += '<div class="xp-top-players">';
+
+            for (let i = 0; i < 3 && i < mockXPData.length; i++) {
+                const player = mockXPData[i];
+                const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉';
+
+                html += `
+                    <div class="xp-top-player">
+                        <div class="xp-top-medal">${medal}</div>
+                        <div class="xp-top-avatar">
+                            <img src="${player.avatar}" alt="${player.username}">
+                            <div class="xp-top-level">Lvl ${player.level}</div>
+                        </div>
+                        <div class="xp-top-info">
+                            <div class="xp-top-name">${player.username}</div>
+                            <div class="xp-top-xp">${player.xp.toLocaleString()} XP</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+
+            // Rest of the leaderboard
+            html += '<div class="xp-players-list">';
+
+            for (let i = 3; i < mockXPData.length; i++) {
+                const player = mockXPData[i];
+
+                html += `
+                    <div class="xp-player-item">
+                        <div class="xp-player-rank">#${i + 1}</div>
+                        <div class="xp-player-avatar">
+                            <img src="${player.avatar}" alt="${player.username}">
+                        </div>
+                        <div class="xp-player-info">
+                            <div class="xp-player-name">${player.username}</div>
+                            <div class="xp-player-level">Livello ${player.level}</div>
+                        </div>
+                        <div class="xp-player-xp">${player.xp.toLocaleString()} XP</div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            html += '</div>';
+
+            container.innerHTML = html;
+        }
+
+        // Matchmaking functionality
+        function loadMatchmakingStatus() {
+            // This would normally fetch data from the server
+            // For demo purposes, we'll create mock data
+            const mockQueueData = {
+                duo: [
+                    { id: 1, username: 'Player1', avatar: 'https://i.pravatar.cc/100?img=1' },
+                    { id: 2, username: 'Player2', avatar: 'https://i.pravatar.cc/100?img=2' }
+                ],
+                trio: [
+                    { id: 3, username: 'Player3', avatar: 'https://i.pravatar.cc/100?img=3' },
+                    { id: 4, username: 'Player4', avatar: 'https://i.pravatar.cc/100?img=4' }
+                ]
+            };
+
+            // Update duo queue
+            const duoQueueCount = document.getElementById('duoQueueCount');
+            const duoQueuePlayers = document.getElementById('duoQueuePlayers');
+
+            duoQueueCount.textContent = `${mockQueueData.duo.length}/2`;
+
+            if (mockQueueData.duo.length === 0) {
+                duoQueuePlayers.innerHTML = '<div class="empty-queue">Nessun giocatore in coda</div>';
+            } else {
+                let duoHTML = '';
+                mockQueueData.duo.forEach(player => {
+                    duoHTML += `
+                        <div class="queue-player">
+                            <img src="${player.avatar}" alt="${player.username}">
+                            <span>${player.username}</span>
+                        </div>
+                    `;
+                });
+                duoQueuePlayers.innerHTML = duoHTML;
+            }
+
+            // Update trio queue
+            const trioQueueCount = document.getElementById('trioQueueCount');
+            const trioQueuePlayers = document.getElementById('trioQueuePlayers');
+
+            trioQueueCount.textContent = `${mockQueueData.trio.length}/3`;
+
+            if (mockQueueData.trio.length === 0) {
+                trioQueuePlayers.innerHTML = '<div class="empty-queue">Nessun giocatore in coda</div>';
+            } else {
+                let trioHTML = '';
+                mockQueueData.trio.forEach(player => {
+                    trioHTML += `
+                        <div class="queue-player">
+                            <img src="${player.avatar}" alt="${player.username}">
+                            <span>${player.username}</span>
+                        </div>
+                    `;
+                });
+                trioQueuePlayers.innerHTML = trioHTML;
+            }
+
+            // Add event listeners to queue buttons
+            document.querySelectorAll('.queue-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const queueType = this.getAttribute('data-queue');
+                    alert(`Funzionalità di coda ${queueType} non disponibile nella demo. Usa il comando !queue ${queueType} su Discord.`);
+                });
+            });
+        }
     </script>
 </body>
 </html>
