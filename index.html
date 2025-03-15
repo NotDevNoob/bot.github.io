@@ -40,8 +40,8 @@
             --text: #ffffff;
             --border: rgba(255, 255, 255, 0.1);
             --neon-purple: #bc13fe;
-            --anemonia: #ff6b9e;
-            --anemonia-dark: #d44a7a;
+            --Anemoia: #ff6b9e;
+            --Anemoia-dark: #d44a7a;
         }
 
         body {
@@ -132,8 +132,8 @@
             background: var(--light-blue); /* Solid color instead of gradient */
         }
 
-        .filter-button.anemonia.active {
-            background: var(--anemonia); /* Solid color instead of gradient */
+        .filter-button.Anemoia.active {
+            background: var(--Anemoia); /* Solid color instead of gradient */
         }
 
         .filter-button i {
@@ -379,15 +379,15 @@
             border-left-color: var(--light-blue);
         }
 
-        .user-item.anemonia:hover {
-            border-left-color: var(--anemonia);
+        .user-item.Anemoia:hover {
+            border-left-color: var(--Anemoia);
         }
 
-        .user-item.anemonia:hover .user-name {
-            color: var(--anemonia);
+        .user-item.Anemoia:hover .user-name {
+            color: var(--Anemoia);
         }
 
-        .user-item.anemonia .tier-badge {
+        .user-item.Anemoia .tier-badge {
             border-color: rgba(255, 107, 158, 0.3);
         }
 
@@ -412,8 +412,8 @@
             color: var(--light-blue);
         }
 
-        .anemonia-indicator {
-            color: var(--anemonia);
+        .Anemoia-indicator {
+            color: var(--Anemoia);
             font-size: 0.9rem;
             filter: drop-shadow(0 0 3px rgba(255, 107, 158, 0.3));
             animation: pulse 2s infinite;
@@ -630,11 +630,11 @@
             letter-spacing: 2px;
         }
 
-        .anemonia-badge {
+        .Anemoia-badge {
             position: absolute;
             top: -10px;
             left: -10px;
-            background: linear-gradient(135deg, var(--anemonia), var(--anemonia-dark));
+            background: linear-gradient(135deg, var(--Anemoia), var(--Anemoia-dark));
             color: white;
             padding: 5px 12px;
             border-radius: 12px;
@@ -645,10 +645,10 @@
             align-items: center;
             gap: 5px;
             transform: rotate(-5deg);
-            display: none; /* Hidden by default, shown when player has Anemonia flag */
+            display: none; /* Hidden by default, shown when player has Anemoia flag */
         }
 
-        .anemonia-badge i {
+        .Anemoia-badge i {
             font-size: 0.9rem;
         }
 
@@ -1004,8 +1004,8 @@
         }
 
         .admin-toggle input:checked + .admin-toggle-slider {
-            background-color: var(--anemonia);
-            border-color: var(--anemonia-dark);
+            background-color: var(--Anemoia);
+            border-color: var(--Anemoia-dark);
         }
 
         .admin-toggle input:checked + .admin-toggle-slider:before {
@@ -1293,8 +1293,8 @@
                 <button class="filter-button active" id="filterAll">
                     <i class="fas fa-users"></i> Tutti
                 </button>
-                <button class="filter-button anemonia" id="filterAnemonia">
-                    <i class="fas fa-crown"></i> Anemonia
+                <button class="filter-button Anemoia" id="filterAnemoia">
+                    <i class="fas fa-crown"></i> Anemoia
                 </button>
             </div>
 
@@ -1332,8 +1332,8 @@
                         <div class="tier-emoji-large" id="profileTierEmoji"></div>
                     </div>
                 </div>
-                <div id="anemoniaBadge" class="anemonia-badge">
-                    <i class="fas fa-crown"></i> Anemonia
+                <div id="AnemoiaBadge" class="Anemoia-badge">
+                    <i class="fas fa-crown"></i> Anemoia
                 </div>
             </div>
             <div class="profile-info">
@@ -1393,13 +1393,13 @@
                     </select>
                 </div>
                 <div class="admin-input-group">
-                    <label class="admin-label">Anemonia</label>
+                    <label class="admin-label">Anemoia</label>
                     <div class="admin-toggle-container">
                         <label class="admin-toggle">
-                            <input type="checkbox" id="adminAnemonia">
+                            <input type="checkbox" id="adminAnemoia">
                             <span class="admin-toggle-slider"></span>
                         </label>
-                        <span class="admin-toggle-label">Giocatore Anemonia</span>
+                        <span class="admin-toggle-label">Giocatore Anemoia</span>
                     </div>
                 </div>
 
@@ -1556,7 +1556,7 @@
 
         const tierEmojis = {1: "🥇", 2: "🥈", 3: "🥉", 4: "🔷", 5: "🔶"};
         let allPlayers = [];
-        let currentFilter = 'all'; // 'all' or 'anemonia'
+        let currentFilter = 'all'; // 'all' or 'Anemoia'
         const tierOptions = ['HT1', 'LT1', 'HT2', 'LT2', 'HT3', 'LT3', 'HT4', 'LT4', 'HT5', 'LT5'];
 
         async function getUUID(username) {
@@ -1624,7 +1624,7 @@
         function clearAdminForm() {
             adminIgnInput.value = '';
             adminTierSelect.value = '';
-            document.getElementById('adminAnemonia').checked = false;
+            document.getElementById('adminAnemoia').checked = false;
 
             adminMessage.style.display = 'none';
             adminMessage.textContent = '';
@@ -1643,7 +1643,7 @@
                 const existingPlayer = allPlayers.find(p => p.ign.toLowerCase() === ign.toLowerCase());
                 if (existingPlayer) {
                     adminTierSelect.value = existingPlayer.tier_earned || '';
-                    document.getElementById('adminAnemonia').checked = existingPlayer.anemonia || false;
+                    document.getElementById('adminAnemoia').checked = existingPlayer.Anemoia || false;
                 }
             }
         });
@@ -1651,7 +1651,7 @@
         adminSubmit.addEventListener('click', async () => {
             const ign = adminIgnInput.value.trim();
             const tier = adminTierSelect.value;
-            const anemonia = document.getElementById('adminAnemonia').checked;
+            const Anemoia = document.getElementById('adminAnemoia').checked;
 
             if (!ign) {
                 showAdminMessage('Inserisci un IGN', true);
@@ -1679,9 +1679,9 @@
                         ign: ign,
                         timestamp: timestamp,
                         uuid: uuid,
-                        anemonia: anemonia
+                        Anemoia: Anemoia
                     };
-                    showAdminMessage(`Giocatore aggiornato: ${ign}${anemonia ? ' (Anemonia)' : ''}`);
+                    showAdminMessage(`Giocatore aggiornato: ${ign}${Anemoia ? ' (Anemoia)' : ''}`);
                 } else {
                     // Add new player
                     allPlayers.push({
@@ -1690,9 +1690,9 @@
                         ign: ign,
                         timestamp: timestamp,
                         uuid: uuid,
-                        anemonia: anemonia
+                        Anemoia: Anemoia
                     });
-                    showAdminMessage(`Nuovo giocatore: ${ign}${anemonia ? ' (Anemonia)' : ''}`);
+                    showAdminMessage(`Nuovo giocatore: ${ign}${Anemoia ? ' (Anemoia)' : ''}`);
                 }
 
                 // Always save to GitHub repository
@@ -1847,7 +1847,7 @@
 
         // Cache DOM elements for better performance
         const filterAllButton = document.getElementById('filterAll');
-        const filterAnemoniaButton = document.getElementById('filterAnemonia');
+        const filterAnemoiaButton = document.getElementById('filterAnemoia');
         const tierLists = {
             1: document.getElementById('tier-1-users'),
             2: document.getElementById('tier-2-users'),
@@ -1902,7 +1902,7 @@
             // Filter players based on current filter
             const filteredPlayers = currentFilter === 'all'
                 ? cachedSortedPlayers
-                : cachedSortedPlayers.filter(player => player.anemonia === true);
+                : cachedSortedPlayers.filter(player => player.Anemoia === true);
 
             // Build all elements first and add them to fragments
             // Use a more efficient approach with fewer DOM operations
@@ -1913,16 +1913,16 @@
                 if (!fragments[tierNumber]) return;
 
                 // Create HTML string for better performance
-                const anemoniaClass = entry.anemonia ? ' anemonia' : '';
-                const anemoniaIndicator = entry.anemonia
-                    ? '<span class="anemonia-indicator"><i class="fas fa-crown"></i></span>'
+                const AnemoiaClass = entry.Anemoia ? ' Anemoia' : '';
+                const AnemoiaIndicator = entry.Anemoia
+                    ? '<span class="Anemoia-indicator"><i class="fas fa-crown"></i></span>'
                     : '';
                 const htClass = entry.tier_earned.startsWith('H') ? ' ht' : '';
 
                 playerTemplate.innerHTML = `
-                    <div class="user-item${anemoniaClass}" data-ign="${entry.ign}">
+                    <div class="user-item${AnemoiaClass}" data-ign="${entry.ign}">
                         <div class="user-info">
-                            <div class="user-name">${entry.ign} ${anemoniaIndicator}</div>
+                            <div class="user-name">${entry.ign} ${AnemoiaIndicator}</div>
                             <div class="user-tier">
                                 <span class="sword">⚔️</span>
                                 <span class="tier-badge${htClass}">${entry.tier_earned}</span>
@@ -1944,7 +1944,7 @@
 
             // Update filter button states
             filterAllButton.classList.toggle('active', currentFilter === 'all');
-            filterAnemoniaButton.classList.toggle('active', currentFilter === 'anemonia');
+            filterAnemoiaButton.classList.toggle('active', currentFilter === 'Anemoia');
 
             // Show empty state message if no players in filter
             if (filteredPlayers.length === 0) {
@@ -1952,7 +1952,7 @@
                 emptyMessage.className = 'empty-state';
                 emptyMessage.innerHTML = `
                     <div class="empty-icon"><i class="fas fa-search"></i></div>
-                    <div class="empty-text">Nessun giocatore ${currentFilter === 'anemonia' ? 'Anemonia' : ''} trovato</div>
+                    <div class="empty-text">Nessun giocatore ${currentFilter === 'Anemoia' ? 'Anemoia' : ''} trovato</div>
                 `;
                 tierLists[1].appendChild(emptyMessage);
             }
@@ -2030,7 +2030,7 @@
         const profileTierText = document.getElementById('profileTierText');
         const profilePrevTier = document.getElementById('profilePrevTier');
         const profileDate = document.getElementById('profileDate');
-        const anemoniaBadge = document.getElementById('anemoniaBadge');
+        const AnemoiaBadge = document.getElementById('AnemoiaBadge');
 
         // Add click handler once
         profileModal.addEventListener('click', (e) => {
@@ -2069,8 +2069,8 @@
             profilePrevTier.textContent = player.tier_before || 'Nessuno';
             profileDate.textContent = formattedDate;
 
-            // Show/hide Anemonia badge
-            anemoniaBadge.style.display = player.anemonia ? 'flex' : 'none';
+            // Show/hide Anemoia badge
+            AnemoiaBadge.style.display = player.Anemoia ? 'flex' : 'none';
 
             // Show modal first
             profileModal.style.display = 'flex';
@@ -2992,9 +2992,9 @@
             }
         });
 
-        document.getElementById('filterAnemonia').addEventListener('click', function() {
-            if (currentFilter !== 'anemonia') {
-                currentFilter = 'anemonia';
+        document.getElementById('filterAnemoia').addEventListener('click', function() {
+            if (currentFilter !== 'Anemoia') {
+                currentFilter = 'Anemoia';
                 updateUI();
             }
         });
