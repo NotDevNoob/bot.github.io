@@ -1,6 +1,14 @@
 [
   {
     "tier_before": "HT5",
+    "tier_earned": "LT4",
+    "ign": "ER_GLADIATOR1",
+    "timestamp": "2025-03-16T18:32:25.366Z",
+    "uuid": "1c84ded4-ceea-4f9d-beeb-fdc25eed81be",
+    "Anemoia": false
+  },
+  {
+    "tier_before": "HT5",
     "tier_earned": "HT5",
     "ign": "Diocleziano_",
     "timestamp": "2025-03-16T18:32:12.831Z",
@@ -22,15 +30,6 @@
     "timestamp": "2025-03-15T11:22:41.745Z",
     "uuid": "f59dc1d9-4e80-44c7-bab0-6d3c4730fa90",
     "Anemoia": false
-  },
-  {
-    "tier_before": "LT4",
-    "tier_earned": "HT5",
-    "ign": "ER_GLADIATOR1",
-    "tester": "Giulio_Cesare_",
-    "timestamp": "2025-03-08 21:54:24.265105+00:00",
-    "anemonia": false,
-    "uuid": "95761d06-8231-4f25-b830-ddc59878c6fa"
   },
   {
     "tier_before": "Unranked",
