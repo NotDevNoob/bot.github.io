@@ -1,5 +1,13 @@
 [
   {
+    "tier_before": "LT4",
+    "tier_earned": "HT5",
+    "ign": "Carlo_Magno_",
+    "timestamp": "2025-03-17T20:44:47.434Z",
+    "uuid": "934b972d-f18f-4f2b-a133-f7b156a621ab",
+    "Anemoia": false
+  },
+  {
     "tier_before": "Nessuno",
     "tier_earned": "HT5",
     "ign": "Carki_Magno_",
@@ -29,14 +37,6 @@
     "ign": "Giulio_Cesare_",
     "timestamp": "2025-03-15T11:52:43.164Z",
     "uuid": "b28b9d85-bcaa-4054-b405-3f6f3ca5ab0f",
-    "Anemoia": false
-  },
-  {
-    "tier_before": "Nessuno",
-    "tier_earned": "LT4",
-    "ign": "Carlo_Magno_",
-    "timestamp": "2025-03-15T11:22:41.745Z",
-    "uuid": "f59dc1d9-4e80-44c7-bab0-6d3c4730fa90",
     "Anemoia": false
   },
   {
