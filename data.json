@@ -49,7 +49,7 @@
   },
   {
     "tier_before": "Unranked",
-    "tier_earned": "HT2",
+    "tier_earned": "LT2",
     "ign": "kytsue",
     "tester": "Faw",
     "timestamp": "2025-03-08 19:33:31.842327+00:00",
@@ -67,7 +67,7 @@
   },
   {
     "tier_before": "Nessuno",
-    "tier_earned": "LT1",
+    "tier_earned": "HT2",
     "ign": "go2workk",
     "tester": "Faw",
     "timestamp": "2025-03-06T20:45:00Z",
@@ -76,7 +76,7 @@
   },
   {
     "tier_before": "Nessuno",
-    "tier_earned": "HT2",
+    "tier_earned": "LT2",
     "ign": "afterylyfe",
     "tester": "Faw",
     "timestamp": "2025-03-05T21:29:00Z",
@@ -106,6 +106,24 @@
     "tier_earned": "LT3",
     "ign": "Ottaviano_August",
     "tester": "Faw",
+    "timestamp": "2025-03-05T16:10:00Z",
+    "anemonia": false,
+    "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83"
+  },
+  {
+    "tier_before": "Nessuno",
+    "tier_earned": "LT1",
+    "ign": "OverTheLimits",
+    "tester": "Giulio_Cesare_",
+    "timestamp": "2025-03-05T16:10:00Z",
+    "anemonia": false,
+    "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83"
+  },
+    {
+    "tier_before": "Nessuno",
+    "tier_earned": "LT1",
+    "ign": "CantGuardShown",
+    "tester": "_Faw",
     "timestamp": "2025-03-05T16:10:00Z",
     "anemonia": false,
     "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83"
