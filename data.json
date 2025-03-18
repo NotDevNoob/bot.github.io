@@ -47,6 +47,22 @@
     "uuid": "b28b9d85-bcaa-4054-b405-3f6f3ca5ab0f",
     "Anemoia": false
   },
+    {
+    "tier_before": "Unranked",
+    "tier_earned": "HT3",
+    "ign": "Yarashin",
+    "timestamp": "2025-03-15T11:52:43.164Z",
+    "uuid": "b28b9d85-bcaa-4054-b405-3f6f3ca5ab0f",
+    "Anemoia": true
+  },
+      {
+    "tier_before": "Unranked",
+    "tier_earned": "HT4",
+    "ign": "nf0mg7atmhckmlh2",
+    "timestamp": "2025-03-15T11:52:43.164Z",
+    "uuid": "b28b9d85-bcaa-4054-b405-3f6f3ca5ab0f",
+    "Anemoia": false
+  },
   {
     "tier_before": "Unranked",
     "tier_earned": "LT2",
