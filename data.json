@@ -1,5 +1,16 @@
 [
   {
+    "tier_before": "LT3",
+    "tier_earned": "LT3",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
+    "ign": "Yarashin",
+    "timestamp": "2025-03-20T14:00:04.218Z",
+    "uuid": "40ea2be2-297f-447b-b670-61b84466a445",
+    "Anemoia": false,
+    "bedwars": false
+  },
+  {
     "tier_before": "Nessuno",
     "tier_earned": "HT3",
     "ign": "kkoroz",
@@ -78,14 +89,6 @@
     "timestamp": "2025-03-15T11:52:43.164Z",
     "uuid": "b28b9d85-bcaa-4054-b405-3f6f3ca5ab0f",
     "Anemoia": false
-  },
-  {
-    "tier_before": "Unranked",
-    "tier_earned": "LT3",
-    "ign": "Yarashin",
-    "timestamp": "2025-03-15T11:52:43.164Z",
-    "uuid": "b28b9d85-bcaa-4054-b405-3f6f3ca5ab0f",
-    "Anemoia": true
   },
   {
     "tier_before": "Unranked",
