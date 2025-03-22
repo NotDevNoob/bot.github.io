@@ -8,7 +8,7 @@
     "timestamp": "2025-03-22T17:23:04.068Z",
     "uuid": "2f663bb6-1f15-4d3b-94cf-4ff570d611aa",
     "Anemoia": false,
-    "bedwars": false
+    "bedwars": true
   },
   {
     "tier_before": "Nessuno",
@@ -49,55 +49,74 @@
     "ign": "kkoroz",
     "timestamp": "2025-03-19T20:00:44.168Z",
     "uuid": "576d8b09-dfa8-408f-8d1e-e2606864435f",
-    "Anemoia": false
+    "Anemoia": false,
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
     "tier_earned": "LT3",
     "ign": "Tokyoo_",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-19T19:59:25.876Z",
     "uuid": "f7a43b33-fb4d-4bd8-a135-0c87888eaf81",
-    "Anemoia": false
+    "Anemoia": false,
+    "bedwars": false
   },
   {
     "tier_before": "LT1",
     "tier_earned": "HT2",
     "ign": "OverTheLimits",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-19T14:21:51.494Z",
     "uuid": "98f13049-805d-4fcd-aa62-5bb2065be5df",
-    "Anemoia": false
+    "Anemoia": false,
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
     "tier_earned": "LT2",
     "ign": "_CrazyPopCorn_",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-18T19:30:31.194Z",
     "uuid": "cebd216e-4c29-4d95-9a04-e34609ddd114",
-    "Anemoia": false
+    "Anemoia": false,
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
     "tier_earned": "LT4",
     "ign": "ZIOJIMMY",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-18T15:47:43.656Z",
     "uuid": "c2ac0558-06df-4628-b307-7356ecf4423f",
-    "Anemoia": true
+    "Anemoia": true,
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
     "tier_earned": "LT5",
     "ign": "abusata",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-18T13:14:57.826Z",
     "uuid": "6d7781e5-8855-4df0-a63f-673f3e2a6ac5",
-    "Anemoia": false
+    "Anemoia": false,
+    "bedwars": false
   },
   {
     "tier_before": "LT4",
     "tier_earned": "HT5",
     "ign": "Carlo_Magno_",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-17T20:44:47.434Z",
     "uuid": "934b972d-f18f-4f2b-a133-f7b156a621ab",
-    "Anemoia": false
+    "Anemoia": false,
+    "bedwars": false
   },
   {
     "tier_before": "LT3",
@@ -113,36 +132,48 @@
     "tier_before": "Unranked",
     "tier_earned": "HT3",
     "ign": "nf0mg7atmhckmlh2",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-15T11:52:43.164Z",
     "uuid": "b28b9d85-bcaa-4054-b405-3f6f3ca5ab0f",
-    "Anemoia": false
+    "Anemoia": false,
+    "bedwars": false
   },
   {
     "tier_before": "Unranked",
     "tier_earned": "HT3",
     "ign": "kytsue",
     "tester": "Faw",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-08 19:33:31.842327+00:00",
     "anemonia": false,
-    "uuid": "104058bd-71a7-4521-847e-ef906cd989de"
+    "uuid": "104058bd-71a7-4521-847e-ef906cd989de",
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
     "tier_earned": "HT4",
     "ign": "Takeruluigi",
     "tester": "Giulio_Cesare_",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-07T22:11:00Z",
     "anemonia": false,
-    "uuid": "0235f872-c26f-4c5b-b620-da57b32e8f3a"
+    "uuid": "0235f872-c26f-4c5b-b620-da57b32e8f3a",
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
     "tier_earned": "LT2",
     "ign": "go2workk",
     "tester": "Faw",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "timestamp": "2025-03-06T20:45:00Z",
     "anemonia": false,
-    "uuid": "e83dc229-2831-4ba0-b4b2-6b35578069f9"
+    "uuid": "e83dc229-2831-4ba0-b4b2-6b35578069f9",
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
@@ -151,7 +182,10 @@
     "tester": "Faw",
     "timestamp": "2025-03-05T21:29:00Z",
     "anemonia": false,
-    "uuid": "27ffc4a0-6d59-420c-80c6-23743ab49cdb"
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
+    "uuid": "27ffc4a0-6d59-420c-80c6-23743ab49cdb",
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
@@ -160,7 +194,10 @@
     "tester": "Giulio_Cesare_",
     "timestamp": "2025-03-05T16:30:00Z",
     "anemonia": false,
-    "uuid": "b18889f2-4709-42f6-8930-1b65605897b3"
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
+    "uuid": "b18889f2-4709-42f6-8930-1b65605897b3",
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
@@ -169,6 +206,8 @@
     "tester": "Giulio_Cesare_",
     "timestamp": "2025-03-05T16:25:00Z",
     "anemonia": false,
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "uuid": "1cd96a54-8bbf-4867-a4cb-549a66efa31f"
   },
   {
@@ -178,7 +217,10 @@
     "tester": "Faw",
     "timestamp": "2025-03-05T16:10:00Z",
     "anemonia": false,
-    "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83"
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
+    "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83",
+    "bedwars": false
   },
   {
     "tier_before": "Nessuno",
@@ -187,6 +229,8 @@
     "tester": "_Faw",
     "timestamp": "2025-03-05T16:10:00Z",
     "anemonia": false,
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83"
   },
     {
@@ -196,6 +240,8 @@
     "tester": "Giulio_Cesare_",
     "timestamp": "2025-03-05T16:10:00Z",
     "anemonia": false,
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83"
   },
       {
@@ -205,6 +251,8 @@
     "tester": "Giulio_Cesare_",
     "timestamp": "2025-03-05T16:10:00Z",
     "anemonia": false,
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
     "uuid": "25bf9c1f-7c4d-437b-a7fc-501ba5fc6e83"
   }
 ]
