@@ -1,5 +1,16 @@
 [
   {
+    "tier_before": "HT5",
+    "tier_earned": "LT4",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
+    "ign": "ER_GLADIATOR1",
+    "timestamp": "2025-03-22T17:23:04.068Z",
+    "uuid": "2f663bb6-1f15-4d3b-94cf-4ff570d611aa",
+    "Anemoia": false,
+    "bedwars": false
+  },
+  {
     "tier_before": "Nessuno",
     "tier_earned": "LT5",
     "tier_bedwars_before": "Nessuno",
@@ -86,14 +97,6 @@
     "ign": "Carlo_Magno_",
     "timestamp": "2025-03-17T20:44:47.434Z",
     "uuid": "934b972d-f18f-4f2b-a133-f7b156a621ab",
-    "Anemoia": false
-  },
-  {
-    "tier_before": "HT5",
-    "tier_earned": "HT5",
-    "ign": "ER_GLADIATOR1",
-    "timestamp": "2025-03-16T18:32:25.366Z",
-    "uuid": "1c84ded4-ceea-4f9d-beeb-fdc25eed81be",
     "Anemoia": false
   },
   {
