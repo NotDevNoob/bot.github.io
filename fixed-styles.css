@@ -1,0 +1,408 @@
+/* Fixed styles for Attività Recenti, Statistiche, and Discord tabs */
+
+/* Stats page styles */
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.stats-card {
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.stats-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #4f46e5;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+}
+
+.stats-content {
+    flex: 1;
+}
+
+.stats-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    background: linear-gradient(45deg, #ffffff, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stats-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Activity page styles */
+.activity-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.activity-item:hover {
+    transform: translateX(5px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.activity-time {
+    min-width: 80px;
+    text-align: center;
+}
+
+.activity-date {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2px;
+}
+
+.activity-hour {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.activity-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.activity-upgrade .activity-icon {
+    background: #22c55e;
+    color: white;
+}
+
+.activity-downgrade .activity-icon {
+    background: #ef4444;
+    color: white;
+}
+
+.activity-same .activity-icon {
+    background: #3b82f6;
+    color: white;
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.activity-player {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.activity-Anemoia {
+    color: #ff6b9e;
+    font-size: 0.9rem;
+}
+
+.activity-details {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.activity-tier-before {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.activity-arrow {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.activity-tier-after {
+    font-weight: 600;
+}
+
+.activity-upgrade .activity-tier-after {
+    color: #22c55e;
+}
+
+.activity-downgrade .activity-tier-after {
+    color: #ef4444;
+}
+
+.activity-empty, .activity-loading {
+    text-align: center;
+    padding: 32px;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Discord page styles */
+.discord-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 24px;
+}
+
+.discord-card {
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.discord-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.discord-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #5865F2, #7289DA);
+}
+
+.discord-logo {
+    font-size: 5rem;
+    color: #5865F2;
+    margin-bottom: 16px;
+    text-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+}
+
+.discord-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #FFFFFF;
+}
+
+.discord-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.discord-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+}
+
+.discord-button:hover {
+    background: #4752C4;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(88, 101, 242, 0.4);
+}
+
+.discord-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+    text-align: left;
+}
+
+.discord-feature {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.discord-feature:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.discord-feature-icon {
+    font-size: 2rem;
+    color: #5865F2;
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px rgba(88, 101, 242, 0.3);
+}
+
+.discord-feature-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.discord-feature-text {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+}
+
+/* Light theme overrides */
+body.light-theme .stats-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .stats-icon {
+    background: #4f46e5;
+}
+
+body.light-theme .stats-value {
+    background: linear-gradient(45deg, #1e293b, #4f46e5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body.light-theme .stats-label {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+body.light-theme .activity-item {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .activity-date,
+body.light-theme .activity-hour {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+body.light-theme .activity-arrow {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+body.light-theme .activity-tier-before {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+body.light-theme .activity-empty,
+body.light-theme .activity-loading {
+    color: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .discord-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .discord-title {
+    color: #1e293b;
+}
+
+body.light-theme .discord-description {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+body.light-theme .discord-feature {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .discord-feature-text {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* Ensure all elements are visible and properly styled */
+.page-content {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Fix for any potential z-index issues */
+.main-content {
+    z-index: 1;
+    position: relative;
+}
+
+/* Ensure proper display of interactive elements */
+button, 
+.nav-item, 
+.filter-button, 
+.discord-button {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}

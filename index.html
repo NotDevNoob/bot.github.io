@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>No-Co Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="No-Co - Dashboard per statistiche, classifiche e gestione del server Discord">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="icon" href="favicon.ico">
+    <meta property="og:title" content="No-Co Dashboard">
+    <meta property="og:description" content="Visualizza statistiche, classifiche e gestisci il server Discord">
+    <meta property="og:image" content="https://No-Co.com/og-image.jpg">
+    <meta property="og:url" content="https://No-Co.com">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fixes.css">
+    <link rel="stylesheet" href="theme-override.css">
+    <link rel="stylesheet" href="fixed-styles.css">
+</head>
+<body>
+    <div id="particleCanvas"></div>
+
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-trophy"></i> No-Co
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Dashboard</div>
+                <ul class="nav-items">
+                    <li class="nav-item active" data-page="leaderboard">
+                        <i class="fas fa-medal"></i>
+                        <span class="nav-item-text">Classifica</span>
+                    </li>
+                    <li class="nav-item" data-page="stats">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-item-text">Statistiche</span>
+                    </li>
+                    <li class="nav-item" data-page="activity">
+                        <i class="fas fa-history"></i>
+                        <span class="nav-item-text">Attività Recenti</span>
+                    </li>
+                    <li class="nav-item" data-page="cps">
+                        <i class="fas fa-mouse"></i>
+                        <span class="nav-item-text">CPS Counter</span>
+                        <span class="nav-badge">New</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Community</div>
+                <ul class="nav-items">
+                    <li class="nav-item" data-page="events">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="nav-item-text">Eventi</span>
+                    </li>
+                    <li class="nav-item" data-page="guides">
+                        <i class="fas fa-book"></i>
+                        <span class="nav-item-text">Guide</span>
+                    </li>
+                    <li class="nav-item" data-page="tos">
+                        <i class="fas fa-file-contract"></i>
+                        <span class="nav-item-text">Termini di Servizio</span>
+                    </li>
+                    <li class="nav-item" data-page="privacy">
+                        <i class="fas fa-shield-alt"></i>
+                        <span class="nav-item-text">Privacy Policy</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Risorse</div>
+                <ul class="nav-items">
+                    <li class="nav-item" data-page="guides">
+                        <i class="fas fa-book"></i>
+                        <span class="nav-item-text">Guide</span>
+                    </li>
+                    <li class="nav-item" data-page="discord">
+                        <i class="fab fa-discord"></i>
+                        <span class="nav-item-text">Discord</span>
+                    </li>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Tema Scuro</span>
+                </div>
+                <div class="theme-selector">
+                    <div class="theme-option" data-theme="default" title="Default Theme">
+                        <div class="theme-color" style="background: linear-gradient(135deg, #4f46e5, #818cf8);"></div>
+                    </div>
+                    <div class="theme-option" data-theme="neon" title="Neon Theme">
+                        <div class="theme-color" style="background: linear-gradient(135deg, #bc13fe, #ff00ff);"></div>
+                    </div>
+                    <div class="theme-option" data-theme="ocean" title="Ocean Theme">
+                        <div class="theme-color" style="background: linear-gradient(135deg, #0077b6, #00b4d8);"></div>
+                    </div>
+                    <div class="theme-option" data-theme="sunset" title="Sunset Theme">
+                        <div class="theme-color" style="background: linear-gradient(135deg, #ff7b00, #ff006e);"></div>
+                    </div>
+                    <div class="theme-option" data-theme="forest" title="Forest Theme">
+                        <div class="theme-color" style="background: linear-gradient(135deg, #2d6a4f, #74c69d);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="container">
+                <!-- Leaderboard Page (default) -->
+                <div class="page-content" id="page-leaderboard">
+                    <div class="header-squircle">
+                        <div class="header-title">🏆 Classifica Tier</div>
+
+                        <div class="filter-buttons">
+                            <button class="filter-button active" id="filterAll">
+                                <i class="fas fa-users"></i> Skill
+                            </button>
+                            <button class="filter-button Anemoia" id="filterAnemoia">
+                                <i class="fas fa-crown"></i> Anemoia
+                            </button>
+                            <button class="filter-button bedwars" id="filterBedwars">
+                                <i class="fas fa-bed"></i> Bedwars
+                            </button>
+                        </div>
+
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" placeholder="Cerca giocatore..." id="searchInput">
+                        </div>
+
+                        <!-- Mobile search toggle and container -->
+                        <div class="search-toggle" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+
+                    <div class="mobile-search-container" id="mobileSearchContainer">
+                        <div class="search-container" style="width: 100%;">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" style="width: 100%;" placeholder="Cerca giocatore..." id="mobileSearchInput">
+                        </div>
+                    </div>
+
+                    <div class="tiers-grid" id="tiersContainer"></div>
+                </div>
+
+                <!-- Stats Page -->
+                <div class="page-content" id="page-stats" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">📊 Statistiche</div>
+                    </div>
+
+                    <div class="stats-container">
+                        <div class="stats-row">
+                            <div class="stats-card">
+                                <div class="stats-icon"><i class="fas fa-users"></i></div>
+                                <div class="stats-content">
+                                    <div class="stats-value" id="totalPlayersCount">0</div>
+                                    <div class="stats-label">Giocatori Totali</div>
+                                </div>
+                            </div>
+
+                            <div class="stats-card">
+                                <div class="stats-icon"><i class="fas fa-crown"></i></div>
+                                <div class="stats-content">
+                                    <div class="stats-value" id="AnemoiaCount">0</div>
+                                    <div class="stats-label">Anemoia</div>
+                                </div>
+                            </div>
+
+                            <div class="stats-card">
+                                <div class="stats-icon"><i class="fas fa-calendar-check"></i></div>
+                                <div class="stats-content">
+                                    <div class="stats-value" id="testsThisMonth">0</div>
+                                    <div class="stats-label">Test Questo Mese</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!-- Activity Page -->
+                <div class="page-content" id="page-activity" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">📝 Attività Recenti</div>
+                    </div>
+
+                    <div class="activity-container" id="activityContainer">
+                        <div class="activity-loading">Caricamento attività recenti...</div>
+                    </div>
+                </div>
+
+              
+
+                <!-- Guides Page -->
+                <div class="page-content" id="page-guides" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">📚 Guide</div>
+                    </div>
+
+                    <div class="guides-container">
+                        <div class="guide-section">
+                            <h2>Comandi Discord</h2>
+                            <p>Ecco una lista completa di tutti i comandi disponibili sul server Discord No-Co.</p>
+
+                            <div class="guide-card">
+                                <h3>🎮 Comandi Utente</h3>
+                                <div class="command-group">
+                                    <h4>Utilità</h4>
+                                    <ul>
+                                        <li><code>!userinfo [@utente]</code> - Mostra informazioni su un utente</li>
+                                        <li><code>!serverinfo</code> - Mostra informazioni sul server</li>
+                                        <li><code>!ping</code> - Verifica la latenza del bot</li>
+                                        <li><code>!poll [domanda]</code> - Crea un sondaggio</li>
+                                    </ul>
+                                </div>
+
+                                <div class="command-group">
+                                    <h4>Divertimento</h4>
+                                    <ul>
+                                        <li><code>!8ball [domanda]</code> - Chiedi alla palla magica</li>
+                                        <li><code>!rps [scelta]</code> - Gioca a sasso, carta, forbice</li>
+                                        <li><code>!trivia [categoria]</code> - Inizia un quiz di trivia</li>
+                                        <li><code>!coinflip</code> - Lancia una moneta</li>
+                                        <li><code>!random [min] [max]</code> - Genera un numero casuale</li>
+                                        <li><code>!pi [start/continua/stop/status]</code> - Calcola le cifre di Pi</li>
+                                        <li><code>!meme</code> - Mostra un meme casuale</li>
+                                        <li><code>!gif [termine]</code> - Cerca una GIF</li>
+                                        <li><code>!quote</code> - Mostra una citazione casuale</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="guide-card">
+                                <h3>🛡️ Comandi Staff</h3>
+                                <div class="command-group">
+                                    <h4>Moderazione</h4>
+                                    <ul>
+                                        <li><code>!kick [@utente] [motivo]</code> - Espelle un utente dal server</li>
+                                        <li><code>!ban [@utente] [motivo]</code> - Bandisce un utente dal server</li>
+                                        <li><code>!mute [@utente] [durata] [motivo]</code> - Silenzia un utente</li>
+                                        <li><code>!warn [@utente] [motivo]</code> - Avvisa un utente</li>
+                                        <li><code>!purge [numero]</code> - Elimina un numero specifico di messaggi</li>
+                                    </ul>
+                                </div>
+
+                                <div class="command-group">
+                                    <h4>Utilità</h4>
+                                    <ul>
+                                        <li><code>!translate [lingua] [testo]</code> - Traduce un testo</li>
+                                        <li><code>!help staff</code> - Mostra l'elenco dei comandi staff</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="guide-card">
+                                <h3>🏆 Comandi Tier</h3>
+                                <div class="command-group">
+                                    <h4>Per lo Staff</h4>
+                                    <ul>
+                                        <li><code>!results [@utente] [ign] [tier-before] [tier-earned] [true/false]</code> - Registra i risultati di un test tier</li>
+                                        <li>Esempio: <code>!results @User Steve Unranked HT3 true</code></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="guide-section">
+                            <h2>Sistema Tier</h2>
+                            <p>Il sistema Tier è utilizzato per classificare i giocatori in base alle loro abilità.</p>
+
+                            <div class="guide-card">
+                                <h3>Livelli Tier</h3>
+                                <ul>
+                                    <li><strong>Tier 1</strong>: HT1 (High Tier 1) e LT1 (Low Tier 1) - Livello più alto</li>
+                                    <li><strong>Tier 2</strong>: HT2 (High Tier 2) e LT2 (Low Tier 2)</li>
+                                    <li><strong>Tier 3</strong>: HT3 (High Tier 3) e LT3 (Low Tier 3)</li>
+                                    <li><strong>Tier 4</strong>: HT4 (High Tier 4) e LT4 (Low Tier 4)</li>
+                                    <li><strong>Tier 5</strong>: HT5 (High Tier 5) e LT5 (Low Tier 5) - Livello più basso</li>
+                                </ul>
+                            </div>
+
+                            <div class="guide-card">
+                                <h3>Anemoia</h3>
+                                <p>Anemoia è un riconoscimento speciale assegnato ai giocatori che dimostrano abilità eccezionali o contributi significativi alla community.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms of Service Page -->
+                <div class="page-content" id="page-tos" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">📜 Termini di Servizio</div>
+                    </div>
+
+                    <div class="tos-container">
+                        <div class="tos-section">
+                            <h2>Termini di Servizio di No-Co</h2>
+                            <p>Ultimo aggiornamento: 3 Marzo 2025</p>
+
+                            <div class="tos-card">
+                                <h3>1. Accettazione dei Termini</h3>
+                                <p>Utilizzando il servizio No-Co, accetti di essere vincolato da questi Termini di Servizio. Se non accetti questi termini, ti preghiamo di non utilizzare il nostro servizio.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>2. Descrizione del Servizio</h3>
+                                <p>No-Co fornisce una piattaforma per la classificazione e il monitoraggio delle abilità dei giocatori di Minecraft, in particolare per il server CoralMC. Il servizio include una dashboard web e un bot Discord per la gestione delle classifiche e delle statistiche.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>3. Registrazione e Account</h3>
+                                <p>Per utilizzare alcune funzionalità del servizio, potrebbe essere necessario registrarsi o fornire informazioni personali come il tuo nome utente Minecraft. Ti impegni a fornire informazioni accurate e a mantenerle aggiornate.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>4. Condotta dell'Utente</h3>
+                                <p>Utilizzando il nostro servizio, accetti di non:</p>
+                                <ul>
+                                    <li>Violare leggi o regolamenti applicabili</li>
+                                    <li>Pubblicare contenuti offensivi, diffamatori o inappropriati</li>
+                                    <li>Impersonare altre persone o entità</li>
+                                    <li>Tentare di accedere a parti del servizio a cui non sei autorizzato</li>
+                                    <li>Interferire con il funzionamento del servizio</li>
+                                </ul>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>5. Proprietà Intellettuale</h3>
+                                <p>Tutti i contenuti presenti sul servizio No-Co, inclusi testi, grafica, logo, icone e software, sono di proprietà di No-Co o dei suoi licenzianti e sono protetti dalle leggi sulla proprietà intellettuale.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>6. Limitazione di Responsabilità</h3>
+                                <p>No-Co fornisce il servizio "così com'è" e "come disponibile" senza garanzie di alcun tipo. Non saremo responsabili per danni diretti, indiretti, incidentali, speciali o consequenziali derivanti dall'uso del servizio.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>7. Modifiche ai Termini</h3>
+                                <p>Ci riserviamo il diritto di modificare questi termini in qualsiasi momento. Le modifiche saranno effettive immediatamente dopo la pubblicazione dei termini aggiornati. L'uso continuato del servizio dopo tali modifiche costituisce l'accettazione dei nuovi termini.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>8. Risoluzione</h3>
+                                <p>Ci riserviamo il diritto di terminare o sospendere l'accesso al nostro servizio immediatamente, senza preavviso, per comportamenti che riteniamo violino questi Termini di Servizio.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>9. Legge Applicabile</h3>
+                                <p>Questi Termini saranno regolati e interpretati in conformità con le leggi italiane, senza riguardo ai suoi conflitti di principi di legge.</p>
+                            </div>
+
+                            <div class="tos-card">
+                                <h3>10. Contatti</h3>
+                                <p>Per domande sui Termini di Servizio, contattaci tramite il server Discord No-Co.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Policy Page -->
+                <div class="page-content" id="page-privacy" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">🔒 Privacy Policy</div>
+                    </div>
+
+                    <div class="privacy-container">
+                        <div class="privacy-section">
+                            <h2>Privacy Policy di No-Co</h2>
+                            <p>Ultimo aggiornamento: 3 Marzo 2025</p>
+
+                            <div class="privacy-card">
+                                <h3>1. Introduzione</h3>
+                                <p>La presente Privacy Policy descrive come No-Co raccoglie, utilizza e condivide le informazioni personali quando utilizzi il nostro servizio, che include la dashboard web e il bot Discord.</p>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>2. Informazioni che Raccogliamo</h3>
+                                <p>Raccogliamo i seguenti tipi di informazioni:</p>
+                                <ul>
+                                    <li><strong>Informazioni di Account</strong>: Nome utente Minecraft (IGN), ID Discord, e ruoli sul server Discord.</li>
+                                    <li><strong>Dati di Utilizzo</strong>: Informazioni su come interagisci con il nostro servizio, inclusi i comandi utilizzati e le pagine visitate.</li>
+                                    <li><strong>Dati di Prestazione</strong>: Tier assegnati, risultati dei test, e altre metriche relative alle tue abilità di gioco.</li>
+                                </ul>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>3. Come Utilizziamo le Informazioni</h3>
+                                <p>Utilizziamo le informazioni raccolte per:</p>
+                                <ul>
+                                    <li>Fornire, mantenere e migliorare il nostro servizio</li>
+                                    <li>Creare e mantenere classifiche e statistiche</li>
+                                    <li>Comunicare con te riguardo al servizio</li>
+                                    <li>Monitorare l'utilizzo del servizio</li>
+                                    <li>Prevenire attività fraudolente o abusive</li>
+                                </ul>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>4. Condivisione delle Informazioni</h3>
+                                <p>Non vendiamo le tue informazioni personali a terze parti. Tuttavia, possiamo condividere le tue informazioni nelle seguenti circostanze:</p>
+                                <ul>
+                                    <li>Con il tuo consenso</li>
+                                    <li>Per conformarci a obblighi legali</li>
+                                    <li>Per proteggere i diritti, la proprietà o la sicurezza di No-Co, dei nostri utenti o del pubblico</li>
+                                </ul>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>5. Sicurezza dei Dati</h3>
+                                <p>Adottiamo misure ragionevoli per proteggere le tue informazioni personali da accessi non autorizzati, alterazioni, divulgazioni o distruzioni.</p>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>6. I Tuoi Diritti</h3>
+                                <p>Hai il diritto di:</p>
+                                <ul>
+                                    <li>Accedere alle tue informazioni personali</li>
+                                    <li>Correggere informazioni inesatte</li>
+                                    <li>Richiedere la cancellazione delle tue informazioni</li>
+                                    <li>Opporti al trattamento delle tue informazioni</li>
+                                    <li>Richiedere la limitazione del trattamento delle tue informazioni</li>
+                                </ul>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>7. Modifiche alla Privacy Policy</h3>
+                                <p>Possiamo aggiornare la nostra Privacy Policy di tanto in tanto. Ti informeremo di eventuali modifiche pubblicando la nuova Privacy Policy su questa pagina.</p>
+                            </div>
+
+                            <div class="privacy-card">
+                                <h3>8. Contatti</h3>
+                                <p>Per domande sulla nostra Privacy Policy, contattaci tramite il server Discord No-Co.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discord Page -->
+                <div class="page-content" id="page-discord" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title"><i class="fab fa-discord"></i> Discord Community</div>
+                    </div>
+
+                    <div class="discord-container">
+                        <div class="discord-card">
+                            <i class="fab fa-discord discord-logo"></i>
+                            <h2 class="discord-title">Unisciti alla Nostra Community Discord</h2>
+                            <p class="discord-description">
+                                Entra nel server Discord ufficiale di No-Co per connetterti con altri giocatori,
+                                partecipare a eventi esclusivi, ricevere supporto e rimanere aggiornato sulle ultime novità!
+                            </p>
+                            <a href="https://dsc.gg/noco-community" target="_blank" class="discord-button">
+                                <i class="fas fa-sign-in-alt"></i> Unisciti Ora
+                            </a>
+
+                            <div class="discord-features">
+                                <div class="discord-feature">
+                                    <i class="fas fa-users discord-feature-icon"></i>
+                                    <h3 class="discord-feature-title">Community Attiva</h3>
+                                    <p class="discord-feature-text">
+                                        Connettiti con centinaia di giocatori appassionati e condividi la tua esperienza di gioco.
+                                    </p>
+                                </div>
+
+                                <div class="discord-feature">
+                                    <i class="fas fa-trophy discord-feature-icon"></i>
+                                    <h3 class="discord-feature-title">Test Tier</h3>
+                                    <p class="discord-feature-text">
+                                        Partecipa ai test tier per misurare le tue abilità e ottenere un riconoscimento ufficiale.
+                                    </p>
+                                </div>
+
+                                <div class="discord-feature">
+                                    <i class="fas fa-calendar-alt discord-feature-icon"></i>
+                                    <h3 class="discord-feature-title">Eventi Esclusivi</h3>
+                                    <p class="discord-feature-text">
+                                        Partecipa a tornei, sfide e eventi speciali organizzati regolarmente dal nostro staff.
+                                    </p>
+                                </div>
+
+                                <div class="discord-feature">
+                                    <i class="fas fa-headset discord-feature-icon"></i>
+                                    <h3 class="discord-feature-title">Supporto Dedicato</h3>
+                                    <p class="discord-feature-text">
+                                        Ricevi assistenza diretta dal nostro team di moderatori e amministratori.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Page -->
+                <div class="page-content" id="page-events" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">🎮 Eventi</div>
+                    </div>
+
+                    <div class="events-container">
+                        <div class="event-card upcoming">
+                            <div class="event-date">
+                                <div class="event-month">APR</div>
+                                <div class="event-day">15</div>
+                            </div>
+                            <div class="event-content">
+
+                                <div class="event-details">
+                                    <div class="event-time"><i class="far fa-clock"></i> 18:00 - 21:00 CEST</div>
+                                    <div class="event-location"><i class="fas fa-map-marker-alt"></i> Server CoralMC</div>
+                                </div>
+                                <p class="event-description">
+                                    Partecipa al nostro torneo mensile di Bedwars 2v2! Forma una squadra con un amico e competete per vincere premi esclusivi.
+                                </p>
+                                <div class="event-actions">
+                                    <button class="event-register-btn">Registrati</button>
+                                    <button class="event-info-btn">Dettagli</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="event-card upcoming">
+                            <div class="event-date">
+                                <div class="event-month">APR</div>
+                                <div class="event-day">22</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Sessione di Test Tier</h3>
+                                <div class="event-details">
+                                    <div class="event-time"><i class="far fa-clock"></i> 16:00 - 19:00 CEST</div>
+                                    <div class="event-location"><i class="fas fa-map-marker-alt"></i> Server Discord</div>
+                                </div>
+                                <p class="event-description">
+                                    Sessione di test tier aperta a tutti i giocatori. Metti alla prova le tue abilità e ottieni un tier ufficiale!
+                                </p>
+                                <div class="event-actions">
+                                    <button class="event-register-btn">Registrati</button>
+                                    <button class="event-info-btn">Dettagli</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="event-card past">
+                            <div class="event-date">
+                                <div class="event-month">MAR</div>
+                                <div class="event-day">28</div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Workshop PvP Avanzato</h3>
+                                <div class="event-details">
+                                    <div class="event-time"><i class="far fa-clock"></i> 17:00 - 19:00 CEST</div>
+                                    <div class="event-location"><i class="fas fa-map-marker-alt"></i> Server Discord</div>
+                                </div>
+                                <p class="event-description">
+                                    Workshop tenuto dai nostri giocatori Tier 1 per insegnare tecniche avanzate di PvP, movimenti e strategie.
+                                </p>
+                                <div class="event-actions">
+                                    <button class="event-info-btn">Riassunto</button>
+                                </div>
+                                <div class="event-completed"><i class="fas fa-check-circle"></i> Completato</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CPS Counter Page -->
+                <div class="page-content" id="page-cps" style="display: none;">
+                    <div class="header-squircle">
+                        <div class="header-title">🖱️ CPS Counter</div>
+                    </div>
+
+                    <div class="cps-container">
+                        <div class="cps-modes">
+                            <button class="cps-mode-btn active" data-mode="realtime">Tempo Reale</button>
+                            <button class="cps-mode-btn" data-mode="fivesec">Test 5 Secondi</button>
+                        </div>
+
+                        <div class="cps-display-container">
+                            <div class="cps-display">
+                                <div class="cps-value" id="cpsValue">0</div>
+                                <div class="cps-label">CPS</div>
+                            </div>
+
+                            <div class="cps-timer" id="cpsTimer">
+                                <span id="cpsTimerValue">5.0</span>s
+                            </div>
+                        </div>
+
+                        <div class="cps-click-area" id="cpsClickArea">
+                            <div class="cps-click-text">Clicca Qui</div>
+                            <div class="cps-click-subtext">Clicca il più velocemente possibile</div>
+                        </div>
+
+                        <div class="cps-stats">
+                            <div class="cps-stat">
+                                <div class="cps-stat-label">Miglior CPS</div>
+                                <div class="cps-stat-value" id="highestCps">0</div>
+                            </div>
+
+                            <div class="cps-stat">
+                                <div class="cps-stat-label">Ultimo Test</div>
+                                <div class="cps-stat-value" id="lastTestCps">0</div>
+                            </div>
+
+                            <div class="cps-stat">
+                                <div class="cps-stat-label">Click Totali</div>
+                                <div class="cps-stat-value" id="totalClicks">0</div>
+                            </div>
+                        </div>
+
+                        <button class="cps-reset-btn" id="cpsResetBtn">Reset Statistiche</button>
+                    </div>
+                </div>
+
+                <!-- Events Page -->
+              
+
+                <!-- Other pages would be added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sidebar toggle button -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Admin Button (hidden by default) -->
+    <div class="admin-button" id="adminButton" style="display: none;">⚙️</div>
+
+    <div class="profile-modal" id="profileModal">
+        <div class="profile-content" id="profileContent">
+            <button class="close-button" id="closeButton">&times;</button>
+            <div class="profile-image-container">
+                <img class="profile-image" id="profileImage" src="" alt="Profile Image">
+                <div class="tier-squircle">
+                    <div class="tier-squircle-content">
+                        <div class="tier-emoji-large" id="profileTierEmoji"></div>
+                    </div>
+                </div>
+                <div id="AnemoiaBadge" class="Anemoia-badge">
+                    <i class="fas fa-crown"></i> Anemoia
+                </div>
+            </div>
+            <div class="profile-info">
+                <h2 class="profile-ign" id="profileIGN"></h2>
+                <div class="profile-divider"></div>
+                <div class="tier-info">
+                    <div class="tier-row">
+                        <div class="tier-label">Tier Attuale:</div>
+                        <div class="tier-text" id="profileTierText"></div>
+                    </div>
+                    <div class="tier-row">
+                        <div class="tier-label">Tier Precedente:</div>
+                        <div class="tier-text" id="profilePrevTier"></div>
+                    </div>
+                    <div class="tier-row" id="bedwarsTierRow" style="display: none;">
+                        <div class="tier-label">Tier Bedwars:</div>
+                        <div class="tier-text" id="profileTierBedwars"></div>
+                    </div>
+                    <div class="tier-row" id="bedwarsPrevTierRow" style="display: none;">
+                        <div class="tier-label">Tier Bedwars Prec.:</div>
+                        <div class="tier-text" id="profilePrevTierBedwars"></div>
+                    </div>
+                    <div class="tier-row">
+                        <div class="tier-label">Data Test:</div>
+                        <div class="tier-text" id="profileDate"></div>
+                    </div>
+                    <div class="tier-row">
+                        <div class="tier-label">Statistiche:</div>
+                        <div class="tier-text">
+                            <a id="profileCoralMCLink" href="#" target="_blank" class="coral-link">
+                                <i class="fas fa-external-link-alt"></i> CoralMC Stats
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content" id="adminContent">
+            <div class="back-to-top" id="backToTop">↑</div>
+            <div class="admin-header">
+                <h2 class="admin-title">Admin Panel</h2>
+                <div class="admin-nav">
+                    <button class="admin-nav-item" onclick="document.getElementById('player-management').scrollIntoView({behavior: 'smooth'})">Player Management</button>
+                    <button class="admin-nav-item" onclick="document.getElementById('data-management').scrollIntoView({behavior: 'smooth'})">Data Management</button>
+                    <button class="admin-nav-item" onclick="document.getElementById('github-integration').scrollIntoView({behavior: 'smooth'})">GitHub Integration</button>
+                </div>
+            </div>
+            <div class="admin-form">
+                <h3 id="player-management" class="section-title" style="color: var(--light-blue); margin: 0 0 15px 0;">Player Management</h3>
+
+                <div class="admin-input-group">
+                    <label class="admin-label" for="adminIgn">IGN (Minecraft Username)</label>
+                    <input type="text" id="adminIgn" class="admin-input" placeholder="Enter IGN...">
+                </div>
+                <div class="admin-input-group">
+                    <label class="admin-label" for="adminTier">Tier</label>
+                    <select id="adminTier" class="admin-select">
+                        <option value="">Select Tier...</option>
+                        <option value="HT1">HT1</option>
+                        <option value="LT1">LT1</option>
+                        <option value="HT2">HT2</option>
+                        <option value="LT2">LT2</option>
+                        <option value="HT3">HT3</option>
+                        <option value="LT3">LT3</option>
+                        <option value="HT4">HT4</option>
+                        <option value="LT4">LT4</option>
+                        <option value="HT5">HT5</option>
+                        <option value="LT5">LT5</option>
+                    </select>
+                </div>
+                <div class="admin-input-group">
+                    <label class="admin-label">Anemoia</label>
+                    <div class="admin-toggle-container">
+                        <label class="admin-toggle">
+                            <input type="checkbox" id="adminAnemoia">
+                            <span class="admin-toggle-slider"></span>
+                        </label>
+                        <span class="admin-toggle-label">Giocatore Anemoia</span>
+                    </div>
+                </div>
+
+                <div class="admin-input-group">
+                    <label class="admin-label">Bedwars</label>
+                    <div class="admin-toggle-container">
+                        <label class="admin-toggle">
+                            <input type="checkbox" id="adminBedwars">
+                            <span class="admin-toggle-slider"></span>
+                        </label>
+                        <span class="admin-toggle-label">Giocatore Bedwars</span>
+                    </div>
+                </div>
+
+                <div class="admin-input-group">
+                    <label class="admin-label" for="adminTierBedwars">Tier Bedwars</label>
+                    <select id="adminTierBedwars" class="admin-select">
+                        <option value="">Select Tier Bedwars...</option>
+                        <option value="HT1">HT1</option>
+                        <option value="LT1">LT1</option>
+                        <option value="HT2">HT2</option>
+                        <option value="LT2">LT2</option>
+                        <option value="HT3">HT3</option>
+                        <option value="LT3">LT3</option>
+                        <option value="HT4">HT4</option>
+                        <option value="LT4">LT4</option>
+                        <option value="HT5">HT5</option>
+                        <option value="LT5">LT5</option>
+                    </select>
+                </div>
+
+
+
+                <div class="admin-button-group">
+                    <button class="admin-submit" id="adminSubmit">Save</button>
+                    <button class="admin-cancel" id="adminCancel">Cancel</button>
+                </div>
+                <div class="admin-message" id="adminMessage"></div>
+
+                <div class="profile-divider" style="margin: 30px 0 20px;"></div>
+
+                <h3 id="data-management" class="section-title" style="color: var(--light-blue); margin-bottom: 15px;">Data Management</h3>
+
+                <div class="admin-button-group">
+                    <button class="admin-submit" id="exportData" style="background: var(--dark-blue);">Export Data</button>
+                    <button class="admin-submit" id="importData" style="background: var(--dark-blue);">Import Data</button>
+                </div>
+
+                <div style="display: none;">
+                    <input type="file" id="fileInput" accept=".json">
+                </div>
+
+                <div class="admin-button-group" style="margin-top: 10px;">
+                    <button class="admin-submit" id="clearData" style="background: #aa3333;">Reset All Data</button>
+                </div>
+
+                <div class="admin-button-group" style="margin-top: 10px;">
+                    <button class="admin-submit" id="debugData" style="background: #555;">Debug Data</button>
+                </div>
+
+                <div class="profile-divider" style="margin: 30px 0 20px;"></div>
+
+                <h3 id="github-integration" class="section-title" style="color: var(--light-blue); margin-bottom: 15px;">GitHub Integration</h3>
+
+                <div class="admin-input-group">
+                    <label class="admin-label" for="githubToken">GitHub Personal Access Token</label>
+                    <input type="password" id="githubToken" class="admin-input" placeholder="Enter your GitHub token...">
+                </div>
+
+                <div class="admin-input-group">
+                    <label class="admin-label" for="githubUsername">GitHub Username</label>
+                    <input type="text" id="githubUsername" class="admin-input" placeholder="Enter your GitHub username...">
+                </div>
+
+                <div class="admin-input-group">
+                    <label class="admin-label" for="githubRepo">Repository Name</label>
+                    <input type="text" id="githubRepo" class="admin-input" placeholder="Enter repository name...">
+                </div>
+
+                <div class="admin-button-group">
+                    <button class="admin-submit" id="saveGitHubSettings" style="background: var(--dark-blue);">
+                        <span class="desktop-text">Save GitHub Settings</span>
+                        <span class="mobile-text" style="display: none;">Save Settings</span>
+                    </button>
+                    <button class="admin-submit" id="clearGitHubSettings" style="background: #aa3333;">
+                        <span class="desktop-text">Clear GitHub Settings</span>
+                        <span class="mobile-text" style="display: none;">Clear Settings</span>
+                    </button>
+                </div>
+
+                <div class="admin-button-group" style="margin-top: 10px;">
+                    <button class="admin-submit" id="pushToGitHub" style="background: #4CAF50;">
+                        <span class="desktop-text">Push Current Data to GitHub</span>
+                        <span class="mobile-text" style="display: none;">Push to GitHub</span>
+                    </button>
+                </div>
+
+                <style>
+                    @media (max-width: 480px) {
+                        .desktop-text {
+                            display: none;
+                        }
+                        .mobile-text {
+                            display: inline !important;
+                        }
+                    }
+                </style>
+
+                <div class="admin-button-group" style="margin-top: 10px;">
+                    <button class="admin-submit" id="checkDataJson" style="background: #FF9800;">Check data.json</button>
+                    <button class="admin-submit" id="createDataJson" style="background: #2196F3;">Create data.json</button>
+                </div>
+
+                <div class="admin-button-group" style="margin-top: 10px;">
+                    <button class="admin-submit" id="openGitHubRepo" style="background: #333;">Open GitHub Repository</button>
+                    <button class="admin-submit" id="viewDataJson" style="background: #333;">View data.json</button>
+                </div>
+            </div>
+
+            <!-- Discord Page -->
+            <div class="page-content" id="page-discord" style="display: none;">
+                <div class="header-squircle">
+                    <div class="header-title">🎮 Discord</div>
+                </div>
+
+                <div class="discord-container">
+                    <div class="discord-card">
+                        <div class="discord-logo">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="discord-title">Unisciti al nostro server Discord</div>
+                        <div class="discord-description">
+                            Entra a far parte della nostra community Discord per partecipare a eventi, tornei e incontrare altri giocatori. Il nostro server è il centro della community No-Co.
+                        </div>
+                        <a href="https://discord.gg/noco" target="_blank" class="discord-button">
+                            <i class="fab fa-discord"></i> Unisciti ora
+                        </a>
+
+                        <div class="discord-features">
+                            <div class="discord-feature">
+                                <div class="discord-feature-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="discord-feature-title">Tornei e Eventi</div>
+                                <div class="discord-feature-text">
+                                    Partecipa a tornei regolari e eventi speciali con premi esclusivi.
+                                </div>
+                            </div>
+
+                            <div class="discord-feature">
+                                <div class="discord-feature-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="discord-feature-title">Community</div>
+                                <div class="discord-feature-text">
+                                    Incontra altri giocatori, condividi strategie e fai nuove amicizie.
+                                </div>
+                            </div>
+
+                            <div class="discord-feature">
+                                <div class="discord-feature-icon">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <div class="discord-feature-title">Supporto</div>
+                                <div class="discord-feature-text">
+                                    Ottieni aiuto diretto dallo staff e dai moderatori del server.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Fix for page navigation and styling -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Initializing page navigation and styles');
+
+        // Make sure all pages are properly initialized
+        const navItems = document.querySelectorAll('.nav-item');
+        const pages = document.querySelectorAll('[id^="page-"]');
+
+        // Ensure all pages have proper styling
+        pages.forEach(page => {
+            if (window.getComputedStyle(page).display === 'none') {
+                page.style.opacity = '1';
+                page.style.visibility = 'visible';
+            }
+        });
+
+        // Re-attach navigation functionality
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const pageId = this.getAttribute('data-page');
+                console.log('Navigation clicked:', pageId);
+
+                // Hide all pages
+                pages.forEach(page => page.style.display = 'none');
+
+                // Show selected page
+                const targetPage = document.getElementById('page-' + pageId);
+                if (targetPage) {
+                    targetPage.style.display = 'block';
+                    console.log('Showing page:', 'page-' + pageId);
+                }
+
+                // Update active nav item
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Initialize stats counters with animation
+        function animateCounter(element, target, duration) {
+            if (!element) return;
+
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    clearInterval(timer);
+                    current = target;
+                }
+                element.textContent = Math.floor(current);
+            }, 16);
+        }
+
+        // Set sample data for stats
+        const totalPlayersCount = document.getElementById('totalPlayersCount');
+        const AnemoiaCount = document.getElementById('AnemoiaCount');
+        const testsThisMonth = document.getElementById('testsThisMonth');
+
+        if (totalPlayersCount) animateCounter(totalPlayersCount, 256, 1500);
+        if (AnemoiaCount) animateCounter(AnemoiaCount, 42, 1500);
+        if (testsThisMonth) animateCounter(testsThisMonth, 128, 1500);
+
+        // Add sample activity data
+        const activityContainer = document.getElementById('activityContainer');
+        if (activityContainer && activityContainer.innerHTML.includes('Caricamento')) {
+            const activities = [
+                {
+                    date: '15 Maggio',
+                    hour: '14:30',
+                    player: 'GamerPro99',
+                    isAnemoia: true,
+                    tierBefore: 'HT2',
+                    tierAfter: 'HT1',
+                    type: 'upgrade'
+                },
+                {
+                    date: '14 Maggio',
+                    hour: '18:45',
+                    player: 'NoobMaster64',
+                    isAnemoia: false,
+                    tierBefore: 'LT4',
+                    tierAfter: 'HT3',
+                    type: 'upgrade'
+                },
+                {
+                    date: '12 Maggio',
+                    hour: '10:15',
+                    player: 'ProGamer123',
+                    isAnemoia: false,
+                    tierBefore: 'HT2',
+                    tierAfter: 'LT2',
+                    type: 'downgrade'
+                },
+                {
+                    date: '10 Maggio',
+                    hour: '21:20',
+                    player: 'CraftMaster',
+                    isAnemoia: true,
+                    tierBefore: 'LT1',
+                    tierAfter: 'LT1',
+                    type: 'same'
+                }
+            ];
+
+            let activityHTML = '';
+
+            activities.forEach(activity => {
+                activityHTML += `
+                <div class="activity-item activity-${activity.type}">
+                    <div class="activity-time">
+                        <div class="activity-date">${activity.date}</div>
+                        <div class="activity-hour">${activity.hour}</div>
+                    </div>
+                    <div class="activity-icon">
+                        <i class="fas ${activity.type === 'upgrade' ? 'fa-arrow-up' : activity.type === 'downgrade' ? 'fa-arrow-down' : 'fa-equals'}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">
+                            <div class="activity-player">${activity.player}</div>
+                            ${activity.isAnemoia ? '<div class="activity-Anemoia"><i class="fas fa-crown"></i> Anemoia</div>' : ''}
+                        </div>
+                        <div class="activity-details">
+                            <span class="activity-tier-before">${activity.tierBefore}</span>
+                            <span class="activity-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                            <span class="activity-tier-after">${activity.tierAfter}</span>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+
+            activityContainer.innerHTML = activityHTML;
+        }
+    });
+    </script>
+</body>
+</html>
