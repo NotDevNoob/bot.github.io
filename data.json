@@ -10,6 +10,17 @@
     "Anemoia": false,
     "bedwars": true
   },
+    {
+    "tier_before": "Nessuno",
+    "tier_earned": "HT3",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "LT5",
+    "ign": "yxreeh",
+    "timestamp": "2025-03-22T17:23:04.068Z",
+    "uuid": "2f663bb6-1f15-4d3b-94cf-4ff570d611aa",
+    "Anemoia": true,
+    "bedwars": false
+  },
   {
     "tier_before": "Nessuno",
     "tier_earned": "LT5",
