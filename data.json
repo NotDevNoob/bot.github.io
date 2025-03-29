@@ -21,6 +21,17 @@
     "Anemoia": false,
     "bedwars": true
   },
+    {
+    "tier_before": "Nessuno",
+    "tier_earned": "HT3",
+    "tier_bedwars_before": "Nessuno",
+    "tier_bedwars_earned": "Nessuno",
+    "ign": "Rayyquaza",
+    "timestamp": "2025-03-21T13:48:07.102Z",
+    "uuid": "74e45ff0-2eed-4ae1-8c77-2af3b46e0714",
+    "Anemoia": false,
+    "bedwars": false
+  },
   {
     "tier_before": "HT5",
     "tier_earned": "HT5",
